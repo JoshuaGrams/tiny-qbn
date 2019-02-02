@@ -1,0 +1,8 @@
+.qbn-card {
+  background: #222;
+  border: thin solid #333;
+  margin: 0.25em;
+  padding: 0.25em;
+}
+.qbn-cards__vertical { display: flex; flex-direction: column; }
+.qbn-cards__horizontal { display: flex; flex-direction: row; }

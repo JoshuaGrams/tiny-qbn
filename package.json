@@ -1,0 +1,17 @@
+{
+  "name": "tiny-qbn",
+  "version": "0.1.0",
+  "description": "Twine 2/Sugarcube support for filtered-card-deck stories.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel story-javascript.js > story-javascript.min.js"
+  },
+  "author": "Josh Grams <josh@qualdan.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-minify": "^0.5.0"
+  }
+}
