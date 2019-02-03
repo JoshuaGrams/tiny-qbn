@@ -27,6 +27,14 @@ QBN.passages = function(extraVars) {
 	})
 }
 
+var operators = {
+	eq: function(a, b) { return a === b },
+	lt: function(a, b) { return a < b },
+	gt: function(a, b) { return a > b },
+	le: function(a, b) { return a <= b },
+	ge: function(a, b) { return a >= b },
+}
+
 QBN.functions = [
 	{
 		match: /^not-(.+)/,
@@ -39,18 +47,66 @@ QBN.functions = [
 		action: function(m, extraVars) {
 			return State.random() < m[1] / 100
 		}
+	},
+	{
+		match: /^(.*)-([eq|lt|gt|le|ge])-(-?[0-9_]+)/,
+		action: function(m, extraVars) {
+			var actual = +QBN.value(m[1], extraVars)
+			var op = operators[m[2]]
+			var expected = +(m[3].replace('_', '.'))
+			return op(actual, expected)
+		}
 	}
 ]
 
-QBN.rangeTag = function(name, ranges) {
+QBN.range = function(name, ranges) {
+	if(typeof name !== 'string') {
+		var msg = "QBN.range: name must be a string"
+		msg += " (got " + (typeof name) + ")."
+		throw new Error(msg)
+	}
+	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]+$/.test(name)) {
+		var msg = "QBN.range: invalid name " + JSON.stringify(name) + "."
+		throw new Error(msg)
+	}
+	var n = ranges.length
+	if(typeof n !== 'number' || n < 3 || n % 2 !== 1) {
+		var msg = "QBN.range: invalid range spec:"
+		msg += " must have an odd number of values at least three"
+		msg += " (got " + JSON.stringify(n) + ")."
+		throw new Error(msg)
+	}
 	var value = State.getVar(name)
+	if(typeof value === 'undefined') {
+		var msg = "QBN.range: no such variable " + JSON.stringify(name) + "."
+		throw new Error(msg)
+	}
+	var prevLimit
 	for(var i=0; i<ranges.length; i+=2) {
 		var range = ranges[i], limit = ranges[i+1]
-		if(limit === undefined || value < limit) {
-			State.setVar('_' + name.substring(1) + range, true)
+		if(typeof range !== 'string' || (typeof limit !== 'number' && typeof limit !== "undefined")) {
+			var msg = "QBN.range: invalid range spec " + JSON.stringify(ranges)
+			msg += ": must alternate names and numbers."
+			throw new Error(msg)
+		}
+		if(typeof limit !== "undefined" && typeof prevLimit !== "undefined" && limit <= prevLimit) {
+			var msg = "QBN.range: invalid range spec " + JSON.stringify(ranges)
+			msg += ": numbers must be strictly increasing."
+			throw new Error(msg)
+		}
+		if(typeof limit === "undefined" || value < limit) {
+			State.setVar('_' + range + '_' + name.substring(1), true)
 			return
 		}
 	}
+}
+
+QBN.value = function(name, extraVars) {
+	var v = State.variables, t = State.temporary
+	var value = extraVars[name]
+	if(value == null) value = t[name]
+	if(value == null) value = v[name]
+	return value
 }
 
 QBN.has = function(tag, extraVars) {
