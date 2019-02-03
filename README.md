@@ -47,20 +47,24 @@ can add or remove cards at any time using `<<addcard "title"
 Selecting Available Cards
 -------------------------
 
-* `QBN.passages(extraVars)` will return an array of [Passage
+* `QBN.passages(n, extraVars)` will return an array of [Passage
   objects](http://www.motoslave.net/sugarcube/2/docs/#passage-api)
-  for all the cards which match the current game state. You may
-  optionally pass an object with extra variables which will be
-  used to satisfy requirements (e.g. `{personality_trait: true}`
-  to select only personality trait cards).
+  for all the cards which match the current game state. Both
+  arguments are optional.
+
+* By default, you get *all* available cards: the `n` argument
+  tells the function to randomly select that many passages from
+  the available list. Pass `false` or 0 to get all passages, or
+  just leave it out.
+
+* `extraVars` is an (optional) object with extra named values
+  which will be used to satisfy requirements (e.g.
+  `{personality_trait: true}` to select only personality trait
+  cards).
 
 * Due to the way Sugarcube's scripting works, you will probably
   have to enclose these function calls in backticks or a
   `<<script>>...<</script>>` block.
-
-* You may not want to offer *all* available cards to the user, so
-  you can use `.random()` on the array to select a random card or
-  e.g. `.randomMany(3)` to select 3 random cards.
 
 -----
 

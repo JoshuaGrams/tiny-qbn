@@ -19,12 +19,40 @@ $(document).on(':passagestart', function(evt) {
 	if(QBN.cards[title] === 0) delete QBN.cards[title]
 })
 
+// Choose `count` random values from `array`.
+function choose(array, count) {
+	// Can't choose more values than the array has.
+	count = Math.min(count, array.length)
+	// If choosing more than half the array, *exclude* random values.
+	var n = Math.min(count, array.length - count)
+	var include = (n == count)
+	// Choose `n` random indices.
+	var selected = [], indices = {}, chosen = 0
+	while(chosen < n) {
+		var i = Math.floor(State.random() * array.length)
+		// Don't choose the same one twice.
+		if(indices[i] === undefined) {
+			if(include) selected.push(array[i])
+			indices[i] = true
+			++chosen
+		}
+	}
+	// If excluding values, we build the output afterwards.
+	if(!include) {
+		for(i=0; i<array.length; ++i) {
+			if(indices[i] !== true) selected.push(array[i])
+		}
+	}
+	return selected
+}
 
-QBN.passages = function(extraVars) {
+QBN.passages = function(n, extraVars) {
 	if(extraVars === undefined) extraVars = {}
-	return Story.lookupWith(function(p) {
+	var passages = Story.lookupWith(function(p) {
 		return QBN.passageMatches(p, extraVars)
 	})
+	if(n) passages = choose(passages, n)
+	return passages
 }
 
 var operators = {
