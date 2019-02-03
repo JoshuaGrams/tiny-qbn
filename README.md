@@ -12,8 +12,8 @@ when those are the appropriate tool.
 Adding TinyQBN to your Story
 ----------------------------
 
-Copy the [Story Javascript](story-javascript.js) (or the [minified
-version](story-javascript.min.js)) and [Story
+Copy the Story Javascript (the [minified](story-javascript.min.js)
+or the [readable](story-javascript.js) version) and [Story
 Stylesheet](story-stylesheet.css) into your game.
 
 
