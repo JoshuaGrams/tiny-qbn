@@ -13,10 +13,10 @@ Things to Test/Fix
 * QBN.range
     * ~~Error handling if variable not found.~~
     * ~~Error handling if non-simple variable name or missing sigil.~~
-    * Error handling if invalid range.
-    * Error if range values do not increase?
+    * ~~Error handling if invalid range.~~
+    * ~~Error if range values do not increase.~~
     * ~~`["low", 50, "high"]`~~
-    * Range spec with lots of values.
+    * ~~Range spec with lots of values.~~
 
 * `<<includecards>>` and `<<linkcards>>`
     * Default style, vertical, horizontal, comma-separated,

@@ -72,7 +72,7 @@ QBN.range = function(name, ranges) {
 	var n = ranges.length
 	if(typeof n !== 'number' || n < 3 || n % 2 !== 1) {
 		var msg = "QBN.range: invalid range spec:"
-		msg += " must have an odd number of values at least three"
+		msg += " must have at least three values and an odd number"
 		msg += " (got " + JSON.stringify(n) + ")."
 		throw new Error(msg)
 	}
@@ -98,6 +98,7 @@ QBN.range = function(name, ranges) {
 			State.setVar('_' + range + '_' + name.substring(1), true)
 			return
 		}
+		prevLimit = limit
 	}
 }
 
