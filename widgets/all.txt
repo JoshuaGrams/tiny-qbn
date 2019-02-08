@@ -1,0 +1,37 @@
+<<silently>>
+
+<<widget commaitem>>\
+<<include $args[0]>>\
+<<if $args[1] lt $args[2] - 2>>, \
+<<elseif $args[1] is $args[2] - 2>> and <</if>>\
+<</widget>>
+
+<<widget card>>@@.qbn-card;
+<<include $args[0]>>
+@@<</widget>>
+
+<<widget linkedcard>>@@.qbn-card;
+<<print '[\[' + $args[0] + ']]'>>
+@@<</widget>>
+
+<<widget commalist>><<includeall $args[0] 'commaitem'>><</widget>>
+
+<<widget cardrow>>@@.qbn-row;
+<<includeall $args[0] `$args[1] or "card"`>>
+@@<</widget>>
+
+<<widget cardcolumn>>@@.qbn-column;
+<<includeall $args[0] `$args[1] or "card"`>>
+@@<</widget>>
+
+<<nobr>>
+<<widget setcategory>>
+<<set _cat to $args[0]>>
+<<set _val to $args[1]>>
+<<print '<<if $'+_cat+'>><<print "<<unset $"+$'+_cat+'+">>">><</if>>'>>
+<<print '<<set $'+_val+' to true>>'>>
+<<print '<<set $'+_cat+' to "'+_val+'">>'>>
+<</widget>>
+<</nobr>>
+
+<</silently>>

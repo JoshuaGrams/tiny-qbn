@@ -116,6 +116,10 @@ Displaying Selected Cards
   their titles instead of including them directly (``<<cardrow
   `QBN.passages()` "linkedcard">>``).
 
+* Or you can grab [all these widgets](widgets\all.txt) at once.
+
+* Be sure to put them in a `widget`-tagged passage.
+
 
 Rebuilding the Minified Javascript
 ----------------------------------
