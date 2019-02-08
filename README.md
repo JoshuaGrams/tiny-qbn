@@ -53,13 +53,13 @@ Selecting Available Cards
   for all the cards which match the current game state. You may
   leave out either or both arguments.
 
-* By default, you get *all* available cards: the `n` argument
-  tells the function to randomly select that many passages from
-  the available list.
-
 * `extraVars` is an object with extra named values which will be
   used to satisfy requirements (e.g.  `{personality_trait: true}`
   to select only personality trait cards).
+
+* By default, you get *all* available cards: the `n` argument
+  tells the function to randomly select that many passages from
+  the available list.
 
 * Due to the way Sugarcube's scripting works, you will probably
   have to enclose these function calls in backticks or a
