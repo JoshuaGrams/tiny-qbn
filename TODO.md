@@ -21,14 +21,14 @@ Things to Test/Fix
 	* ~~Widgets for column, row, comma-separated.~~
 
 * `<<addcard>>`
-    * Add single-use card (twice).
-    * Add sticky card (twice).
-    * Error handling if passage doesn't exist.
+    * ~~Add single-use card (twice).~~
+    * ~~Add sticky card (twice).~~
+    * ~~Error handling if passage doesn't exist.~~
 
 * `<<removecard>>`
-    * Remove single-use card (twice).
-    * Remove sticky card (twice).
-    * Error handling if passage doesn't exist.
+    * ~~Remove single-use card (twice).~~
+    * ~~Remove sticky card (twice).~~
+    * ~~Error handling if passage doesn't exist.~~
 
 <!-- vim:et
 -->

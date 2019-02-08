@@ -64,6 +64,7 @@ QBN.passages = function(n, extraVars) {
 
 var operators = {
 	eq: function(a, b) { return a === b },
+	ne: function(a, b) { return a !== b },
 	lt: function(a, b) { return a < b },
 	gt: function(a, b) { return a > b },
 	le: function(a, b) { return a <= b },
@@ -84,11 +85,11 @@ QBN.functions = [
 		}
 	},
 	{
-		match: /^(.*)-([eq|lt|gt|le|ge])-(-?[0-9_]+)/,
+		match: /^(.*)-(eq|ne|lt|gt|le|ge)-(-?[0-9][0-9_]+)/,
 		action: function(m, extraVars) {
 			var actual = +QBN.value(m[1], extraVars)
 			var op = operators[m[2]]
-			var expected = +(m[3].replace('_', '.'))
+			var expected = +(m[3].replace(/[_]/, '.'))
 			return op(actual, expected)
 		}
 	}
@@ -183,8 +184,12 @@ Macro.add('addcard', {
 
 Macro.add('removecard', {
 	handler: function() {
+		var title = this.args[0]
+		if(!Story.has(title)) {
+			return this.error('No such passage "' + title + '".')
+		}
 		var deck = State.getVar('$QBN_deck')
-		if(deck[this.args[0]] != null) delete deck[this.args[0]]
+		if(deck[title] != null) delete deck[title]
 	}
 })
 
