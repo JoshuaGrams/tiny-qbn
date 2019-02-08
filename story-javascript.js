@@ -53,8 +53,10 @@ function choose(array, count) {
 	return selected
 }
 
-QBN.passages = function(n, extraVars) {
-	if(extraVars === undefined) extraVars = {}
+QBN.passages = function(extraVars, n) {
+	if(n == null && typeof extraVars === 'number') {
+		n = extraVars; extraVars = {}
+	} else if(extraVars == null) extraVars = {}
 	var passages = Story.lookupWith(function(p) {
 		return QBN.passageMatches(p, extraVars)
 	})
