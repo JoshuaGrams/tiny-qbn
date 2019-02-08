@@ -208,7 +208,8 @@ Macro.add('includeall', {
 			if(typeof p === 'string') p = Story.get(p)
 			if(deck[p.title] === 0) delete deck[p.title]
 			if(widget) {
-				$output.wiki('<<'+widget+' '+p.title+' '+i+' '+passages.length+'>>')
+				var title = JSON.stringify(p.title)
+				$output.wiki('<<'+widget+' '+title+' '+i+' '+passages.length+'>>')
 			} else {
 				$output.wiki(p.processText())
 			}
