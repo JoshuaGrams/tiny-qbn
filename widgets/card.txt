@@ -1,0 +1,3 @@
+<<widget card>>@@.qbn-card;
+<<include $args[0]>>
+@@<</widget>>

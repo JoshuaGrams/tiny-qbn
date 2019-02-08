@@ -13,9 +13,9 @@ Adding TinyQBN to your Story
 ----------------------------
 
 Copy the Story Javascript (the [minified](story-javascript.min.js)
-or the [readable](story-javascript.js) version) and [Story
-Stylesheet](story-stylesheet.css) into your game. Click the "Raw"
-button when viewing these for easier copy/pasting.
+or the [readable](story-javascript.js) version) and optionally the
+[Story Stylesheet](story-stylesheet.css) into your game. Click the
+"Raw" button when viewing these for easier copy/pasting.
 
 
 Declaring Cards
@@ -92,29 +92,29 @@ Selecting Available Cards
 Displaying Selected Cards
 -------------------------
 
-* `<<includecards passages style>>` will include a list of
+* `<<includeall passages widget>>` will include a list of
   passages, like Sugarcube's built-in `<<include>>` macro but with
   multiple passages.
 
-* `<<linkcards passages style>>` will create links to the
-  passages, using their names as the link texts.
+* The `widget` argument is optional: if present, it will be called
+  as `<<widget passage_title index count>>` (where `index` and
+  `count` give the position within the list of passages being
+  included).  The widget is responsible for `<<include>>`ing the
+  given passage and wrapping it in the appropriate markup.
 
-* In both cases, the `style` argument is optional.
+* My [commaitem](widgets\commaitem.txt) widget can be used as
+  ``<<includeall `QBN.passages()` 'commaitem'>>`` to produce a
+  comma separated list (without the serial comma).
 
-* Giving no style or `"vertical"` will stack them vertically,
-  giving each one a subtle background and border so you can tell
-  they are cards.
-
-* A `"horizontal"` style will lay them out side-by-side, again
-  with a background and border.
-
-* Passing `"separator:xxx"` will print them as plain text with
-  "xxx" between passages or links (use any text you like here).
-
-* When using a `", "` separator the last occurrence will be
-  replaced with `" and "` so you get the usual comma separated
-  list (without a serial comma: you'll have to change the
-  Javascript if you want that).
+* The [cardrow](widgets\cardrow.txt) and
+  [cardcolumn](widgets\cardcolumn.txt) widgets use the provided
+  [Story stylesheet rules](story-stylesheet.css) to stack cards in
+  a row or column. By default they use the
+  [card](widgets\card.txt) widget to wrap each card in an outlined
+  box, but you can also sepecify the
+  [linkedcard](widgets\linkedcard.txt) widget to link to the cards by
+  their titles instead of including them directly (``<<cardrow
+  `QBN.passages()` "linkedcard">>``).
 
 
 Rebuilding the Minified Javascript

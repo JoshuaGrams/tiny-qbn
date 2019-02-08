@@ -7,7 +7,6 @@ Things to Test/Fix
     * `extraVars` vs. no `extraVars` vs. empty `extraVars`.
     * `random-##`
     * Comparisons: eq/lt/gt/le/ge succeed/fail.
-    * Check `.random`, `.randomMany`, `.first`, etc. on results.
     * Error handling? Do we need any?
 
 * QBN.range
@@ -18,9 +17,8 @@ Things to Test/Fix
     * ~~`["low", 50, "high"]`~~
     * ~~Range spec with lots of values.~~
 
-* `<<includecards>>` and `<<linkcards>>`
-    * Default style, vertical, horizontal, comma-separated,
-      other-separated, user style.
+* `<<includeall>>`
+	* ~~Widgets for column, row, comma-separated.~~
 
 * `<<addcard>>`
     * Add single-use card (twice).

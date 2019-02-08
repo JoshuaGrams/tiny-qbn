@@ -3,20 +3,27 @@ State.initPRNG()
 var QBN = {}
 window.QBN = QBN
 
-QBN.cards = {}
-var cardTags = ['card', 'sticky-card']
-for(var i=0; i<cardTags.length; ++i) {
-	var sel = 'tw-passagedata[tags~=' + cardTags[i] + ']'
-	var c = document.querySelectorAll(sel)
-	for(var j=0; j<c.length; ++j) {
-		var title = c[j].getAttribute('name')
-		QBN.cards[title] = i
+// Construct initial deck from `card` and `sticky-card` passages.
+function resetDeck() {
+	var deck = {}
+	var cardTags = ['card', 'sticky-card']
+	for(var i=0; i<cardTags.length; ++i) {
+		var sel = 'tw-passagedata[tags~=' + cardTags[i] + ']'
+		var c = document.querySelectorAll(sel)
+		for(var j=0; j<c.length; ++j) {
+			var title = c[j].getAttribute('name')
+			deck[title] = i
+		}
 	}
+	State.setVar('$QBN_deck', deck)
 }
+resetDeck()
 
+// Remove single-use cards when visited.
 $(document).on(':passagestart', function(evt) {
 	var title = evt.passage.title
-	if(QBN.cards[title] === 0) delete QBN.cards[title]
+	var deck = State.getVar('$QBN_deck')
+	if(deck[title] === 0) delete deck[title]
 })
 
 // Choose `count` random values from `array`.
@@ -151,7 +158,8 @@ QBN.has = function(tag, extraVars) {
 }
 
 QBN.passageMatches = function(p, extraVars) {
-	if(QBN.cards[p.title] == null) return false
+	var deck = State.getVar('$QBN_deck')
+	if(deck[p.title] == null) return false
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
 		var prefix = /^req-/.exec(tag)
@@ -164,15 +172,19 @@ QBN.passageMatches = function(p, extraVars) {
 
 Macro.add('addcard', {
 	handler: function() {
-		var p = Story.lookup(this.args[0])
-		if(!p) return this.error('No such passage "' + this.args[0] + '".')
-		QBN.cards[p.title] = (this.args[1] ? 1 : 0)
+		var title = this.args[0], sticky = this.args[1]
+		if(!Story.has(title)) {
+			return this.error('No such passage "' + title + '".')
+		}
+		var deck = State.getVar('$QBN_deck')
+		deck[title] = (sticky ? 1 : 0)
 	}
 })
 
 Macro.add('removecard', {
 	handler: function() {
-		if(QBN.cards[this.args[0]] != null) delete QBN.cards[this.args[0]]
+		var deck = State.getVar('$QBN_deck')
+		if(deck[this.args[0]] != null) delete deck[this.args[0]]
 	}
 })
 
@@ -180,60 +192,21 @@ function list(l) {
 	return (typeof l !== 'object' || l.length == null) ? [l] : l
 }
 
-function groupOrSeparator(arg, container) {
-	var out
-	var sep = /^separator:/.exec(arg)
-	if(sep) out = arg.substring(sep[0].length)
-	else {
-		var dir = 'qbn-cards__' + (arg==null ? 'vertical' : arg)
-		out = $('<div/>', {class: dir + ' qbn-cards'})
-		out.appendTo(container)
-	}
-	return out
-}
-
-function cardElement(group, container, i, n, passage) {
-	var $elt
-	if(typeof group === 'string') {
-		$elt = container
-		if(i === n-1 && group === ', ') group = ' and '
-		if(i > 0) $elt.append(document.createTextNode(group))
-	} else {
-		var attrs = {class: 'qbn-card'}
-		if(passage) {
-			attrs.class += ' ' + passage.domId
-			attrs['data-passage'] = passage.title
-		}
-		$elt = $('<div/>', attrs)
-		$elt.appendTo(group)
-	}
-	return $elt
-}
-
-Macro.add('includecards', {
+Macro.add('includeall', {
 	handler: function() {
 		var passages = list(this.args[0])
-		var group = groupOrSeparator(this.args[1], this.output)
+		var widget = this.args[1]
+		var $output = $(this.output)
+		var deck = State.getVar('$QBN_deck')
 		for(var i=0; i<passages.length; ++i) {
 			var p = passages[i]
 			if(typeof p === 'string') p = Story.get(p)
-			if(QBN.cards[p.title] === 0) delete QBN.cards[p.title]
-			var $elt = cardElement(group, this.output, i, passages.length, p)
-			$elt.wiki(p.processText())
-		}
-	}
-})
-
-Macro.add('linkcards', {
-	handler: function() {
-		var passages = list(this.args[0])
-		var group = groupOrSeparator(this.args[1])
-		if(typeof group !== 'string') group.appendTo(this.output)
-		for(var i=0; i<passages.length; ++i) {
-			var p = passages[i]
-			var $elt = cardElement(group, this.output, i, passages.length)
-			if(typeof p !== 'string') p = p.title
-			Wikifier.createInternalLink($elt, p, p)
+			if(deck[p.title] === 0) delete deck[p.title]
+			if(widget) {
+				$output.wiki('<<'+widget+' '+p.title+' '+i+' '+passages.length+'>>')
+			} else {
+				$output.wiki(p.processText())
+			}
 		}
 	}
 })
