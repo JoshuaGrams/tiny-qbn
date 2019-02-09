@@ -14,8 +14,9 @@ Adding TinyQBN to your Story
 
 Copy the Story Javascript (the [minified](story-javascript.min.js)
 or the [readable](story-javascript.js) version) and optionally the
-[Story Stylesheet](story-stylesheet.css) into your game. Click the
-"Raw" button when viewing these for easier copy/pasting.
+[Story Stylesheet](story-stylesheet.css) and
+[widgets](widgets/all.txt)into your game. Click the "Raw" button
+when viewing these for easier copy/pasting.
 
 
 Declaring Cards
