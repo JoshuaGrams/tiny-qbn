@@ -100,21 +100,21 @@ Displaying Selected Cards
   included).  The widget is responsible for `<<include>>`ing the
   given passage and wrapping it in the appropriate markup.
 
-* My [commaitem](widgets\commaitem.txt) widget can be used as
+* My [commaitem](widgets/commaitem.txt) widget can be used as
   ``<<includeall `QBN.passages()` 'commaitem'>>`` to produce a
   comma separated list (without the serial comma).
 
-* The [cardrow](widgets\cardrow.txt) and
-  [cardcolumn](widgets\cardcolumn.txt) widgets use the provided
+* The [cardrow](widgets/cardrow.txt) and
+  [cardcolumn](widgets/cardcolumn.txt) widgets use the provided
   [Story stylesheet rules](story-stylesheet.css) to stack cards in
   a row or column. By default they use the
-  [card](widgets\card.txt) widget to wrap each card in an outlined
+  [card](widgets/card.txt) widget to wrap each card in an outlined
   box, but you can also sepecify the
-  [linkedcard](widgets\linkedcard.txt) widget to link to the cards by
+  [linkedcard](widgets/linkedcard.txt) widget to link to the cards by
   their titles instead of including them directly (``<<cardrow
   `QBN.passages()` "linkedcard">>``).
 
-* Or you can grab [all these widgets](widgets\all.txt) at once.
+* Or you can grab [all these widgets](widgets/all.txt) at once.
 
 * Be sure to put them in a `widget`-tagged passage.
 
