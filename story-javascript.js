@@ -141,7 +141,7 @@ QBN.range = function(name, ranges) {
 				msg += ": numbers must be strictly increasing."
 				throw new Error(msg)
 			}
-			if(range && value < r) break
+			if(value < r) { if(range) break; else return }
 			lower = r
 			range = undefined
 		} else {
@@ -150,9 +150,7 @@ QBN.range = function(name, ranges) {
 			throw new Error(msg)
 		}
 	}
-	if(range && (lower == null || value >= lower)) {
-		setVar('_' + range + '_' + name.substring(1), true)
-	}
+	setVar('_' + range + '_' + name.substring(1), true)
 }
 
 QBN.value = function(name, extraVars) {
