@@ -3,6 +3,9 @@ State.initPRNG()
 var QBN = {}
 window.QBN = QBN
 
+var getVar = Wikifier.getValue || State.getVar
+var setVar = Wikifier.setValue || State.setVar
+
 // Construct initial deck from `card` and `sticky-card` passages.
 function resetDeck() {
 	var deck = {}
@@ -15,14 +18,14 @@ function resetDeck() {
 			deck[title] = i
 		}
 	}
-	State.setVar('$QBN_deck', deck)
+	setVar('$QBN_deck', deck)
 }
 resetDeck()
 
 // Remove single-use cards when visited.
 $(document).on(':passagestart', function(evt) {
 	var title = evt.passage.title
-	var deck = State.getVar('$QBN_deck')
+	var deck = getVar('$QBN_deck')
 	if(deck[title] === 0) delete deck[title]
 })
 
@@ -114,7 +117,7 @@ QBN.range = function(name, ranges) {
 		msg += " (got " + JSON.stringify(n) + ")."
 		throw new Error(msg)
 	}
-	var value = State.getVar(name)
+	var value = getVar(name)
 	if(typeof value === 'undefined') {
 		var msg = "QBN.range: no such variable " + JSON.stringify(name) + "."
 		throw new Error(msg)
@@ -133,7 +136,7 @@ QBN.range = function(name, ranges) {
 			throw new Error(msg)
 		}
 		if(typeof limit === "undefined" || value < limit) {
-			State.setVar('_' + range + '_' + name.substring(1), true)
+			getVar('_' + range + '_' + name.substring(1), true)
 			return
 		}
 		prevLimit = limit
@@ -161,7 +164,7 @@ QBN.has = function(tag, extraVars) {
 }
 
 QBN.passageMatches = function(p, extraVars) {
-	var deck = State.getVar('$QBN_deck')
+	var deck = getVar('$QBN_deck')
 	if(deck[p.title] == null) return false
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
@@ -179,7 +182,7 @@ Macro.add('addcard', {
 		if(!Story.has(title)) {
 			return this.error('No such passage "' + title + '".')
 		}
-		var deck = State.getVar('$QBN_deck')
+		var deck = getVar('$QBN_deck')
 		deck[title] = (sticky ? 1 : 0)
 	}
 })
@@ -190,7 +193,7 @@ Macro.add('removecard', {
 		if(!Story.has(title)) {
 			return this.error('No such passage "' + title + '".')
 		}
-		var deck = State.getVar('$QBN_deck')
+		var deck = getVar('$QBN_deck')
 		if(deck[title] != null) delete deck[title]
 	}
 })
@@ -204,7 +207,7 @@ Macro.add('includeall', {
 		var passages = list(this.args[0])
 		var widget = this.args[1]
 		var $output = $(this.output)
-		var deck = State.getVar('$QBN_deck')
+		var deck = getVar('$QBN_deck')
 		for(var i=0; i<passages.length; ++i) {
 			var p = passages[i]
 			if(typeof p === 'string') p = Story.get(p)
