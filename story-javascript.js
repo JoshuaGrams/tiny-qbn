@@ -209,6 +209,9 @@ Macro.add('includeall', {
 	handler: function() {
 		var passages = list(this.args[0])
 		var widget = this.args[1]
+		if(!Macro.has(widget)) {
+			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
+		}
 		var $output = $(this.output)
 		var deck = getVar('$QBN_deck')
 		for(var i=0; i<passages.length; ++i) {
