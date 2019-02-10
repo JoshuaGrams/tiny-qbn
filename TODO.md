@@ -6,7 +6,7 @@ Things to Test/Fix
     * Matching vs. no matches.
     * `extraVars` vs. no `extraVars` vs. empty `extraVars`.
     * `random-##`
-    * Comparisons: eq/lt/gt/le/ge succeed/fail.
+    * Comparisons: eq/lt/gt/le/ge succeed/fail with numbers/strings.
     * Error handling? Do we need any?
 
 * QBN.range
@@ -17,8 +17,9 @@ Things to Test/Fix
     * ~~`["low", 50, "high"]`~~
     * ~~Range spec with lots of values.~~
 
-* `<<includeall>>`
+* `<<includeall passages wrapper_widget="card">>`
 	* ~~Widgets for column, row, comma-separated.~~
+	* ~~Use `Macro.has(wrapper_widget)` to check for existence of widget.~~
 
 * `<<addcard>>`
     * ~~Add single-use card (twice).~~

@@ -3,8 +3,8 @@ State.initPRNG()
 var QBN = {}
 window.QBN = QBN
 
-var getVar = Wikifier.getValue || State.getVar
-var setVar = Wikifier.setValue || State.setVar
+var getVar = State.getVar || Wikifier.getValue
+var setVar = State.setVar || Wikifier.setValue
 
 // Construct initial deck from `card` and `sticky-card` passages.
 function resetDeck() {
