@@ -80,8 +80,9 @@ Selecting Available Cards
   value of 30 would be medium rather than low.
 
 * The range list can have as many names and numbers as you want,
-  but you must start and end with a name, and alternate names and
-  numbers.
+  but you must alternate names and numbers. If you begin or end
+  the range list with a number, then it might not always set a
+  variable.
 
 * You may want to put your `QBN.range` calls in the special
   `PassageHeader` passage so they get computed automatically at

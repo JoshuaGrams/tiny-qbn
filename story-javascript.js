@@ -113,36 +113,45 @@ QBN.range = function(name, ranges) {
 		var msg = "QBN.range: invalid name " + JSON.stringify(name) + "."
 		throw new Error(msg)
 	}
-	var n = ranges.length
-	if(typeof n !== 'number' || n < 3 || n % 2 !== 1) {
-		var msg = "QBN.range: invalid range spec:"
-		msg += " must have at least three values and an odd number"
-		msg += " (got " + JSON.stringify(n) + ")."
-		throw new Error(msg)
-	}
 	var value = getVar(name)
 	if(typeof value === 'undefined') {
 		var msg = "QBN.range: no such variable " + JSON.stringify(name) + "."
 		throw new Error(msg)
 	}
-	var prevLimit
-	for(var i=0; i<ranges.length; i+=2) {
-		var range = ranges[i], limit = ranges[i+1]
-		if(typeof range !== 'string' || (typeof limit !== 'number' && typeof limit !== "undefined")) {
+	var n = ranges.length
+	if(typeof n !== 'number' || n < 2) {
+		var msg = "QBN.range: invalid range spec:"
+		msg += " must have at least two values"
+		msg += " (got " + JSON.stringify(n) + ")."
+		throw new Error(msg)
+	}
+	var range, lower, prev
+	for(var i=0; i<ranges.length; ++i) {
+		var r = ranges[i]
+		if(typeof(r) === typeof(prev)) {
 			var msg = "QBN.range: invalid range spec " + JSON.stringify(ranges)
 			msg += ": must alternate names and numbers."
 			throw new Error(msg)
 		}
-		if(typeof limit !== "undefined" && typeof prevLimit !== "undefined" && limit <= prevLimit) {
+		prev = r
+		if(typeof r === 'string') range = r;
+		else if(typeof r === 'number') {
+			if(typeof lower !== "undefined" && r <= lower) {
+				var msg = "QBN.range: invalid range spec " + JSON.stringify(ranges)
+				msg += ": numbers must be strictly increasing."
+				throw new Error(msg)
+			}
+			if(range && value < r) break
+			lower = r
+			range = undefined
+		} else {
 			var msg = "QBN.range: invalid range spec " + JSON.stringify(ranges)
-			msg += ": numbers must be strictly increasing."
+			msg += ": may only contain strings and numbers."
 			throw new Error(msg)
 		}
-		if(typeof limit === "undefined" || value < limit) {
-			getVar('_' + range + '_' + name.substring(1), true)
-			return
-		}
-		prevLimit = limit
+	}
+	if(range && (lower == null || value >= lower)) {
+		setVar('_' + range + '_' + name.substring(1), true)
 	}
 }
 
