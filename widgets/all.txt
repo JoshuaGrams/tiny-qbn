@@ -32,15 +32,4 @@
 <<print '[\[' + $args[0] + ']]'>><<comma $args[1] $args[2]>>\
 <</widget>>
 
-
-<<nobr>>
-<<widget setcategory>>
-<<set _cat to $args[0]>>
-<<set _val to $args[1]>>
-<<print '<<if $'+_cat+'>><<print "<<unset $"+$'+_cat+'+">>">><</if>>'>>
-<<print '<<set $'+_val+' to true>>'>>
-<<print '<<set $'+_cat+' to "'+_val+'">>'>>
-<</widget>>
-<</nobr>>
-
 <</silently>>
