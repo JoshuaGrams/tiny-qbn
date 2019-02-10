@@ -106,7 +106,7 @@ QBN.range = function(name, ranges) {
 		msg += " (got " + (typeof name) + ")."
 		throw new Error(msg)
 	}
-	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]+$/.test(name)) {
+	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(name)) {
 		var msg = "QBN.range: invalid name " + JSON.stringify(name) + "."
 		throw new Error(msg)
 	}
