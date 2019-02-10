@@ -14,7 +14,7 @@
 @@<</widget>>
 
 <<widget card>>@@.qbn-card;
-<<include $args[0]>>
+<<include $args[0]>><<removecard $args[0] false>>
 @@<</widget>>
 
 <<widget comma>>\
@@ -23,7 +23,8 @@
 <</widget>>
 
 <<widget commaitem>>\
-<<include $args[0]>><<comma $args[1] $args[2]>>\
+<<include $args[0]>><<removecard $args[0] false>>\
+<<comma $args[1] $args[2]>>\
 <</widget>>
 
 <<widget linkedcommaitem>>\

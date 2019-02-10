@@ -1,3 +1,15 @@
+/*
+TinyQBN: quality-based narratives in Twine 2 & Sugarcube.
+
+Copyright 2019 Joshua I. Grams <josh@qualdan.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 State.initPRNG()
 
 var QBN = {}
@@ -200,11 +212,14 @@ Macro.add('addcard', {
 Macro.add('removecard', {
 	handler: function() {
 		var title = this.args[0]
+		var always = this.args[1] !== false
 		if(!Story.has(title)) {
 			return this.error('No such passage "' + title + '".')
 		}
 		var deck = getVar('$QBN_deck')
-		if(deck[title] != null) delete deck[title]
+		if(deck[title] === 0 || (always && deck[title] === 1)) {
+			delete deck[title]
+		}
 	}
 })
 
@@ -216,7 +231,7 @@ Macro.add('includeall', {
 	handler: function() {
 		var passages = list(this.args[0])
 		var widget = this.args[1]
-		if(!Macro.has(widget)) {
+		if(widget && !Macro.has(widget)) {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
 		}
 		var $output = $(this.output)
@@ -229,6 +244,8 @@ Macro.add('includeall', {
 				var title = JSON.stringify(p.title)
 				$output.wiki('<<'+widget+' '+title+' '+i+' '+passages.length+'>>')
 			} else {
+				var deck = getVar('$QBN_deck')
+				if(deck[title] === 0) delete deck[title]
 				$output.wiki(p.processText())
 			}
 		}

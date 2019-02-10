@@ -4,7 +4,7 @@
   "description": "Twine 2/Sugarcube support for filtered-card-deck stories.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "minify story-javascript.js > story-javascript.min.js"
+    "build": "cat LICENSE > story-javascript.min.js && minify story-javascript.js >> story-javascript.min.js"
   },
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "MIT",
