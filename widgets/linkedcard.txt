@@ -1,3 +1,4 @@
+
 <<widget linkedcard>>@@.qbn-card;
 <<print '[\[' + $args[0] + ']]'>>
 @@<</widget>>

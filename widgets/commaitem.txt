@@ -1,6 +1,4 @@
+
 <<widget commaitem>>\
-<<include $args[0]>><<removecard $args[0] false>>\
-<<if $args[1] lt $args[2] - 2>>, \
-<<elseif $args[1] is $args[2] - 2>> and \
-<</if>>
+<<includecard $args[0]>><<comma $args[1] $args[2]>>\
 <</widget>>

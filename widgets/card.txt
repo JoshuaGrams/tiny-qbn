@@ -1,3 +1,4 @@
+
 <<widget card>>@@.qbn-card;
 <<include $args[0]>><<removecard $args[0] false>>
 @@<</widget>>

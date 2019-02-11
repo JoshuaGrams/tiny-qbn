@@ -1,0 +1,4 @@
+
+<<widget includecard>>\
+<<include $args[0]>><<removecard $args[0] false>>\
+<</widget>>

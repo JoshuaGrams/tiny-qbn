@@ -15,7 +15,7 @@ Adding TinyQBN to your Story
 Copy the Story Javascript (the [minified](story-javascript.min.js)
 or the [readable](story-javascript.js) version) and optionally the
 [Story Stylesheet](story-stylesheet.css) and
-[widgets](widgets/all.txt) into your game. Click the "Raw" button
+[widgets](widgets.txt) into your game. Click the "Raw" button
 when viewing these for easier copy/pasting.
 
 
@@ -127,7 +127,7 @@ Displaying Selected Cards
   their titles instead of including them directly (``<<cardrow
   `QBN.passages()` "linkedcard">>``).
 
-* Or you can grab [all these widgets](widgets/all.txt) at once.
+* Or you can grab [all these widgets](widgets.txt) at once.
 
 * Be sure to put them in a `widget`-tagged passage.
 

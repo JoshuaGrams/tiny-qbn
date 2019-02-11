@@ -1,0 +1,33 @@
+
+<<widget card>>@@.qbn-card;
+<<include $args[0]>><<removecard $args[0] false>>
+@@<</widget>>
+
+<<widget cardcolumn>>@@.qbn-column;
+<<includeall $args[0] `$args[1] or "card"`>>
+@@<</widget>>
+
+<<widget cardrow>>@@.qbn-row;
+<<includeall $args[0] `$args[1] or "card"`>>
+@@<</widget>>
+
+<<widget comma>>\
+<<if $args[0] lt $args[1] - 2>>, \
+<<elseif $args[0] is $args[1] - 2>> and <</if>>\
+<</widget>>
+
+<<widget commaitem>>\
+<<includecard $args[0]>><<comma $args[1] $args[2]>>\
+<</widget>>
+
+<<widget includecard>>\
+<<include $args[0]>><<removecard $args[0] false>>\
+<</widget>>
+
+<<widget linkedcard>>@@.qbn-card;
+<<print '[\[' + $args[0] + ']]'>>
+@@<</widget>>
+
+<<widget linkedcommaitem>>\
+<<print '[\[' + $args[0] + ']]'>><<comma $args[1] $args[2]>>\
+<</widget>>

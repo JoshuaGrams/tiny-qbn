@@ -1,0 +1,5 @@
+
+<<widget comma>>\
+<<if $args[0] lt $args[1] - 2>>, \
+<<elseif $args[0] is $args[1] - 2>> and <</if>>\
+<</widget>>

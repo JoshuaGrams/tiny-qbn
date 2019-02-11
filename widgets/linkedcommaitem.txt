@@ -1,0 +1,4 @@
+
+<<widget linkedcommaitem>>\
+<<print '[\[' + $args[0] + ']]'>><<comma $args[1] $args[2]>>\
+<</widget>>
