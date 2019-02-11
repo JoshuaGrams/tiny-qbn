@@ -138,9 +138,9 @@ QBN.range = function(name, ranges) {
 	var range, lower, prev
 	for(var i=0; i<ranges.length; ++i) {
 		var r = ranges[i]
-		if(typeof(r) === typeof(prev)) {
+		if(typeof r === 'string' && typeof prev === 'string') {
 			var msg = "QBN.range: invalid range spec " + JSON.stringify(ranges)
-			msg += ": must alternate names and numbers."
+			msg += ": may not have two consecutive strings."
 			throw new Error(msg)
 		}
 		prev = r
