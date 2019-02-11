@@ -25,7 +25,9 @@ Declaring Cards
 To make passages visible to the QBN engine, tag single-use
 passages with `card` and reusable passages with `sticky-card`. You
 can add or remove cards at any time using `<<addcard "title"
-[sticky?]>>` or `<<removecard "title">>`.
+sticky=false>>` or `<<removecard "title" always=true>>` (pass
+`false` as the optional second argument to remove only single-use
+cards).
 
 * A passage tagged with `req-variableName` requires the variable
   to have a value which is not zero, `false`, or the empty string.
@@ -44,6 +46,12 @@ can add or remove cards at any time using `<<addcard "title"
 * Tagging a passage with `req-random-20` creates a requirement
   which has a 20% random chance of being satisfied (you can use
   any whole number between 1 and 99).
+
+* You can also do simple comparisons with `req-name-op-value` where
+  `op` is one of `eq`, `ne`, `lt`, `gt`, `le` or `ge`. If `name`
+  contains a numeric value, then an underscore in `value` will be
+  converted to a decimal point (since you can't have punctuation
+  in tags). Otherwise `value` will be treated as a string.
 
 
 Selecting Available Cards
@@ -91,6 +99,9 @@ Selecting Available Cards
 
 Displaying Selected Cards
 -------------------------
+
+* `<<includecard passage_title>>` will include a card passage and
+  remove it from the deck if it's a single-use card.
 
 * `<<includeall passages widget>>` will include a list of
   passages, like Sugarcube's built-in `<<include>>` macro but with
