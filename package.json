@@ -7,7 +7,7 @@
     "build": "(sed -e \"1i /*\" -e \"$a */\" LICENSE && minify story-javascript.js) > story-javascript.min.js"
   },
   "author": "Josh Grams <josh@qualdan.com>",
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
     "babel-minify": "^0.5.0"
   }
