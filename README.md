@@ -20,6 +20,29 @@ these) into your game. Click the "Raw" button when viewing these
 for easier copy/pasting.
 
 
+Tutorials and Examples
+----------------------
+
+So far I only have a single (*still*-not-quite-finished) example.
+[Localvore](https://joshuagrams.github.io/tiny-qbn/doc/Localvore.html)
+is a setting where you can drive around to different locations and
+see what local seasonal food is available.
+
+I have created a three-part tutorial walking through the creation
+of this example. The video versions are on Youtube:
+
+* [TinyQBN Playlist](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F)
+* [Getting Started with TinyQBN](https://youtu.be/arMISohlYQk)
+* [Seasonally Available Items](https://youtu.be/t7mReh08nYI)
+* [Single-Use Cards for Story Passages](https://youtu.be/qBm7PtLYKdE)
+
+The text versions are in this repository:
+
+* [Getting Started with TinyQBN](doc/tutorial-1.md)
+* [Seasonally Available Items](doc/tutorial-2.md)
+* [Single-Use Cards for Story Passages](doc/tutorial-3.md)
+
+
 Declaring Cards
 ---------------
 
