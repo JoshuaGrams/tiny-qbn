@@ -79,4 +79,4 @@ about as far as I'm going to take this example. Hopefully it's
 enough to get you started even though it's still just a setting
 rather than a story with any kind of plot.
 
-[The full example](https://joshuagrams.github.io/tiny-qbn/doc/tutorial-2.html).
+[The full example](https://joshuagrams.github.io/tiny-qbn/doc/Localvore.html).

@@ -29,7 +29,8 @@ is a setting where you can drive around to different locations and
 see what local seasonal food is available.
 
 I have created a three-part tutorial walking through the creation
-of this example. The video versions are on Youtube:
+of this example. The (somewhat terrible) video versions are on
+Youtube:
 
 * [TinyQBN Playlist](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F)
 * [Getting Started with TinyQBN](https://youtu.be/arMISohlYQk)
