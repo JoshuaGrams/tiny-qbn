@@ -21,6 +21,10 @@
 
 <<widget comma>><<if $args[0]>> and <<else>>, <</if>><</widget>>
 
+<<widget commalist>>\
+<<includeall $args[0] `$args[1] or "card"` 'comma'>>\
+<</widget>>
+
 <<widget linkbox>>@@.qbn-card;
 <<linkto $args[0]>>
 @@<</widget>>
