@@ -1,33 +1,32 @@
 
-<<widget card>>@@.qbn-card;
-<<include $args[0]>><<removecard $args[0] false>>
-@@<</widget>>
-
-<<widget cardcolumn>>@@.qbn-column;
-<<includeall $args[0] `$args[1] or "card"`>>
-@@<</widget>>
-
-<<widget cardrow>>@@.qbn-row;
-<<includeall $args[0] `$args[1] or "card"`>>
-@@<</widget>>
-
-<<widget comma>>\
-<<if $args[0] lt $args[1] - 2>>, \
-<<elseif $args[0] is $args[1] - 2>> and <</if>>\
-<</widget>>
-
-<<widget commaitem>>\
-<<includecard $args[0]>><<comma $args[1] $args[2]>>\
-<</widget>>
-
-<<widget includecard>>\
+<<widget card>>\
 <<include $args[0]>><<removecard $args[0] false>>\
 <</widget>>
 
-<<widget linkedcard>>@@.qbn-card;
-<<print '[\[' + $args[0] + ']]'>>
+<<widget cardbox>>@@.qbn-card;
+<<card $args[0]>>
 @@<</widget>>
 
-<<widget linkedcommaitem>>\
-<<print '[\[' + $args[0] + ']]'>><<comma $args[1] $args[2]>>\
+<<widget cardcolumn>>@@.qbn-column;
+<<includeall $args[0] `$args[1] or "cardbox"`>>
+@@<</widget>>
+
+<<widget cardlist>>\
+<<includeall $args[0] `$args[1] or "card"` "comma">>\
 <</widget>>
+
+<<widget cardrow>>@@.qbn-row;
+<<includeall $args[0] `$args[1] or "cardbox"`>>
+@@<</widget>>
+
+<<widget comma>><<if $args[0]>> and <<else>>, <</if>><</widget>>
+
+<<widget linkbox>>@@.qbn-card;
+<<linkto $args[0]>>
+@@<</widget>>
+
+<<widget linklist>>\
+<<includeall $args[0] "linkto" "comma">>\
+<</widget>>
+
+<<widget "linkto">><<print '[\[' + $args[0] + ']]'>><</widget>>

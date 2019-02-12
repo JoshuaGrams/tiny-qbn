@@ -1,4 +1,4 @@
 
 <<widget cardcolumn>>@@.qbn-column;
-<<includeall $args[0] `$args[1] or "card"`>>
+<<includeall $args[0] `$args[1] or "cardbox"`>>
 @@<</widget>>

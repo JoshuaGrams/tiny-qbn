@@ -107,55 +107,62 @@ var saveAs=saveAs||navigator.msSaveBlob&&navigator.msSaveBlob.bind(navigator)||f
   padding: 0.25em;
 }
 .qbn-column { display: flex; flex-direction: column; }
-.qbn-row { display: flex; flex-direction: row; }</style><script role="script" id="twine-user-script" type="text/twine-javascript">State.initPRNG();var QBN={};window.QBN=QBN;var getVar=State.getVar||Wikifier.getValue,setVar=State.setVar||Wikifier.setValue;function resetDeck(){for(var a={},b=["card","sticky-card"],d=0;d<b.length;++d)for(var e,f="tw-passagedata[tags~="+b[d]+"]",g=document.querySelectorAll(f),c=0;c<g.length;++c)e=g[c].getAttribute("name"),a[e]=d;setVar("$QBN_deck",a)}resetDeck(),$(document).on(":passagestart",function(a){var b=a.passage.title,c=getVar("$QBN_deck");0===c[b]&&delete c[b]});function choose(a,b){var c=Math.min;b=c(b,a.length);for(var d=c(b,a.length-b),e=d==b,f=[],g={},h=0;h<d;){var j=Math.floor(State.random()*a.length);g[j]===void 0&&(e&&f.push(a[j]),g[j]=!0,++h)}if(!e)for(j=0;j<a.length;++j)!0!==g[j]&&f.push(a[j]);return f}QBN.passages=function(a,b){null==b&&"number"==typeof a?(b=a,a={}):null==a&&(a={});var c=Story.lookupWith(function(b){return QBN.passageMatches(b,a)});return b&&(c=choose(c,b)),c};var operators={eq:function(c,a){return c==a},ne:function(c,a){return c!=a},lt:function(c,a){return c<a},gt:function(c,a){return c>a},le:function(c,a){return c<=a},ge:function(c,a){return c>=a}};QBN.functions=[{match:/^not-(.+)/,action:function(a,b){return!QBN.has(a[1],b)}},{match:/^random-([0-9]+)/,action:function(a){return State.random()<a[1]/100}},{match:/^(.*)-(eq|ne|lt|gt|le|ge)-(.*)/,action:function(a,b){var c=QBN.value(a[1],b),d=operators[a[2]],e=a[3];return"number"==typeof c&&(e=e.replace("_",".")),d(c,e)}}],QBN.range=function(a,b){if("string"!=typeof a){var c="QBN.range: name must be a string";throw c+=" (got "+typeof a+").",new Error(c)}if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(a)){var c="QBN.range: invalid name "+JSON.stringify(a)+".";throw new Error(c)}var d=getVar(a);if("undefined"==typeof d){var c="QBN.range: no such variable "+JSON.stringify(a)+".";throw new Error(c)}var e=b.length;if("number"!=typeof e||2>e){var c="QBN.range: invalid range spec:";throw c+=" must have at least two values",c+=" (got "+JSON.stringify(e)+").",new Error(c)}for(var f,g,h,j,k=0;k<b.length;++k){if(j=b[k],typeof j==typeof h){var c="QBN.range: invalid range spec "+JSON.stringify(b);throw c+=": must alternate names and numbers.",new Error(c)}if(h=j,"string"==typeof j)f=j;else if("number"==typeof j){if("undefined"!=typeof g&&j<=g){var c="QBN.range: invalid range spec "+JSON.stringify(b);throw c+=": numbers must be strictly increasing.",new Error(c)}if(d<j)if(f)break;else return;g=j,f=void 0}else{var c="QBN.range: invalid range spec "+JSON.stringify(b);throw c+=": may only contain strings and numbers.",new Error(c)}}setVar("_"+f+"_"+a.substring(1),!0)},QBN.value=function(a,b){var c=State.variables,d=State.temporary,e=b[a];return null==e&&(e=d[a]),null==e&&(e=c[a]),e},QBN.has=function(a,b){for(var c=State.variables,d=State.temporary,e=null,f=0;f<QBN.functions.length;++f){var g=QBN.functions[f],h=g.match.exec(a);if(h){e=g.action(h,b);break}}return null===e&&(e=b[a]||d[a]||c[a]),!!e},QBN.passageMatches=function(a,b){var c=getVar("$QBN_deck");if(null==c[a.title])return!1;for(var d=0;d<a.tags.length;++d){var e=a.tags[d],f=/^req-/.exec(e);if(f)e=e.substring(f[0].length);else continue;if(!QBN.has(e,b))return!1}return!0},Macro.add("addcard",{handler:function(){var a=this.args[0],b=this.args[1];if(!Story.has(a))return this.error("No such passage \""+a+"\".");var c=getVar("$QBN_deck");c[a]=b?1:0}}),Macro.add("removecard",{handler:function(){var a=this.args[0];if(!Story.has(a))return this.error("No such passage \""+a+"\".");var b=getVar("$QBN_deck");null!=b[a]&&delete b[a]}});function list(a){return"object"!=typeof a||null==a.length?[a]:a}Macro.add("includeall",{handler:function(){var a=list(this.args[0]),b=this.args[1];if(!Macro.has(b))return this.error("No such widget "+JSON.stringify(this.args[1])+".");for(var c,d=$(this.output),e=getVar("$QBN_deck"),f=0;f<a.length;++f)if(c=a[f],"string"==typeof c&&(c=Story.get(c)),0===e[c.title]&&delete e[c.title],b){var g=JSON.stringify(c.title);d.wiki("<<"+b+" "+g+" "+f+" "+a.length+">>")}else d.wiki(c.processText())}});</script><tw-passagedata pid="1" name="Main" tags="" position="500,300" size="100,100">Characters from __Rats, Bats and Vats__ by Dave Flint and Eric Freer.
+.qbn-row { display: flex; flex-direction: row; }
+
+</style><script role="script" id="twine-user-script" type="text/twine-javascript">/*
+TinyQBN: quality-based narratives in Twine 2 & Sugarcube.
+
+Copyright 2019 Joshua I. Grams <josh@qualdan.com>
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+*/
+State.initPRNG();var QBN={};window.QBN=QBN;var getVar=State.getVar||Wikifier.getValue,setVar=State.setVar||Wikifier.setValue;function resetDeck(){for(var a={},b=["card","sticky-card"],d=0;d<b.length;++d)for(var e,f="tw-passagedata[tags~="+b[d]+"]",g=document.querySelectorAll(f),c=0;c<g.length;++c)e=g[c].getAttribute("name"),a[e]=d;setVar("$QBN_deck",a)}resetDeck(),$(document).on(":passagestart",function(a){var b=a.passage.title,c=getVar("$QBN_deck");0===c[b]&&delete c[b]});function choose(a,b){var c=Math.min;b=c(b,a.length);for(var d=c(b,a.length-b),e=d==b,f=[],g={},h=0;h<d;){var j=Math.floor(State.random()*a.length);g[j]===void 0&&(e&&f.push(a[j]),g[j]=!0,++h)}if(!e)for(j=0;j<a.length;++j)!0!==g[j]&&f.push(a[j]);return f}QBN.passages=function(a,b){null==b&&"number"==typeof a?(b=a,a={}):null==a&&(a={});var c=Story.lookupWith(function(b){return QBN.passageMatches(b,a)});return b&&(c=choose(c,b)),c};var operators={eq:function(c,a){return c==a},ne:function(c,a){return c!=a},lt:function(c,a){return c<a},gt:function(c,a){return c>a},le:function(c,a){return c<=a},ge:function(c,a){return c>=a}};QBN.functions=[{match:/^not-(.+)/,action:function(a,b){return!QBN.has(a[1],b)}},{match:/^random-([0-9]+)/,action:function(a){return State.random()<a[1]/100}},{match:/^(.*)-(eq|ne|lt|gt|le|ge)-(.*)/,action:function(a,b){var c=QBN.value(a[1],b),d=operators[a[2]],e=a[3];return"number"==typeof c&&(e=e.replace("_",".")),d(c,e)}}],QBN.range=function(a,b){if("string"!=typeof a){var c="QBN.range: name must be a string";throw c+=" (got "+typeof a+").",new Error(c)}if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(a)){var c="QBN.range: invalid name "+JSON.stringify(a)+".";throw new Error(c)}var d=getVar(a);if("undefined"==typeof d){var c="QBN.range: no such variable "+JSON.stringify(a)+".";throw new Error(c)}var e=b.length;if("number"!=typeof e||2>e){var c="QBN.range: invalid range spec:";throw c+=" must have at least two values",c+=" (got "+JSON.stringify(e)+").",new Error(c)}for(var f,g,h,j,k=0;k<b.length;++k){if(j=b[k],"string"==typeof j&&"string"==typeof h){var c="QBN.range: invalid range spec "+JSON.stringify(b);throw c+=": may not have two consecutive strings.",new Error(c)}if(h=j,"string"==typeof j)f=j;else if("number"==typeof j){if("undefined"!=typeof g&&j<=g){var c="QBN.range: invalid range spec "+JSON.stringify(b);throw c+=": numbers must be strictly increasing.",new Error(c)}if(d<j)if(f)break;else return;g=j,f=void 0}else{var c="QBN.range: invalid range spec "+JSON.stringify(b);throw c+=": may only contain strings and numbers.",new Error(c)}}setVar("_"+f+"_"+a.substring(1),!0)},QBN.value=function(a,b){var c=State.variables,d=State.temporary,e=b[a];return null==e&&(e=d[a]),null==e&&(e=c[a]),e},QBN.has=function(a,b){for(var c=State.variables,d=State.temporary,e=null,f=0;f<QBN.functions.length;++f){var g=QBN.functions[f],h=g.match.exec(a);if(h){e=g.action(h,b);break}}return null===e&&(e=b[a]||d[a]||c[a]),!!e},QBN.passageMatches=function(a,b){var c=getVar("$QBN_deck");if(null==c[a.title])return!1;for(var d=0;d<a.tags.length;++d){var e=a.tags[d],f=/^req-/.exec(e);if(f)e=e.substring(f[0].length);else continue;if(!QBN.has(e,b))return!1}return!0},Macro.add("addcard",{handler:function(){var a=this.args[0],b=this.args[1];if(!Story.has(a))return this.error("No such passage \""+a+"\".");var c=getVar("$QBN_deck");c[a]=b?1:0}}),Macro.add("removecard",{handler:function(){var a=this.args[0],b=!1!==this.args[1];if(!Story.has(a))return this.error("No such passage \""+a+"\".");var c=getVar("$QBN_deck");(0===c[a]||b&&1===c[a])&&delete c[a]}});function list(a){return"object"!=typeof a||null==a.length?[a]:a}Macro.add("includeall",{handler:function(){var a=list(this.args[0]),b=this.args[1];if(b&&!Macro.has(b))return this.error("No such widget "+JSON.stringify(this.args[1])+".");var c=this.args[2];if(c&&!Macro.has(c))return this.error("No such widget "+JSON.stringify(this.args[2])+".");for(var d,e=$(this.output),f=getVar("$QBN_deck"),g=0;g<a.length;++g){if(d=a[g],"string"==typeof d&&(d=Story.get(d)),0===f[d.title]&&delete f[d.title],b){var h=JSON.stringify(d.title);e.wiki("<<"+b+" "+h+">>")}else{var f=getVar("$QBN_deck");0===f[h]&&delete f[h],e.wiki(d.processText())}c&&g<a.length-1&&e.wiki("<<"+c+" "+(g==a.length-2)+">>")}}});</script><tw-passagedata pid="1" name="Main" tags="" position="500,300" size="100,100">Characters from __Rats, Bats and Vats__ by Dave Flint and Eric Freer.
 
 [[Row]] | [[Column]]
 
-[[Row Links]] | [[Column Links]] | [[Comma List Links]]</tw-passagedata><tw-passagedata pid="2" name="Row" tags="" position="650,25" size="100,100">&lt;&lt;cardrow &#96;QBN.passages(4)&#96;&gt;&gt;
+[[Row Links]] | [[Column Links]] | [[Comma List Links]]</tw-passagedata><tw-passagedata pid="2" name="Row" tags="" position="650,50" size="100,100">&lt;&lt;cardrow &#96;QBN.passages(4)&#96;&gt;&gt;
 
-[[Main]]</tw-passagedata><tw-passagedata pid="3" name="Column" tags="" position="650,150" size="100,100">&lt;&lt;cardcolumn &#96;QBN.passages(3)&#96;&gt;&gt;
+[[Main]]</tw-passagedata><tw-passagedata pid="3" name="Column" tags="" position="650,175" size="100,100">&lt;&lt;cardcolumn &#96;QBN.passages(3)&#96;&gt;&gt;
 
-[[Main]]</tw-passagedata><tw-passagedata pid="4" name="Row Links" tags="" position="650,275" size="100,100">&lt;&lt;cardrow &#96;QBN.passages(5)&#96; &#39;linkedcard&#39;&gt;&gt;
+[[Main]]</tw-passagedata><tw-passagedata pid="4" name="Row Links" tags="" position="650,300" size="100,100">&lt;&lt;cardrow &#96;QBN.passages(5)&#96; &#39;linkbox&#39;&gt;&gt;
 
-[[Main]]</tw-passagedata><tw-passagedata pid="5" name="Column Links" tags="" position="650,400" size="100,100">&lt;&lt;cardcolumn &#96;QBN.passages(5)&#96; &quot;linkedcard&quot;&gt;&gt;
+[[Main]]</tw-passagedata><tw-passagedata pid="5" name="Column Links" tags="" position="650,425" size="100,100">&lt;&lt;cardcolumn &#96;QBN.passages(5)&#96; &quot;linkbox&quot;&gt;&gt;
 
-[[Main]]</tw-passagedata><tw-passagedata pid="6" name="Comma List Links" tags="" position="650,525" size="100,100">&lt;&lt;includeall &#96;QBN.passages()&#96; &#39;linkedcommaitem&#39;&gt;&gt;
+[[Main]]</tw-passagedata><tw-passagedata pid="6" name="Comma List Links" tags="" position="650,550" size="100,100">&lt;&lt;includeall &#96;QBN.passages()&#96; &#39;linkto&#39; &#39;comma&#39;&gt;&gt;
 
-[[Main]]</tw-passagedata><tw-passagedata pid="7" name="TinyQBN Widgets" tags="widget" position="25,50" size="100,100">&lt;&lt;silently&gt;&gt;
+[[Main]]</tw-passagedata><tw-passagedata pid="7" name="TinyQBN Widgets" tags="widget" position="25,50" size="100,100">&lt;&lt;widget card&gt;&gt;\
+&lt;&lt;include $args[0]&gt;&gt;&lt;&lt;removecard $args[0] false&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget cardrow&gt;&gt;@@.qbn-row;
-&lt;&lt;includeall $args[0] &#96;$args[1] or &quot;card&quot;&#96;&gt;&gt;
+&lt;&lt;widget cardbox&gt;&gt;@@.qbn-card;
+&lt;&lt;card $args[0]&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
 &lt;&lt;widget cardcolumn&gt;&gt;@@.qbn-column;
-&lt;&lt;includeall $args[0] &#96;$args[1] or &quot;card&quot;&#96;&gt;&gt;
+&lt;&lt;includeall $args[0] &#96;$args[1] or &quot;cardbox&quot;&#96;&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget commalist&gt;&gt;&lt;&lt;includeall $args[0] &#39;commaitem&#39;&gt;&gt;&lt;&lt;/widget&gt;&gt;
+&lt;&lt;widget cardlist&gt;&gt;\
+&lt;&lt;includeall $args[0] &#96;$args[1] or &quot;card&quot;&#96; &quot;comma&quot;&gt;&gt;\
+&lt;&lt;/widget&gt;&gt;
 
-
-&lt;&lt;widget linkedcard&gt;&gt;@@.qbn-card;
-&lt;&lt;print &#39;[\[&#39; + $args[0] + &#39;]]&#39;&gt;&gt;
+&lt;&lt;widget cardrow&gt;&gt;@@.qbn-row;
+&lt;&lt;includeall $args[0] &#96;$args[1] or &quot;cardbox&quot;&#96;&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget card&gt;&gt;@@.qbn-card;
-&lt;&lt;include $args[0]&gt;&gt;
+&lt;&lt;widget comma&gt;&gt;&lt;&lt;if $args[0]&gt;&gt; and &lt;&lt;else&gt;&gt;, &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;
+
+&lt;&lt;widget linkbox&gt;&gt;@@.qbn-card;
+&lt;&lt;linkto $args[0]&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget comma&gt;&gt;\
-&lt;&lt;if $args[0] lt $args[1] - 2&gt;&gt;, \
-&lt;&lt;elseif $args[0] is $args[1] - 2&gt;&gt; and &lt;&lt;/if&gt;&gt;\
+&lt;&lt;widget linklist&gt;&gt;\
+&lt;&lt;includeall $args[0] &quot;linkto&quot; &quot;comma&quot;&gt;&gt;\
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget commaitem&gt;&gt;\
-&lt;&lt;include $args[0]&gt;&gt;&lt;&lt;comma $args[1] $args[2]&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;
-
-&lt;&lt;widget linkedcommaitem&gt;&gt;\
-&lt;&lt;print &#39;[\[&#39; + $args[0] + &#39;]]&#39;&gt;&gt;&lt;&lt;comma $args[1] $args[2]&gt;&gt;\
-&lt;&lt;/widget&gt;&gt;
-
-&lt;&lt;/silently&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Ariel" tags="sticky-card" position="200,100" size="100,100">!Ariel
+&lt;&lt;widget &quot;linkto&quot;&gt;&gt;&lt;&lt;print &#39;[\[&#39; + $args[0] + &#39;]]&#39;&gt;&gt;&lt;&lt;/widget&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="Ariel" tags="sticky-card" position="200,100" size="100,100">!Ariel
 
 A rattess of foul repute. Fond of model majors.</tw-passagedata><tw-passagedata pid="9" name="Fal" tags="sticky-card" position="200,225" size="100,100">!Fal
 

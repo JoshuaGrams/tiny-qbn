@@ -228,9 +228,13 @@ function list(l) {
 Macro.add('includeall', {
 	handler: function() {
 		var passages = list(this.args[0])
-		var widget = this.args[1]
-		if(widget && !Macro.has(widget)) {
+		var wrap = this.args[1]
+		if(wrap && !Macro.has(wrap)) {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
+		}
+		var separate = this.args[2]
+		if(separate && !Macro.has(separate)) {
+			return this.error("No such widget " + JSON.stringify(this.args[2]) + ".")
 		}
 		var $output = $(this.output)
 		var deck = getVar('$QBN_deck')
@@ -238,13 +242,16 @@ Macro.add('includeall', {
 			var p = passages[i]
 			if(typeof p === 'string') p = Story.get(p)
 			if(deck[p.title] === 0) delete deck[p.title]
-			if(widget) {
+			if(wrap) {
 				var title = JSON.stringify(p.title)
-				$output.wiki('<<'+widget+' '+title+' '+i+' '+passages.length+'>>')
+				$output.wiki('<<'+wrap+' '+title+'>>')
 			} else {
 				var deck = getVar('$QBN_deck')
 				if(deck[title] === 0) delete deck[title]
 				$output.wiki(p.processText())
+			}
+			if(separate && i < passages.length - 1) {
+				$output.wiki('<<'+separate+' '+(i===passages.length-2)+'>>')
 			}
 		}
 	}

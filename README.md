@@ -15,8 +15,9 @@ Adding TinyQBN to your Story
 Copy the Story Javascript (the [minified](story-javascript.min.js)
 or the [readable](story-javascript.js) version) and optionally the
 [Story Stylesheet](story-stylesheet.css) and
-[widgets](widgets.txt) into your game. Click the "Raw" button
-when viewing these for easier copy/pasting.
+[widgets](widgets.txt) (create a passage with a `widget` tag for
+these) into your game. Click the "Raw" button when viewing these
+for easier copy/pasting.
 
 
 Declaring Cards
@@ -30,10 +31,12 @@ sticky=false>>` or `<<removecard "title" always=true>>` (pass
 cards).
 
 * A passage tagged with `req-variableName` requires the variable
-  to have a value which is not zero, `false`, or the empty string.
+  to have a non-empty value (something other than zero, `false`,
+  or the empty string).
 
 * A passage tagged with `req-not-variableName` requires the
-  variable to be undefined, zero, `false`, or the empty string.
+  variable to be empty (undefined, zero, `false`, or the empty
+  string).
 
 * A passage can only be selected by the QBN engine if *all* of its
   requirements are met. This does *not* affect normal Twine links:
@@ -88,9 +91,9 @@ Selecting Available Cards
   value of 30 would be medium rather than low.
 
 * The range list can have as many names and numbers as you want,
-  but you must alternate names and numbers. If you begin or end
-  the range list with a number, then it might not always set a
-  variable.
+  but you may never have two names in a row. If you begin or end
+  the range list with a number, then it will not set a variable
+  for numbers off that end of the range.
 
 * You may want to put your `QBN.range` calls in the special
   `PassageHeader` passage so they get computed automatically at
@@ -100,37 +103,46 @@ Selecting Available Cards
 Displaying Selected Cards
 -------------------------
 
-* `<<includecard passage_title>>` will include a card passage and
-  remove it from the deck if it's a single-use card.
+* `<<card "name">>` will include a passage and, if it is a
+  single-use card, will remove it from the event deck.
 
-* `<<includeall passages widget>>` will include a list of
-  passages, like Sugarcube's built-in `<<include>>` macro but with
-  multiple passages.
+* `<<includeall passages wrap=null separate=null>>` will include a
+  list of passages, like Sugarcube's built-in `<<include>>` macro
+  but with multiple passages.
 
-* The `widget` argument is optional: if present, it will be called
-  as `<<widget passage_title index count>>` (where `index` and
-  `count` give the position within the list of passages being
-  included).  The widget is responsible for `<<include>>`ing the
-  given passage and wrapping it in the appropriate markup.
+* The optional `wrap` argument should be the name of a widget
+  which will be called with each passage title to display it.
+  The default wrapper has the same behavior as the `<<card>>`
+  widget described above.
 
-* My [commaitem](widgets/commaitem.txt) widget can be used as
-  ``<<includeall `QBN.passages()` 'commaitem'>>`` to produce a
-  comma separated list (without the serial comma).
+* The optional `separate` argument should be the name of a widget
+  which will be called with a flag indicating whether this is the
+  last separator. It will be called between each two adjacent
+  cards.
 
-* The [cardrow](widgets/cardrow.txt) and
-  [cardcolumn](widgets/cardcolumn.txt) widgets use the provided
-  [Story stylesheet rules](story-stylesheet.css) to stack cards in
-  a row or column. By default they use the
-  [card](widgets/card.txt) widget to wrap each card in an outlined
-  box, but you can also sepecify the
-  [linkedcard](widgets/linkedcard.txt) widget to link to the cards by
-  their titles instead of including them directly (``<<cardrow
-  `QBN.passages()` "linkedcard">>``).
+Then there are a bunch of helper widgets for common use cases. The
+most useful of these are:
 
-* Or you can grab [all these widgets](widgets.txt) at once.
+* `<<cardrow passages wrap="cardbox">>` displays a row of cards,
+  each in a box with a background and border.
 
-* Be sure to put them in a `widget`-tagged passage.
+* `<<cardcolumn passages wrap="cardbox">>` displays a column of
+  cards in boxes.
 
+* `<<cardlist passages wrap="card">>` displays a comma-separated
+  list of cards.
+
+The widgets used to implement these are also available:
+
+* `<<linkto "name">>` is a wrapper which links to the passage instead of
+  including it.
+
+* `<<cardbox "name">>` and `<<linkbox "name">>` are the same as
+  `<<card>>` and `<<linkto>>` except they draw a box around the
+  card or the link.
+
+* `<<comma last?>>` is a separator: it will insert `" and "` for
+  the last separator and `", "` otherwise.
 
 Rebuilding the Minified Javascript
 ----------------------------------
