@@ -1,4 +1,0 @@
-
-<<widget linklist>>\
-<<includeall $args[0] "linkto" "comma">>\
-<</widget>>

@@ -1,2 +1,0 @@
-
-<<widget "linkto">><<print '[\[' + $args[0] + ']]'>><</widget>>

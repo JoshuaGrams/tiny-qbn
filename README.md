@@ -148,13 +148,14 @@ Then there are a bunch of helper widgets for common use cases. The
 most useful of these are:
 
 * `<<cardrow passages wrap="cardbox">>` displays a row of cards,
-  each in a box with a background and border.
+  each in a box with a background and border. Pass `"linkbox"` for
+  links instead of contents.
 
 * `<<cardcolumn passages wrap="cardbox">>` displays a column of
-  cards in boxes.
+  cards in boxes. Pass `"linkbox"` for links instead of contents.
 
 * `<<cardlist passages wrap="card">>` displays a comma-separated
-  list of cards.
+  list of cards. Pass `"linkto"` for links instead of contents.
 
 The widgets used to implement these are also available:
 

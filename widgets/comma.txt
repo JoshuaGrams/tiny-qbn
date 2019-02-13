@@ -1,2 +1,0 @@
-
-<<widget comma>><<if $args[0]>> and <<else>>, <</if>><</widget>>

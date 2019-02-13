@@ -23,10 +23,11 @@ accordingly.
 	<<if _products.length eq 0>>
 	There is nothing for sale here.
 	<<else>>
-	There are <<commalist _products>> here.
+	There are <<cardlist _products>> here.
 	<</if>>
 
-`<<commalist>>` is another one of my TinyQBN widgets.
+`<<cardlist>>` is another one of my TinyQBN widgets. It creates a
+comma-separated list of cards.
 
 ![current products passage](current-2.png)
 

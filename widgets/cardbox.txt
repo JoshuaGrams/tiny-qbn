@@ -1,4 +1,0 @@
-
-<<widget cardbox>>@@.qbn-card;
-<<card $args[0]>>
-@@<</widget>>

@@ -1,4 +1,0 @@
-
-<<widget linkbox>>@@.qbn-card;
-<<linkto $args[0]>>
-@@<</widget>>
