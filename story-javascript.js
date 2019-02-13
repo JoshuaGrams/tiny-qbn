@@ -179,7 +179,11 @@ QBN.has = function(tag, extraVars) {
 		var m = fn.match.exec(tag)
 		if(m) { yes = fn.action(m, extraVars); break }
 	}
-	if(yes === null) yes = extraVars[tag] || t[tag] || v[tag]
+	if(yes === null) {
+		if(extraVars[tag] != null) yes = extraVars[tag]
+		else if(t[tag] != null) yes = t[tag]
+		else yes = v[tag]
+	}
 	return !!yes
 }
 
