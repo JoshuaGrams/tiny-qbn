@@ -1,35 +1,24 @@
-Things to Test/Fix
-==================
+Code for StoryNexus-like Narratives
+===================================
 
-* QBN.passages
-    * Cards vs. no cards.
-    * Matching vs. no matches.
-    * `extraVars` vs. no `extraVars` vs. empty `extraVars`.
-    * `random-##`
-    * Comparisons: eq/lt/gt/le/ge succeed/fail with numbers/strings.
-    * Error handling? Do we need any?
-
-* QBN.range
-    * ~~Error handling if variable not found.~~
-    * ~~Error handling if non-simple variable name or missing sigil.~~
-    * ~~Error handling if invalid range.~~
-    * ~~Error if range values do not increase.~~
-    * ~~`["low", 50, "high"]`~~
-    * ~~Range spec with lots of values.~~
-
-* `<<includeall passages wrapper_widget="card">>`
-	* ~~Widgets for column, row, comma-separated.~~
-	* ~~Use `Macro.has(wrapper_widget)` to check for existence of widget.~~
-
-* `<<addcard>>`
-    * ~~Add single-use card (twice).~~
-    * ~~Add sticky card (twice).~~
-    * ~~Error handling if passage doesn't exist.~~
-
-* `<<removecard>>`
-    * ~~Remove single-use card (twice).~~
-    * ~~Remove sticky card (twice).~~
-    * ~~Error handling if passage doesn't exist.~~
+* `<<drawcards hand n passages>>`
+* `<<card>>...<<contents>>...<</card>>` - choose by `_card_front`?
+* Wrapper widget to display card fronts.
+* Extend `QBN.passageMatches` to take a prefix string/regexp.
+* `<<includeall>>` passes `available` to `wrap` widget.
+	* Or sets `_card_available` if no wrapper?
+	* Availability is `QBN.passageMatches` with `also-` prefix.
+* Inline "cards" for choices...how?
+	* Multiple cards in one macro, probably?
+	* Where do we store the deck membership for these? `"passage -> choice"`?
+	* Each one needs metadata and contents.
+	* `<<choices>>[<<choice>>...<<contents>>...]*<</choices>>`?
+	* first `<<choice>>` is optional.
+	* content before initial `<<choice>>` is an error.
+	* every `<<choice>>` must have `<<contents>>`.
+* Add `<<requirements passage [wrap] [separate]>>` macro.
+	* Calls `wrap` with requirement and met/not-met.
+	* Calls `separate` with `last` flag.
 
 <!-- vim:et
 -->
