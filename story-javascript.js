@@ -238,9 +238,6 @@ Macro.add('includeall', {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
 		}
 		var separate = this.args[2]
-		if(separate && !Macro.has(separate)) {
-			return this.error("No such widget " + JSON.stringify(this.args[2]) + ".")
-		}
 		var $output = $(this.output)
 		var deck = getVar('$QBN_deck')
 		for(var i=0; i<passages.length; ++i) {
@@ -256,7 +253,11 @@ Macro.add('includeall', {
 				$output.wiki(p.processText())
 			}
 			if(separate && i < passages.length - 1) {
-				$output.wiki('<<'+separate+' '+(i===passages.length-2)+'>>')
+				if(Macro.has(separate)) {
+					$output.wiki('<<'+separate+' '+(i===passages.length-2)+'>>')
+				} else {
+					$output.append(document.createTextNode(separate))
+				}
 			}
 		}
 	}
