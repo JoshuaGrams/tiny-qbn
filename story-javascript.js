@@ -41,8 +41,8 @@ $(document).on(':passagestart', function(evt) {
 
 // Choose `count` random values from `array`.
 function choose(array, count) {
-	// Can't choose more values than the array has.
-	count = Math.min(count, array.length)
+	// Can't choose more values than the array has (or less than 0).
+	count = Math.max(0, Math.min(count, array.length))
 	// If choosing more than half the array, *exclude* random values.
 	var n = Math.min(count, array.length - count)
 	var include = (n == count)
