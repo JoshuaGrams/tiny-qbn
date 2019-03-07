@@ -74,6 +74,7 @@ QBN.passages = function(extraVars, n) {
 		return QBN.passageMatches(p, extraVars)
 	})
 	if(n) passages = choose(passages, n)
+	for(var i=0; i<passages.length; ++i) passages[i] = passages[i].title
 	return passages
 }
 
