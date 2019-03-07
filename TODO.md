@@ -1,7 +1,7 @@
 Code for StoryNexus-like Narratives
 ===================================
 
-* `<<drawcards hand n passages>>`
+* ~~`<<drawcards hand n passages>>`~~
 * `<<card>>...<<contents>>...<</card>>` - choose by `_card_front`?
 * Wrapper widget to display card fronts.
 * Extend `QBN.passageMatches` to take a prefix string/regexp.

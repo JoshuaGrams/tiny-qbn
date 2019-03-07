@@ -262,3 +262,42 @@ Macro.add('includeall', {
 		}
 	}
 })
+
+
+function addTo(set, passage) {
+	var title = (typeof passage === 'string') ? passage : passage.title
+	var newPassage = !set[title]
+	if(newPassage) set[title] = true
+	return newPassage
+}
+
+function firstWord(string) {
+	var i = string.indexOf(" ")
+	return string.substr(0, i == -1 ? string.length : i)
+}
+
+Macro.add('drawcards', {
+	handler: function() {
+		try {
+			var hand = this.args[0], n = this.args[1], passages = this.args[2]
+			if(!hand) {
+				// Only handles actual variables, not backquoted
+				// expressions or whatever. WHY isn't there a way
+				// to use Sugarcube's parser for this??!?
+				hand = []
+				var name = firstWord(this.args.raw)
+				if(!setVar(name, hand)) {
+					return this.error('<<drawcards>>: failed to set hand "' + name + '".')
+				}
+				console.log('Empty Hand: setting ' + name + ' to [].')
+			}
+			var i, set = {}
+			for(i=0; i<hand.length; ++i) addTo(set, hand[i])
+			passages = passages.filter(function(p){ return addTo(set, p) })
+			passages = choose(passages, n - hand.length)
+			for(i=0; i<passages.length; ++i) hand.push(passages[i])
+		} catch(err) {
+			return this.error('<<drawcards>>: ' + (typeof err === 'object' ? err.message : err))
+		}
+	}
+})

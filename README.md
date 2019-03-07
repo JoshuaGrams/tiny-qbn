@@ -169,6 +169,29 @@ The widgets used to implement these are also available:
 * `<<comma last?>>` is a separator: it will insert `" and "` for
   the last separator and `", "` otherwise.
 
+
+Managing a Persistent "Hand" of Cards
+-------------------------------------
+
+You can save a list of cards to a variable with:
+
+	<<set $hand to `QBN.passages(5)`>>
+
+To remove a card, do:
+
+	<<run $hand.delete("card title")>>
+
+Refill the hand with:
+
+	<<set $hand to $hand.concat(QBN.passages(5 - $hand.length))>>
+
+But note that this may add duplicate cards (if it selects sticky
+cards which are still in your hand). If you don't want duplicates,
+you can create the hand *and* refill it with:
+
+	<<drawcards $hand 5 `QBN.passages()`>>
+
+
 Rebuilding the Minified Javascript
 ----------------------------------
 
