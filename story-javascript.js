@@ -239,11 +239,9 @@ Macro.add('includeall', {
 		}
 		var separate = this.args[2]
 		var $output = $(this.output)
-		var deck = getVar('$QBN_deck')
 		for(var i=0; i<passages.length; ++i) {
 			var p = passages[i]
 			if(typeof p === 'string') p = Story.get(p)
-			if(deck[p.title] === 0) delete deck[p.title]
 			if(wrap) {
 				var title = JSON.stringify(p.title)
 				$output.wiki('<<'+wrap+' '+title+'>>')
