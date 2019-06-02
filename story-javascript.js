@@ -10,34 +10,58 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 
 State.initPRNG()
 
+// Functions and fixed data.
 var QBN = {}
 window.QBN = QBN
 
 var getVar = State.getVar || Wikifier.getValue
 var setVar = State.setVar || Wikifier.setValue
 
-// Construct initial deck from `card` and `sticky-card` passages.
-function resetDeck() {
-	var deck = {}
-	var cardTags = ['card', 'sticky-card']
-	for(var i=0; i<cardTags.length; ++i) {
-		var sel = 'tw-passagedata[tags~=' + cardTags[i] + ']'
-		var c = document.querySelectorAll(sel)
-		for(var j=0; j<c.length; ++j) {
-			var title = c[j].getAttribute('name')
-			deck[title] = i
-		}
-	}
-	setVar('$QBN_deck', deck)
-}
-resetDeck()
+// State that may change from turn to turn
+// (i.e. needs to be recorded in the history).
+setVar('$QBN', {type: {}})
 
 // Remove single-use cards when visited.
 $(document).on(':passagestart', function(evt) {
-	var title = evt.passage.title
-	var deck = getVar('$QBN_deck')
-	if(deck[title] === 0) delete deck[title]
+	passageType(evt.passage, false)
 })
+
+function toPassage(card) {
+	if(typeof card === 'string') card = Story.get(card)
+	else if(typeof card !== 'object') {
+		throw new Error('Cards must be passed as titles or passage-like objects (got ' + (typeof card) + ').')
+	}
+	return card
+}
+
+// Optionally changes passage type: null to remove,
+// false to remove only single-use cards.
+function passageType(p, newType) {
+	var baseType
+	if(p.tags.indexOf('sticky-card') >= 0) baseType = 'sticky-card'
+	else if(p.tags.indexOf('card') >= 0) baseType = 'card'
+	else baseType = false
+
+	var types = getVar('$QBN').type
+	var oldType = types[p.title]
+	if(oldType === undefined) oldType = baseType
+
+	if(newType !== undefined && newType !== oldType) {
+		switch(newType) {
+			case null:
+				types[p.title] = false
+				break
+			case false:
+				if(oldType === 'card') types[p.title] = false
+				break
+			default:
+				if(newType === baseType) delete types[p.title]
+				else types[p.title] = newType
+		}
+	}
+
+	return oldType
+}
 
 // Choose `count` random values from `array`.
 function choose(array, count) {
@@ -189,8 +213,7 @@ QBN.has = function(tag, extraVars) {
 }
 
 QBN.passageMatches = function(p, extraVars) {
-	var deck = getVar('$QBN_deck')
-	if(deck[p.title] == null) return false
+	if(!passageType(p)) return false
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
 		var prefix = /^req-/.exec(tag)
@@ -203,26 +226,17 @@ QBN.passageMatches = function(p, extraVars) {
 
 Macro.add('addcard', {
 	handler: function() {
-		var title = this.args[0], sticky = this.args[1]
-		if(!Story.has(title)) {
-			return this.error('No such passage "' + title + '".')
-		}
-		var deck = getVar('$QBN_deck')
-		deck[title] = (sticky ? 1 : 0)
+		var p = toPassage(this.args[0])
+		var type = this.args[1] ? 'sticky-card' : 'card'
+		passageType(p, type)
 	}
 })
 
 Macro.add('removecard', {
 	handler: function() {
-		var title = this.args[0]
-		var always = this.args[1] !== false
-		if(!Story.has(title)) {
-			return this.error('No such passage "' + title + '".')
-		}
-		var deck = getVar('$QBN_deck')
-		if(deck[title] === 0 || (always && deck[title] === 1)) {
-			delete deck[title]
-		}
+		var p = toPassage(this.args[0])
+		var type = this.args[1] === false ? false : null
+		passageType(p, type)
 	}
 })
 
@@ -240,14 +254,12 @@ Macro.add('includeall', {
 		var separate = this.args[2]
 		var $output = $(this.output)
 		for(var i=0; i<passages.length; ++i) {
-			var p = passages[i]
-			if(typeof p === 'string') p = Story.get(p)
+			var p = toPassage(passages[i])
 			if(wrap) {
 				var title = JSON.stringify(p.title)
 				$output.wiki('<<'+wrap+' '+title+'>>')
 			} else {
-				var deck = getVar('$QBN_deck')
-				if(deck[title] === 0) delete deck[title]
+				passageType(p, false)
 				$output.wiki(p.processText())
 			}
 			if(separate && i < passages.length - 1) {
