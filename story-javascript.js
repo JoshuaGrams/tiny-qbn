@@ -95,7 +95,7 @@ QBN.passages = function(extraVars, n) {
 		n = extraVars; extraVars = {}
 	} else if(extraVars == null) extraVars = {}
 	var passages = Story.lookupWith(function(p) {
-		return QBN.passageMatches(p, extraVars)
+		return QBN.passageVisible(p, extraVars)
 	})
 	if(n) passages = choose(passages, n)
 	for(var i=0; i<passages.length; ++i) passages[i] = passages[i].title
@@ -115,7 +115,7 @@ QBN.functions = [
 	{
 		match: /^not-(.+)/,
 		action: function(m, extraVars) {
-			return !QBN.has(m[1], extraVars)
+			return !QBN.requirementMet(m[1], extraVars)
 		}
 	},
 	{
@@ -196,30 +196,30 @@ QBN.value = function(name, extraVars) {
 	return value
 }
 
-QBN.has = function(tag, extraVars) {
+QBN.requirementMet = function(req, extraVars) {
 	var v = State.variables, t = State.temporary
 	var yes = null
 	for(var j=0; j<QBN.functions.length; ++j) {
 		var  fn= QBN.functions[j]
-		var m = fn.match.exec(tag)
+		var m = fn.match.exec(req)
 		if(m) { yes = fn.action(m, extraVars); break }
 	}
 	if(yes === null) {
-		if(extraVars[tag] != null) yes = extraVars[tag]
-		else if(t[tag] != null) yes = t[tag]
-		else yes = v[tag]
+		if(extraVars[req] != null) yes = extraVars[req]
+		else if(t[req] != null) yes = t[req]
+		else yes = v[req]
 	}
 	return !!yes
 }
 
-QBN.passageMatches = function(p, extraVars) {
+QBN.passageVisible = function(p, extraVars) {
 	if(!passageType(p)) return false
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
 		var prefix = /^req-/.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue
-		if(!QBN.has(tag, extraVars)) return false
+		if(!QBN.requirementMet(tag, extraVars)) return false
 	}
 	return true
 }
