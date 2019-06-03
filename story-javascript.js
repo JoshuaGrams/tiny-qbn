@@ -240,6 +240,14 @@ Macro.add('removecard', {
 	}
 })
 
+Macro.add('includepassage', {
+	handler: function() {
+		var p = toPassage(this.args[0])
+		var $output = $(this.output)
+		$output.wiki(Passage.processText.call(p))
+	}
+})
+
 function list(l) {
 	return (typeof l !== 'object' || l.length == null) ? [l] : l
 }
@@ -247,21 +255,17 @@ function list(l) {
 Macro.add('includeall', {
 	handler: function() {
 		var passages = list(this.args[0])
-		var wrap = this.args[1]
-		if(wrap && !Macro.has(wrap)) {
+		var wrap = this.args[1], remove = false
+		if(!wrap) { wrap = 'includeall'; remove = true }
+		if(!Macro.has(wrap)) {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
 		}
 		var separate = this.args[2]
 		var $output = $(this.output)
 		for(var i=0; i<passages.length; ++i) {
-			var p = toPassage(passages[i])
-			if(wrap) {
-				var title = JSON.stringify(p.title)
-				$output.wiki('<<'+wrap+' '+title+'>>')
-			} else {
-				passageType(p, false)
-				$output.wiki(p.processText())
-			}
+			var p = passages[i]
+			if(remove) passageType(toPassage(p), false)
+			$output.wiki('<<'+wrap+' '+JSON.stringify(p)+'>>')
 			if(separate && i < passages.length - 1) {
 				if(Macro.has(separate)) {
 					$output.wiki('<<'+separate+' '+(i===passages.length-2)+'>>')
