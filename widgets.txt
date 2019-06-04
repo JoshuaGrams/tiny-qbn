@@ -30,13 +30,13 @@
 
 <<widget cover>>\
 <<set _qbn_cover to true>>\
-<<includepassage $args[0]>>\
+<<includecard $args[0]>>\
 <<unset _qbn_cover>>\
 <</widget>>
 
 <<widget content>>\
 <<unset _qbn_cover>>\
-<<includepassage $args[0]>><<removecard $args[0] false>>\
+<<includecard $args[0]>><<removecard $args[0] false>>\
 <</widget>>
 
 <<widget "linkto">><<print '[\[' + $args[0] + ']]'>><</widget>>

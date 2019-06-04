@@ -249,7 +249,7 @@ Macro.add('removecard', {
 	}
 })
 
-Macro.add('includepassage', {
+Macro.add('includecard', {
 	handler: function() {
 		var p = toPassage(this.args[0])
 		var $output = $(this.output)
@@ -263,21 +263,21 @@ function list(l) {
 
 Macro.add('includeall', {
 	handler: function() {
-		var passages = list(this.args[0])
+		var cards = list(this.args[0])
 		var wrap = this.args[1], remove = false
-		if(!wrap) { wrap = 'includepassage'; remove = true }
+		if(!wrap) { wrap = 'includecard'; remove = true }
 		if(!Macro.has(wrap)) {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
 		}
 		var separate = this.args[2]
 		var $output = $(this.output)
-		for(var i=0; i<passages.length; ++i) {
-			var p = passages[i]
+		for(var i=0; i<cards.length; ++i) {
+			var p = cards[i]
 			if(remove) passageType(toPassage(p), false)
 			$output.wiki('<<'+wrap+' '+toArgument(p)+'>>')
-			if(separate && i < passages.length - 1) {
+			if(separate && i < cards.length - 1) {
 				if(Macro.has(separate)) {
-					$output.wiki('<<'+separate+' '+(i===passages.length-2)+'>>')
+					$output.wiki('<<'+separate+' '+(i===cards.length-2)+'>>')
 				} else {
 					$output.append(document.createTextNode(separate))
 				}
