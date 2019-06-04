@@ -4,20 +4,20 @@
  */
 
 <<widget cardlist>>\
-<<includeall $args[0] `$args[1] or "card"` "comma">>\
+<<includeall $args[0] `$args[1] or "content"` "comma">>\
 <</widget>>
 
 /*
- * Rows and columns of cards in boxes: call with "linkbox" for
- * links instead of contents.
+ * Rows and columns of card contents in boxes: call with "linkbox"
+ * for links, or "coverbox" for covers.
  */
 
 <<widget cardcolumn>>@@.qbn-column;
-<<includeall $args[0] `$args[1] or "cardbox"`>>
+<<includeall $args[0] `$args[1] or "contentbox"`>>
 @@<</widget>>
 
 <<widget cardrow>>@@.qbn-row;
-<<includeall $args[0] `$args[1] or "cardbox"`>>
+<<includeall $args[0] `$args[1] or "contentbox"`>>
 @@<</widget>>
 
 
@@ -28,25 +28,27 @@
 
 /* Wrapper widgets (card contents or links, optionally boxed). */
 
-<<widget card>>\
-<<include $args[0]>><<removecard $args[0] false>>\
+<<widget cover>>\
+<<set _qbn_cover to true>>\
+<<includepassage $args[0]>>\
+<<unset _qbn_cover>>\
+<</widget>>
+
+<<widget content>>\
+<<unset _qbn_cover>>\
+<<includepassage $args[0]>><<removecard $args[0] false>>\
 <</widget>>
 
 <<widget "linkto">><<print '[\[' + $args[0] + ']]'>><</widget>>
 
-<<widget cardbox>>@@.qbn-card;
-<<card $args[0]>>
+<<widget coverbox>>@@.qbn-card;
+<<cover $args[0]>>
+@@<</widget>>
+
+<<widget contentbox>>@@.qbn-card;
+<<content $args[0]>>
 @@<</widget>>
 
 <<widget linkbox>>@@.qbn-card;
 <<linkto $args[0]>>
 @@<</widget>>
-
-
-/* Maybe I should have left these out? Oh well. */
-
-<<widget commalist>><<cardlist $args[0] $args[1]>><</widget>>
-
-<<widget linklist>>\
-<<includeall $args[0] "linkto" "comma">>\
-<</widget>>
