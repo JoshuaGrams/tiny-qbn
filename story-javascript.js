@@ -26,6 +26,15 @@ $(document).on(':passagestart', function(evt) {
 	passageType(evt.passage, false)
 })
 
+function toArgument(card) {
+	if(typeof card === 'string') card = JSON.stringify(card)
+	else if(typeof card === 'object') card = '`'+JSON.stringify(card)+'`'
+	else {
+		throw new Error('Cards must be passed as titles or passage-like objects (got ' + (typeof card) + ').')
+	}
+	return card
+}
+
 function toPassage(card) {
 	if(typeof card === 'string') card = Story.get(card)
 	else if(typeof card !== 'object') {
@@ -256,7 +265,7 @@ Macro.add('includeall', {
 	handler: function() {
 		var passages = list(this.args[0])
 		var wrap = this.args[1], remove = false
-		if(!wrap) { wrap = 'includeall'; remove = true }
+		if(!wrap) { wrap = 'includepassage'; remove = true }
 		if(!Macro.has(wrap)) {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
 		}
@@ -265,7 +274,7 @@ Macro.add('includeall', {
 		for(var i=0; i<passages.length; ++i) {
 			var p = passages[i]
 			if(remove) passageType(toPassage(p), false)
-			$output.wiki('<<'+wrap+' '+JSON.stringify(p)+'>>')
+			$output.wiki('<<'+wrap+' '+toArgument(p)+'>>')
 			if(separate && i < passages.length - 1) {
 				if(Macro.has(separate)) {
 					$output.wiki('<<'+separate+' '+(i===passages.length-2)+'>>')
