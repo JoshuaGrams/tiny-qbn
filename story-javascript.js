@@ -221,16 +221,24 @@ QBN.requirementMet = function(req, extraVars) {
 	return !!yes
 }
 
-QBN.passageVisible = function(p, extraVars) {
-	if(!passageType(p)) return false
+QBN.tagsMatch = function(p, re, extraVars) {
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
-		var prefix = /^req-/.exec(tag)
+		var prefix = re.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue
 		if(!QBN.requirementMet(tag, extraVars)) return false
 	}
 	return true
+}
+
+QBN.passageVisible = function(p, extraVars) {
+	if(!passageType(p)) return false
+	return QBN.tagsMatch(p, /^req-/, extraVars)
+}
+
+QBN.passageAvailable = function(p, extraVars) {
+	return QBN.tagsMatch(p, /^also-/, extraVars)
 }
 
 Macro.add('addcard', {
@@ -253,7 +261,7 @@ Macro.add('includecard', {
 	handler: function() {
 		var p = toPassage(this.args[0])
 		var $output = $(this.output)
-		$output.wiki(Passage.processText.call(p))
+		$output.wiki(Passage.prototype.processText.call(p))
 	}
 })
 
@@ -264,18 +272,22 @@ function list(l) {
 Macro.add('includeall', {
 	handler: function() {
 		var cards = list(this.args[0])
-		var wrap = this.args[1], remove = false
-		if(!wrap) { wrap = 'includecard'; remove = true }
+		var wrap = this.args[1] || 'content'
 		if(!Macro.has(wrap)) {
 			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
 		}
 		var separate = this.args[2]
 		var $output = $(this.output)
 		for(var i=0; i<cards.length; ++i) {
-			var p = cards[i]
-			if(remove) passageType(toPassage(p), false)
-			$output.wiki('<<'+wrap+' '+toArgument(p)+'>>')
+			var c = cards[i], p = toPassage(c)
+			var available = QBN.passageAvailable(p)
+			var wasAvailable = getVar('_qbn_available')
+			setVar('_qbn_available', available)
+			$output.wiki('<<'+wrap+' '+toArgument(c)+'>>')
+			setVar('_qbn_available', wasAvailable)
 			if(separate && i < cards.length - 1) {
+				// This is a really bad idea: what if you want to
+				// use the name of a macro as a separator string?
 				if(Macro.has(separate)) {
 					$output.wiki('<<'+separate+' '+(i===cards.length-2)+'>>')
 				} else {
@@ -325,9 +337,9 @@ Macro.add('drawcards', {
 	}
 })
 
-// Break a card into two parts: cover and content.
+// Break a card into two parts: cover and contents.
 Macro.add('card', {
-	tags: ['content'],
+	tags: ['contents'],
 	handler: function() {
 		var $output = $(this.output)
 		if(getVar('_qbn_cover')) {

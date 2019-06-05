@@ -29,15 +29,12 @@
 /* Wrapper widgets (card contents or links, optionally boxed). */
 
 <<widget cover>>\
-<<set _qbn_cover to true>>\
-<<includecard $args[0]>>\
-<<unset _qbn_cover>>\
+<<set _qbn_cover to true>><<includecard $args[0]>><<unset _qbn_cover>>\
 <</widget>>
 
-<<widget content>>\
-<<unset _qbn_cover>>\
-<<includecard $args[0]>><<removecard $args[0] false>>\
-<</widget>>
+<<widget content>><<if _qbn_available isnot false>>\
+<<unset _qbn_cover>><<includecard $args[0]>><<removecard $args[0] false>>\
+<</if>><</widget>>
 
 <<widget "linkto">><<print '[\[' + $args[0] + ']]'>><</widget>>
 
