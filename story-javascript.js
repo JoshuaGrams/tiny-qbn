@@ -99,6 +99,22 @@ function choose(array, count) {
 	return selected
 }
 
+QBN.filter = function(passages, extraVars, n) {
+	if(n == null && typeof extraVars === 'number') {
+		n = extraVars; extraVars = {}
+	} else if(extraVars == null) extraVars = {}
+	passages = passages.filter(function(p) {
+		return QBN.passageVisible(toPassage(p), extraVars)
+	})
+	if(n) passages = choose(passages, n)
+	for(var i=0; i<passages.length; ++i) {
+		if(passages[i] instanceof Passage) {
+			passages[i] = passages[i].title
+		}
+	}
+	return passages
+}
+
 QBN.passages = function(extraVars, n) {
 	if(n == null && typeof extraVars === 'number') {
 		n = extraVars; extraVars = {}
@@ -147,16 +163,20 @@ QBN.functions = [
 	}
 ]
 
+function invalidName(name) {
+	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(name)) {
+		return "QBN.range: invalid name " + JSON.stringify(name) + "."
+	}
+}
+
 QBN.range = function(name, ranges) {
 	if(typeof name !== 'string') {
 		var msg = "QBN.range: name must be a string"
 		msg += " (got " + (typeof name) + ")."
 		throw new Error(msg)
 	}
-	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(name)) {
-		var msg = "QBN.range: invalid name " + JSON.stringify(name) + "."
-		throw new Error(msg)
-	}
+	var msg = invalidName(name)
+	if(msg) throw new Error(msg)
 	var value = getVar(name)
 	if(typeof value === 'undefined') {
 		var msg = "QBN.range: no such variable " + JSON.stringify(name) + "."
@@ -324,7 +344,6 @@ Macro.add('drawcards', {
 				if(!setVar(name, hand)) {
 					return this.error('<<drawcards>>: failed to set hand "' + name + '".')
 				}
-				console.log('Empty Hand: setting ' + name + ' to [].')
 			}
 			var i, set = {}
 			for(i=0; i<hand.length; ++i) addTo(set, hand[i])
@@ -348,6 +367,79 @@ Macro.add('card', {
 			for(var i=1; i<this.payload.length; ++i) {
 				$output.wiki(this.payload[i].contents)
 			}
+		}
+	}
+})
+
+function partialChoice(cards) {
+	return cards.length > 0 && cards[cards.length-1].text == null
+}
+
+function addChoice(cards, title, tags) {
+	if(tags.indexOf('card') < 0 && tags.indexOf('sticky-card') < 0) {
+		tags.push('card')
+	}
+	cards.push({
+		title: title + ':' + cards.length,
+		tags: tags
+	})
+}
+
+Macro.add('choices', {
+	tags: ['when', 'offer', 'wrap', 'separate'],
+	handler: function() {
+		var name = this.args[0], extraVars = this.args[1], n = this.args[2]
+		var title, display
+		if(/^[_$]/.test(name)) {
+			title = name.substring(1); display = false
+		} else {
+			title = name;  name = '_' + name; display = true
+		}
+		var msg = invalidName(name)
+		if(msg) return this.error(msg)
+
+		var wrap, separate
+		var noDisplayMsg = "wrap and separate are unused when saving choices to a variable."
+		var cards = []
+		for(var i=0; i<this.payload.length; ++i) {
+			var section = this.payload[i]
+			var msg = false
+			switch(section.name) {
+				case 'choices':
+					if(section.contents.trim() !== '') {
+						return this.error('All <<choices>> content must be in sub-tags.')
+					}
+					break
+				case 'when':
+					if(partialChoice(cards)) {
+						return this.error('This choice already has a "when" clause (section '+i+', '+section.name+').')
+					}
+					var tags = section.contents.trim()
+					tags = (tags === '') ? [] : tags.split(/\s+/)
+					addChoice(cards, title, tags)
+					break
+				case 'offer':
+					if(!partialChoice(cards)) addChoice(cards, title, [])
+					cards[cards.length-1].text = section.contents
+					break
+				case 'wrap':
+					if(display) wrap = section.args[0]
+					else return this.error(noDisplayMsg)
+					break
+				case 'separate':
+					if(display) separate = section.args[0]
+					else return this.error(noDisplayMsg)
+					break
+			}
+		}
+
+		cards = QBN.filter(cards, extraVars, n)
+
+		if(display) {
+			var args = "`" + JSON.stringify(cards) + "`"
+			args += wrap ? ' ' + wrap : ''
+			args += separate ? ' ' + separate : ''
+			$(this.output).wiki('<<includeall '+args+'>>')
 		}
 	}
 })
