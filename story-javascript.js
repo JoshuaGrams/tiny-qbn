@@ -331,7 +331,7 @@ function firstWord(string) {
 	return string.substr(0, i == -1 ? string.length : i)
 }
 
-Macro.add('drawcards', {
+Macro.add('fillhand', {
 	handler: function() {
 		try {
 			var hand = this.args[0], n = this.args[1], passages = this.args[2]
@@ -342,7 +342,7 @@ Macro.add('drawcards', {
 				hand = []
 				var name = firstWord(this.args.raw)
 				if(!setVar(name, hand)) {
-					return this.error('<<drawcards>>: failed to set hand "' + name + '".')
+					return this.error('<<fillhand>>: failed to set hand "' + name + '".')
 				}
 			}
 			var i, set = {}
@@ -351,7 +351,7 @@ Macro.add('drawcards', {
 			passages = choose(passages, n - hand.length)
 			for(i=0; i<passages.length; ++i) hand.push(passages[i])
 		} catch(err) {
-			return this.error('<<drawcards>>: ' + (typeof err === 'object' ? err.message : err))
+			return this.error('<<fillhand>>: ' + (typeof err === 'object' ? err.message : err))
 		}
 	}
 })
