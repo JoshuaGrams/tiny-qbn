@@ -8,6 +8,15 @@ requirements, and a couple of simple functions and macros to
 select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
 
+**Warning:** I'm doing a major refactoring on this branch to
+support some StoryNexus inspired convenience features, so some of
+this is out of date. Specifically the tutorials won't work as I
+had to rename some macros and ended up removing others. Check out
+the [Quick Reference](quick-reference.md) for a quick overview of
+where I *think* I'm going with the new stuff. On the surface, not
+that much has *really* changed, just enough to be annoying and
+break things.
+
 
 Adding TinyQBN to your Story
 ----------------------------
@@ -127,7 +136,7 @@ Selecting Available Cards
 Displaying Selected Cards
 -------------------------
 
-* `<<card "name">>` will include a passage and, if it is a
+* `<<content "name">>` will include a passage and, if it is a
   single-use card, will remove it from the event deck.
 
 * `<<includeall passages wrap=null separate=null>>` will include a
@@ -189,7 +198,7 @@ But note that this may add duplicate cards (if it selects sticky
 cards which are still in your hand). If you don't want duplicates,
 you can create the hand *and* refill it with:
 
-	<<drawcards $hand 5 `QBN.passages()`>>
+	<<fillhand $hand 5 `QBN.passages()`>>
 
 
 Rebuilding the Minified Javascript
