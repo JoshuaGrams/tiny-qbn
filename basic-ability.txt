@@ -1,0 +1,68 @@
+<<silently>>  /% StoryNexus BasicAbilities %/
+
+<<set $broadScale to 60>>
+<<set $narrowScale to 10>>
+
+<<script>>
+
+	var get = State.getVar || Wikifier.getValue
+	var set = State.setVar || Wikifier.setValue
+
+	window.BasicAbility = function(type, skill) {
+		if(this instanceof BasicAbility) {
+			this.type = type
+			this.skill = skill || 0
+			this.chance = BasicAbility.chance[type]
+		} else return new BasicAbility(type, skill)
+	}
+
+	BasicAbility.prototype.ranges = [
+		'almost impossible', 10,
+		'high-risk', 30,
+		'tough', 40,
+		'very chancy', 50,
+		'chancy', 60,
+		'modest', 70,
+		'very modest', 80,
+		'low-risk', 90,
+		'straightforward'
+	]
+
+	BasicAbility.prototype.changes = {
+		'almost impossible': [-4, 6],
+		'high-risk': [-3, 5],
+		'tough': [-2, 4],
+		'very chancy': [-1, 3],
+		'chancy': [-1, 3],
+		'modest': [-1, 2],
+		'very modest': [-1, 2],
+		'low-risk': [-1, 2],
+		'straightforward': [-1, 1]
+	}
+
+	BasicAbility.chance = {
+		broad: function(difficulty) {
+			var percent = this.skill / difficulty * get('$broadScale')
+			return Math.max(1, Math.min(99, percent))
+		},
+		narrow: function(difficulty) {
+			var percent = (this.skill - difficulty) * get('$narrowScale')
+			return Math.max(10, Math.min(99, percent + 50))
+		}
+	}
+
+	BasicAbility.prototype.difficulty = function(difficulty) {
+		return QBN.range(this.chance(difficulty), this.ranges)
+	}
+
+	BasicAbility.prototype.check = function(difficulty) {
+		var percent = this.chance(difficulty)
+		var success = State.random() * 100 < percent
+		var range = QBN.range(percent, this.ranges)
+		this.skill += this.changes[range][success|0]
+		return success
+	}
+
+<</script>>
+
+<</silently>>

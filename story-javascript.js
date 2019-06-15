@@ -72,6 +72,15 @@ function passageType(p, newType) {
 	return oldType
 }
 
+function shuffle(a) {
+	let i = a.length
+	while(i > 0) {
+		let t, j = Math.floor(i-- * Math.random())
+		t = a[i];  a[i] = a[j];  a[j] = t
+	}
+	return a
+}
+
 // Choose `count` random values from `array`.
 function choose(array, count) {
 	// Can't choose more values than the array has (or less than 0).
@@ -95,18 +104,64 @@ function choose(array, count) {
 		for(i=0; i<array.length; ++i) {
 			if(indices[i] !== true) selected.push(array[i])
 		}
+		shuffle(selected)
 	}
 	return selected
 }
 
-QBN.filter = function(passages, extraVars, n) {
+function passagePriority(p) {
+	var priority = p.tags.find(tag => /^priority-/.test(tag)) || ''
+	return +(priority.substring('priority-'.length)) || 0
+}
+
+function sortByPriority(buckets, onlyHighest) {
+	let priorities = Object.keys(buckets).sort()
+	if(onlyHighest) return shuffle(buckets[priorities[priorities.length-1]])
+	else {
+		let pieces = []
+		for(let i=priorities.length-1; i>=0; --i) {
+			pieces.push(shuffle(buckets[priorities[i]]))
+		}
+		return pieces.concat.apply([], pieces)
+	}
+}
+
+function chooseByPriority(buckets, count, onlyHighest) {
+	let priorities = Object.keys(buckets).sort()
+	if(onlyHighest) {
+		return choose(buckets[priorities[priorities.length-1]], count)
+	} else {
+		let pieces = [], i = priorities.length - 1
+		while(count > 0) {
+			let cards = choose(buckets[priorities[i]], count)
+			count -= cards.length
+			pieces.push(cards)
+		}
+		return pieces.concat.apply([], pieces)
+	}
+}
+
+function descendingPriority(a, b) {
+	return passagePriority(toPassage(b)) - passagePriority(toPassage(a))
+}
+
+function select(filter, extraVars, n, onlyHighest) {
 	if(n == null && typeof extraVars === 'number') {
 		n = extraVars; extraVars = {}
 	} else if(extraVars == null) extraVars = {}
-	passages = passages.filter(function(p) {
-		return QBN.passageVisible(toPassage(p), extraVars)
+	let passages = {}
+	filter(function(p) {
+		p = toPassage(p)
+		if(QBN.passageVisible(p, extraVars)) {
+			let priority = passagePriority(p)
+			if(!passages[priority]) passages[priority] = []
+			passages[priority].push(p)
+		}
+		return false
 	})
-	if(n) passages = choose(passages, n)
+	if(onlyHighest == null) onlyHighest = QBN.onlyHighest
+	if(n) passages = chooseByPriority(passages, n, onlyHighest)
+	else passages = sortByPriority(passages, onlyHighest)
 	for(var i=0; i<passages.length; ++i) {
 		if(passages[i] instanceof Passage) {
 			passages[i] = passages[i].title
@@ -115,16 +170,14 @@ QBN.filter = function(passages, extraVars, n) {
 	return passages
 }
 
+QBN.filter = function(passages, extraVars, n) {
+	let filter = passages.filter.bind(passages)
+	return select(filter, extraVars, n)
+}
+
 QBN.passages = function(extraVars, n) {
-	if(n == null && typeof extraVars === 'number') {
-		n = extraVars; extraVars = {}
-	} else if(extraVars == null) extraVars = {}
-	var passages = Story.lookupWith(function(p) {
-		return QBN.passageVisible(p, extraVars)
-	})
-	if(n) passages = choose(passages, n)
-	for(var i=0; i<passages.length; ++i) passages[i] = passages[i].title
-	return passages
+	let filter = Story.lookupWith.bind(Story)
+	return select(filter, extraVars, n)
 }
 
 var operators = {
@@ -165,23 +218,11 @@ QBN.functions = [
 
 function invalidName(name) {
 	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(name)) {
-		return "QBN.range: invalid name " + JSON.stringify(name) + "."
+		return "invalid name " + JSON.stringify(name) + "."
 	}
 }
 
-QBN.range = function(name, ranges) {
-	if(typeof name !== 'string') {
-		var msg = "QBN.range: name must be a string"
-		msg += " (got " + (typeof name) + ")."
-		throw new Error(msg)
-	}
-	var msg = invalidName(name)
-	if(msg) throw new Error(msg)
-	var value = getVar(name)
-	if(typeof value === 'undefined') {
-		var msg = "QBN.range: no such variable " + JSON.stringify(name) + "."
-		throw new Error(msg)
-	}
+QBN.range = function(value, ranges) {
 	var n = ranges.length
 	if(typeof n !== 'number' || n < 2) {
 		var msg = "QBN.range: invalid range spec:"
@@ -214,8 +255,23 @@ QBN.range = function(name, ranges) {
 			throw new Error(msg)
 		}
 	}
-	setVar('_' + range + '_' + name.substring(1), true)
+	return range
 }
+
+Macro.add('range', {
+	handler: function() {
+		var range
+		try {
+			range = QBN.range($args[0], $args[1])
+		} catch(e) {
+			return this.error('<<range>>: ' + (e.message || e))
+		}
+
+		var name = firstWord(this.args.raw)
+		setVar('_' + range + '_' + name.substring(1), true)
+		setVar('_' + name.substring(1) + '_range', range)
+	}
+})
 
 QBN.value = function(name, extraVars) {
 	var v = State.variables, t = State.temporary
@@ -281,7 +337,9 @@ Macro.add('includecard', {
 	handler: function() {
 		var p = toPassage(this.args[0])
 		var $output = $(this.output)
+		let old = QBN.current;  QBN.current = p.title
 		$output.wiki(Passage.prototype.processText.call(p))
+		QBN.current = old
 	}
 })
 
@@ -294,7 +352,7 @@ Macro.add('includeall', {
 		var cards = list(this.args[0])
 		var wrap = this.args[1] || 'content'
 		if(!Macro.has(wrap)) {
-			return this.error("No such widget " + JSON.stringify(this.args[1]) + ".")
+			return this.error("No such widget " + JSON.stringify(wrap) + ".")
 		}
 		var separate = this.args[2]
 		var $output = $(this.output)
@@ -390,6 +448,7 @@ Macro.add('choices', {
 	handler: function() {
 		var name = this.args[0], extraVars = this.args[1], n = this.args[2]
 		var title, display
+		if(!name) return this.error("<<choices name>>: no name was given.")
 		if(/^[_$]/.test(name)) {
 			title = name.substring(1); display = false
 		} else {
@@ -407,6 +466,7 @@ Macro.add('choices', {
 			switch(section.name) {
 				case 'choices':
 					if(section.contents.trim() !== '') {
+						console.log('Should be blank:', JSON.stringify(section.contents.trim()))
 						return this.error('All <<choices>> content must be in sub-tags.')
 					}
 					break

@@ -49,3 +49,18 @@
 <<widget linkbox>>@@.qbn-card;
 <<linkto $args[0]>>
 @@<</widget>>
+
+
+/* Choice helpers */
+
+<<widget skillcheck>>\
+<<set _qbnsuccess to $args[0].check($args[1])>>\
+<</widget>>
+
+<<widget gotoresult>>\
+<<if _qbnsuccess>><<set $args[0] to $args[0] + ' ' + Success>><</if>>\
+<<if State.random() < 0.20 and Story.get('Rare ' + $args[0])>>\
+<<set $args[0] to 'Rare ' + $args[0]>>\
+<</if>>\
+<<unset _qbnsuccess>><<removecard _qbncurrent false>><<goto $args[0]>>\
+<</widget>>

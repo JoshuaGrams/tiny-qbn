@@ -19,6 +19,7 @@ Expressions:
 * `not-expression` - expression has an empty value.
 * `random-xx` - available xx percent of the time (integer percent).
 * `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. 
+* `priority-xx` - priority: signed integer.
 
 Checking variables:
 
@@ -42,6 +43,7 @@ Selecting Cards
 
 * `QBN.passages(extraVars=none, limit=none)` - select available cards from deck, up to limit.
 * `QBN.filter(passages, extraVars=none, limit=none)` - select from given passage list.
+* `QBN.onlyHighest` - ignore lower priority cards, or just put them last?
 
 
 Showing and Storing Cards
