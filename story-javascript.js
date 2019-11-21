@@ -277,7 +277,7 @@ Macro.add('range', {
 
 QBN.value = function(name, extraVars) {
 	var v = State.variables, t = State.temporary
-	var value = extraVars[name]
+	var value = extraVars && extraVars[name]
 	if(value == null) value = t[name]
 	if(value == null) value = v[name]
 	return value
