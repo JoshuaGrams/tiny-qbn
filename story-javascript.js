@@ -116,6 +116,7 @@ function passagePriority(p) {
 
 function sortByPriority(buckets, onlyHighest) {
 	let priorities = Object.keys(buckets).sort()
+	if(priorities.length === 0) return priorities;
 	if(onlyHighest) return shuffle(buckets[priorities[priorities.length-1]])
 	else {
 		let pieces = []
@@ -128,6 +129,7 @@ function sortByPriority(buckets, onlyHighest) {
 
 function chooseByPriority(buckets, count, onlyHighest) {
 	let priorities = Object.keys(buckets).sort()
+	if(priorities.length === 0) return priorities
 	if(onlyHighest) {
 		return choose(buckets[priorities[priorities.length-1]], count)
 	} else {
@@ -466,7 +468,6 @@ Macro.add('choices', {
 			switch(section.name) {
 				case 'choices':
 					if(section.contents.trim() !== '') {
-						console.log('Should be blank:', JSON.stringify(section.contents.trim()))
 						return this.error('All <<choices>> content must be in sub-tags.')
 					}
 					break
