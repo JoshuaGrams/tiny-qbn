@@ -208,7 +208,7 @@ If you make changes to `story-javascript.js` and you want to
 rebuild the minified version, you'll need
 [Node.js](https://nodejs.org/) installed.
 
-Open a command-line window, go to the folder where this
-`README.md` file is located, and run the command `npm install` to
-download the necessary tools.  Then the command `npm run build`
-will create the minified version of the story javascript.
+* Open a command-line window.
+* Go to the folder where this `README.md` file is located (`cd blah/blah/blah`).
+* Run the command `npm install` to download the necessary tools.
+* `npm run build` will create the minified version of the story javascript.

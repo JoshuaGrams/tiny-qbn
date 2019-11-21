@@ -4,12 +4,12 @@
   "description": "Twine 2/Sugarcube support for filtered-card-deck stories.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-js": "(sed -e \"1i /*\" -e \"$a */\" LICENSE && minify story-javascript.js) > story-javascript.min.js",
+    "build": "(sed -e \"1i /*\" -e \"$a */\" LICENSE && minify story-javascript.js) > story-javascript.min.js",
 	"build-tinyqbn-widgets": "node -e \"console.log('::TinyQBN widgets [widget]')\" | cat - widgets.txt > widgets.tw",
 	"build-basic-ability": "node -e \"console.log('::BasicAbility code [widget]')\" | cat - basic-ability.txt > basic-ability.tw",
 	"build-widgets": "npm run build-tinyqbn-widgets && npm run build-basic-ability",
-	"build-demo": "tweego -o demo.html story-javascript.js widgets.tw basic-ability.tw demo",
-	"build": "npm run build-js && npm run build-widgets && npm run build-demo"
+	"build-demo-html": "tweego -o demo.html story-javascript.js widgets.tw basic-ability.tw demo",
+	"build-demo": "npm run build && npm run build-widgets && npm run build-demo-html"
   },
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "ISC",

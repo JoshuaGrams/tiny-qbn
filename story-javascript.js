@@ -191,20 +191,35 @@ var operators = {
 	ge: function(a, b) { return a >= b },
 }
 
-QBN.functions = [
-	{
+var operatorNames = {
+	eq: 'to be', ne: 'not to be',
+	lt: 'to be less than', le: 'to be at most',
+	gt: 'to be greater than', ge: 'to be at least'
+}
+
+QBN.functions = {
+	not: {
 		match: /^not-(.+)/,
 		action: function(m, extraVars) {
 			return !QBN.requirementMet(m[1], extraVars)
+		},
+		description: function(m) {
+			var desc = QBN.description(m[1])
+			return desc == null ? desc : 'not ' + desc
 		}
 	},
-	{
+	random: {
 		match: /^random-([0-9]+)/,
 		action: function(m, extraVars) {
 			return State.random() < m[1] / 100
+		},
+		description: function(m) {
+			return null
+			// or: m[1] + '%'
+			// or: BasicAbility.prototype.difficulty(Math.floor(m[1]))
 		}
 	},
-	{
+	compare: {
 		match: /^(.*)-(eq|ne|lt|gt|le|ge)-(.*)/,
 		action: function(m, extraVars) {
 			var actual = QBN.value(m[1], extraVars)
@@ -214,9 +229,19 @@ QBN.functions = [
 				expected = expected.replace('_', '.')
 			}
 			return op(actual, expected)
+		},
+		description: function(m) {
+			var actual = QBN.description(m[1])
+			var op = operatorNames[m[2]]
+			var expected = m[3]
+			if(typeof actual === 'number') {
+				expected = Number(expected.replace('_', '.'))
+			}
+			if(actual == null) return actual
+			else return `${actual} ${op} ${expected}`
 		}
 	}
-]
+}
 
 function invalidName(name) {
 	if(!/^[$_][_a-zA-Z][_a-zA-Z0-9]*$/.test(name)) {
@@ -284,19 +309,30 @@ QBN.value = function(name, extraVars) {
 }
 
 QBN.requirementMet = function(req, extraVars) {
-	var v = State.variables, t = State.temporary
 	var yes = null
-	for(var j=0; j<QBN.functions.length; ++j) {
-		var  fn= QBN.functions[j]
+	for(var name in QBN.functions) if(QBN.functions.hasOwnProperty(name)) {
+		var fn = QBN.functions[name]
 		var m = fn.match.exec(req)
 		if(m) { yes = fn.action(m, extraVars); break }
 	}
 	if(yes === null) {
+		var v = State.variables, t = State.temporary
 		if(extraVars[req] != null) yes = extraVars[req]
 		else if(t[req] != null) yes = t[req]
 		else yes = v[req]
 	}
 	return !!yes
+}
+
+QBN.description = function(req) {
+	var desc = null
+	for(var k in QBN.functions) if(QBN.functions.hasOwnProperty(k)) {
+		var fn = QBN.functions[k]
+		var m = fn.match.exec(req)
+		if(m) { desc = fn.description(m); break }
+	}
+	if(desc === null) desc = req
+	return desc
 }
 
 QBN.tagsMatch = function(p, re, extraVars) {
@@ -308,6 +344,20 @@ QBN.tagsMatch = function(p, re, extraVars) {
 		if(!QBN.requirementMet(tag, extraVars)) return false
 	}
 	return true
+}
+
+QBN.descriptions = function(p) {
+	var re = /^(req|also)-/
+	var descriptions = [];
+	for(var i=0; i<p.tags.length; ++i) {
+		var tag = p.tags[i]
+		var prefix = re.exec(tag)
+		if(prefix) tag = tag.substring(prefix[0].length)
+		else continue
+		var desc = QBN.description(tag)
+		if(desc != null) descriptions.push(desc)
+	}
+	return descriptions
 }
 
 QBN.passageVisible = function(p, extraVars) {
@@ -360,9 +410,8 @@ Macro.add('includeall', {
 		var $output = $(this.output)
 		for(var i=0; i<cards.length; ++i) {
 			var c = cards[i], p = toPassage(c)
-			var available = QBN.passageAvailable(p)
 			var wasAvailable = getVar('_qbn_available')
-			setVar('_qbn_available', available)
+			setVar('_qbn_available', QBN.passageAvailable(p))
 			$output.wiki('<<'+wrap+' '+toArgument(c)+'>>')
 			setVar('_qbn_available', wasAvailable)
 			if(separate && i < cards.length - 1) {
@@ -370,6 +419,28 @@ Macro.add('includeall', {
 				// use the name of a macro as a separator string?
 				if(Macro.has(separate)) {
 					$output.wiki('<<'+separate+' '+(i===cards.length-2)+'>>')
+				} else {
+					$output.append(document.createTextNode(separate))
+				}
+			}
+		}
+	}
+})
+
+Macro.add('describe', {
+	handler: function() {
+		var $output = $(this.output)
+		var p = toPassage(this.args[0]), extraVars = this.args[1]
+		var separate = this.args[2]
+		if(separate == null && typeof extraVars === 'string') {
+			separate = extraVars; extraVars = {}
+		} else if(extraVars == null) extraVars = {}
+		var d = QBN.descriptions(p, extraVars)
+		for(var i=0; i<d.length; ++i) {
+			$output.wiki(d)
+			if(separate && i < d.length - 1) {
+				if(Macro.has(separate)) {
+					$output.wiki('<<'+separate+' '+(i===d.length-2)+'>>')
 				} else {
 					$output.append(document.createTextNode(separate))
 				}
