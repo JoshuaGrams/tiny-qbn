@@ -1,8 +1,10 @@
 ::StoryTitle
 TinyQBN Sandbox
 
-::StorySettings
-ifid:55CE4D77-1C2E-4C66-BAC8-8DF654319637
+::StoryData
+{
+	"ifid": "55CE4D77-1C2E-4C66-BAC8-8DF654319637"
+}
 
 ::StoryInit
 <<silently>>
@@ -19,14 +21,15 @@ ifid:55CE4D77-1C2E-4C66-BAC8-8DF654319637
 ::Start
 You are in Cambridge, Massachusetts, outside a building that looks like it was designed by Picasso.
 
-<<set _events to QBN.passages({street: 'vassar'})>>\
+<<set _street to 'vassar'>>\
+<<set _events to QBN.cards()>>\
 <<includeall _events contentbox>>\
 
 [[Start]]
 
 
 ::Vassar Duffel [sticky-card req-street-eq-vassar]
-Requires <<describe "Vassar Duffel" ",">>
+Requires <<requirements "Vassar Duffel" false ",">>
 
 A young woman exits the building carrying a large duffel bag and crosses the street to another building. A while later she returns.
 

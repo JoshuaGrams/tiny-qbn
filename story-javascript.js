@@ -147,14 +147,11 @@ function descendingPriority(a, b) {
 	return passagePriority(toPassage(b)) - passagePriority(toPassage(a))
 }
 
-function select(filter, extraVars, n, onlyHighest) {
-	if(n == null && typeof extraVars === 'number') {
-		n = extraVars; extraVars = {}
-	} else if(extraVars == null) extraVars = {}
+function select(filter, n, onlyHighest) {
 	let passages = {}
 	filter(function(p) {
 		p = toPassage(p)
-		if(QBN.passageVisible(p, extraVars)) {
+		if(QBN.passageVisible(p)) {
 			let priority = passagePriority(p)
 			if(!passages[priority]) passages[priority] = []
 			passages[priority].push(p)
@@ -165,6 +162,8 @@ function select(filter, extraVars, n, onlyHighest) {
 	if(n) passages = chooseByPriority(passages, n, onlyHighest)
 	else passages = sortByPriority(passages, onlyHighest)
 	for(var i=0; i<passages.length; ++i) {
+		// If it's a real passage, we can't store it in a SugarCube
+		// variable, so use its title instead.
 		if(passages[i] instanceof Passage) {
 			passages[i] = passages[i].title
 		}
@@ -172,14 +171,14 @@ function select(filter, extraVars, n, onlyHighest) {
 	return passages
 }
 
-QBN.filter = function(passages, extraVars, n) {
+QBN.filter = function(passages, n) {
 	let filter = passages.filter.bind(passages)
-	return select(filter, extraVars, n)
+	return select(filter, n)
 }
 
-QBN.passages = function(extraVars, n) {
+QBN.cards = function(n) {
 	let filter = Story.lookupWith.bind(Story)
-	return select(filter, extraVars, n)
+	return select(filter, n)
 }
 
 var operators = {
@@ -200,8 +199,8 @@ var operatorNames = {
 QBN.functions = {
 	not: {
 		match: /^not-(.+)/,
-		action: function(m, extraVars) {
-			return !QBN.requirementMet(m[1], extraVars)
+		action: function(m) {
+			return !QBN.requirementMet(m[1])
 		},
 		description: function(m) {
 			var desc = QBN.description(m[1])
@@ -210,7 +209,7 @@ QBN.functions = {
 	},
 	random: {
 		match: /^random-([0-9]+)/,
-		action: function(m, extraVars) {
+		action: function(m) {
 			return State.random() < m[1] / 100
 		},
 		description: function(m) {
@@ -221,8 +220,8 @@ QBN.functions = {
 	},
 	compare: {
 		match: /^(.*)-(eq|ne|lt|gt|le|ge)-(.*)/,
-		action: function(m, extraVars) {
-			var actual = QBN.value(m[1], extraVars)
+		action: function(m) {
+			var actual = QBN.value(m[1])
 			var op = operators[m[2]]
 			var expected = m[3]
 			if(typeof actual === 'number') {
@@ -300,27 +299,19 @@ Macro.add('range', {
 	}
 })
 
-QBN.value = function(name, extraVars) {
+QBN.value = function(name) {
 	var v = State.variables, t = State.temporary
-	var value = extraVars && extraVars[name]
-	if(value == null) value = t[name]
-	if(value == null) value = v[name]
-	return value
+	return t[name] != null ? t[name] : v[name]
 }
 
-QBN.requirementMet = function(req, extraVars) {
+QBN.requirementMet = function(req) {
 	var yes = null
 	for(var name in QBN.functions) if(QBN.functions.hasOwnProperty(name)) {
 		var fn = QBN.functions[name]
 		var m = fn.match.exec(req)
-		if(m) { yes = fn.action(m, extraVars); break }
+		if(m) { yes = fn.action(m); break }
 	}
-	if(yes === null) {
-		var v = State.variables, t = State.temporary
-		if(extraVars[req] != null) yes = extraVars[req]
-		else if(t[req] != null) yes = t[req]
-		else yes = v[req]
-	}
+	if(yes === null) yes = QBN.value(req)
 	return !!yes
 }
 
@@ -335,38 +326,38 @@ QBN.description = function(req) {
 	return desc
 }
 
-QBN.tagsMatch = function(p, re, extraVars) {
+QBN.tagsMatch = function(p, re) {
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
 		var prefix = re.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue
-		if(!QBN.requirementMet(tag, extraVars)) return false
+		if(!QBN.requirementMet(tag)) return false
 	}
 	return true
 }
 
-QBN.descriptions = function(p) {
+QBN.requirements = function(p) {
 	var re = /^(req|also)-/
-	var descriptions = [];
+	var requirements = [];
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
 		var prefix = re.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue
 		var desc = QBN.description(tag)
-		if(desc != null) descriptions.push(desc)
+		if(desc != null) requirements.push(desc)
 	}
-	return descriptions
+	return requirements
 }
 
-QBN.passageVisible = function(p, extraVars) {
+QBN.passageVisible = function(p) {
 	if(!passageType(p)) return false
-	return QBN.tagsMatch(p, /^req-/, extraVars)
+	return QBN.tagsMatch(p, /^req-/)
 }
 
-QBN.passageAvailable = function(p, extraVars) {
-	return QBN.tagsMatch(p, /^also-/, extraVars)
+QBN.passageAvailable = function(p) {
+	return QBN.tagsMatch(p, /^also-/)
 }
 
 Macro.add('addcard', {
@@ -427,20 +418,23 @@ Macro.add('includeall', {
 	}
 })
 
-Macro.add('describe', {
+Macro.add('requirements', {
 	handler: function() {
 		var $output = $(this.output)
-		var p = toPassage(this.args[0]), extraVars = this.args[1]
+		var p = toPassage(this.args[0])
+		var wrap = this.args[1]
+		if(wrap && !Macro.has(wrap)) {
+			return this.error("No such widget "+JSON.stringify(wrap)+".")
+		}
 		var separate = this.args[2]
-		if(separate == null && typeof extraVars === 'string') {
-			separate = extraVars; extraVars = {}
-		} else if(extraVars == null) extraVars = {}
-		var d = QBN.descriptions(p, extraVars)
-		for(var i=0; i<d.length; ++i) {
-			$output.wiki(d)
-			if(separate && i < d.length - 1) {
+		var reqs = QBN.requirements(p)
+		for(var i=0; i<reqs.length; ++i) {
+			var req = reqs[i]
+			if(wrap) $output.wiki('<<'+wrap+' '+JSON.stringify(req)+'>>')
+			else $output.wiki(req)
+			if(separate && i < reqs.length - 1) {
 				if(Macro.has(separate)) {
-					$output.wiki('<<'+separate+' '+(i===d.length-2)+'>>')
+					$output.wiki('<<'+separate+' '+(i===reqs.length-2)+'>>')
 				} else {
 					$output.append(document.createTextNode(separate))
 				}
@@ -448,7 +442,6 @@ Macro.add('describe', {
 		}
 	}
 })
-
 
 function addTo(set, passage) {
 	var title = (typeof passage === 'string') ? passage : passage.title
@@ -506,33 +499,24 @@ function partialChoice(cards) {
 	return cards.length > 0 && cards[cards.length-1].text == null
 }
 
-function addChoice(cards, title, tags) {
+function beginChoice(choices, title, tags) {
 	if(tags.indexOf('card') < 0 && tags.indexOf('sticky-card') < 0) {
 		tags.push('card')
 	}
-	cards.push({
-		title: title + ':' + cards.length,
+	choices.push({
+		title: title + ':' + choices.length,
 		tags: tags
 	})
 }
 
 Macro.add('choices', {
-	tags: ['when', 'offer', 'wrap', 'separate'],
+	tags: ['when', 'offer'],
 	handler: function() {
-		var name = this.args[0], extraVars = this.args[1], n = this.args[2]
-		var title, display
-		if(!name) return this.error("<<choices name>>: no name was given.")
-		if(/^[_$]/.test(name)) {
-			title = name.substring(1); display = false
-		} else {
-			title = name;  name = '_' + name; display = true
-		}
+		var name = this.args[0], n = this.args[1]
 		var msg = invalidName(name)
 		if(msg) return this.error(msg)
 
-		var wrap, separate
-		var noDisplayMsg = "wrap and separate are unused when saving choices to a variable."
-		var cards = []
+		var choices = []
 		for(var i=0; i<this.payload.length; ++i) {
 			var section = this.payload[i]
 			var msg = false
@@ -543,35 +527,20 @@ Macro.add('choices', {
 					}
 					break
 				case 'when':
-					if(partialChoice(cards)) {
+					if(partialChoice(choices)) {
 						return this.error('This choice already has a "when" clause (section '+i+', '+section.name+').')
 					}
 					var tags = section.contents.trim()
 					tags = (tags === '') ? [] : tags.split(/\s+/)
-					addChoice(cards, title, tags)
+					beginChoice(choices, name, tags)
 					break
 				case 'offer':
-					if(!partialChoice(cards)) addChoice(cards, title, [])
-					cards[cards.length-1].text = section.contents
-					break
-				case 'wrap':
-					if(display) wrap = section.args[0]
-					else return this.error(noDisplayMsg)
-					break
-				case 'separate':
-					if(display) separate = section.args[0]
-					else return this.error(noDisplayMsg)
+					if(!partialChoice(choices)) beginChoice(choices, name, [])
+					choices[choices.length-1].text = section.contents
 					break
 			}
 		}
 
-		cards = QBN.filter(cards, extraVars, n)
-
-		if(display) {
-			var args = "`" + JSON.stringify(cards) + "`"
-			args += wrap ? ' ' + wrap : ''
-			args += separate ? ' ' + separate : ''
-			$(this.output).wiki('<<includeall '+args+'>>')
-		}
+		setVar(name, QBN.filter(choices, n))
 	}
 })

@@ -19,7 +19,7 @@ Expressions:
 * `not-expression` - expression has an empty value.
 * `random-xx` - available xx percent of the time (integer percent).
 * `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. 
-* `priority-xx` - priority: signed integer.
+* `priority-xx` - priority: signed integer: default is zero.
 
 Checking variables:
 
@@ -34,15 +34,15 @@ Card Contents
 -------------
 
 * `<<card>>...cover...<<contents>>...contents...<</card>>`
-* `<<choices name extraVars=none limit=none>><<when>>tags...<<offer>>contents...<</choices>>`
+* `<<choices varName limit=none>><<when>>tags...<<offer>>contents...<</choices>>` - store a list of choices in `varName`.
   * Also has sub-tags `<<wrap widget_name>>` and `<<separate widget_name>>`.
-* `<<requirements wrap separate>>` - show requirements for current card or choice. Not yet implemented, but I *think* I know how.
+* `<<requirements card wrap separate>>` - show requirements for a card or choice.
 
 Selecting Cards
 ---------------
 
-* `QBN.passages(extraVars=none, limit=none)` - select available cards from deck, up to limit.
-* `QBN.filter(passages, extraVars=none, limit=none)` - select from given passage list.
+* `QBN.cards(limit=none)` - select available cards from the deck, up to limit.
+* `QBN.filter(cards, limit=none)` - select from given passage list.
 * `QBN.onlyHighest` - ignore lower priority cards, or just put them last?
 
 
@@ -70,4 +70,4 @@ Wrappers
 These are called as `<<wrap card>>`, where:
 
 * `card` may be a passage title or a passage-like object (choice, etc.).
-* `_qbn_available` is a flag that tells whether the "also" conditions are met (i.e. should the card contents be available?).
+* `_qbn_available` is a temporary flag variable that tells whether the "also" conditions are met (i.e. should the card contents be available?).
