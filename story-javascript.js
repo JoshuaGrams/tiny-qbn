@@ -352,12 +352,15 @@ QBN.requirements = function(p) {
 }
 
 QBN.passageVisible = function(p) {
+	p = toPassage(p)
 	if(!passageType(p)) return false
 	return QBN.tagsMatch(p, /^req-/)
 }
 
 QBN.passageAvailable = function(p) {
-	return QBN.tagsMatch(p, /^also-/)
+	p = toPassage(p)
+	if(!passageType(p)) return false
+	return QBN.tagsMatch(p, /^(req|also)-/)
 }
 
 Macro.add('addcard', {
