@@ -93,16 +93,10 @@ cards).
 Selecting Available Cards
 -------------------------
 
-* `QBN.passages(extraVars, n)` will return an array of [Passage
-  objects](http://www.motoslave.net/sugarcube/2/docs/#passage-api)
-  for all the cards which match the current game state. You may
-  leave out either or both arguments.
+* `QBN.cards(limit)` will return an array of passage titles for
+  all the cards which match the current game state.
 
-* `extraVars` is an object with extra named values which will be
-  used to satisfy requirements (e.g.  `{personality_trait: true}`
-  to select only personality trait cards).
-
-* By default, you get *all* available cards: the `n` argument
+* By default, you get *all* available cards: the `limit` argument
   tells the function to randomly select that many passages from
   the available list.
 
@@ -117,8 +111,7 @@ Selecting Available Cards
   `_high_name` depending on the value of `$name`.
 
 * Note the quotes and the sigil on the variable name here. You
-  need both since this is a Javascript function. Hmm...I wonder if
-  I could make this a Sugarcube macro instead?
+  need both since this is a Javascript function.
 
 * Each range starts at the lower value, so in the example above, a
   value of 30 would be medium rather than low.
@@ -136,8 +129,17 @@ Selecting Available Cards
 Displaying Selected Cards
 -------------------------
 
-* `<<content "name">>` will include a passage and, if it is a
-  single-use card, will remove it from the event deck.
+* `<<card>>...cover...<<content>>...<</card>>` divides a card
+  passage into two parts: you can display the part you want with
+  the two macros below.
+
+* `<<cover "name">>` will include a passage. If it has a separate
+  cover section, only the cover will be displayed.
+
+* `<<content "name">>` will include a passage only if both its
+  visibility and availability requirements are met. If it is a
+  single-use card, will remove it from the event deck. If it has a
+  cover and contents, only the contents will be shown.
 
 * `<<includeall passages wrap=null separate=null>>` will include a
   list of passages, like Sugarcube's built-in `<<include>>` macro

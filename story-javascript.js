@@ -151,7 +151,7 @@ function select(filter, n, onlyHighest) {
 	let passages = {}
 	filter(function(p) {
 		p = toPassage(p)
-		if(QBN.passageVisible(p)) {
+		if(QBN.visible(p)) {
 			let priority = passagePriority(p)
 			if(!passages[priority]) passages[priority] = []
 			passages[priority].push(p)
@@ -327,6 +327,7 @@ QBN.description = function(req) {
 }
 
 QBN.tagsMatch = function(p, re) {
+	p = toPassage(p)
 	for(var i=0; i<p.tags.length; ++i) {
 		var tag = p.tags[i]
 		var prefix = re.exec(tag)
@@ -351,13 +352,13 @@ QBN.requirements = function(p) {
 	return requirements
 }
 
-QBN.passageVisible = function(p) {
+QBN.visible = function(p) {
 	p = toPassage(p)
 	if(!passageType(p)) return false
 	return QBN.tagsMatch(p, /^req-/)
 }
 
-QBN.passageAvailable = function(p) {
+QBN.available = function(p) {
 	p = toPassage(p)
 	if(!passageType(p)) return false
 	return QBN.tagsMatch(p, /^(req|also)-/)
@@ -404,10 +405,7 @@ Macro.add('includeall', {
 		var $output = $(this.output)
 		for(var i=0; i<cards.length; ++i) {
 			var c = cards[i], p = toPassage(c)
-			var wasAvailable = getVar('_qbn_available')
-			setVar('_qbn_available', QBN.passageAvailable(p))
 			$output.wiki('<<'+wrap+' '+toArgument(c)+'>>')
-			setVar('_qbn_available', wasAvailable)
 			if(separate && i < cards.length - 1) {
 				// This is a really bad idea: what if you want to
 				// use the name of a macro as a separator string?
@@ -424,12 +422,12 @@ Macro.add('includeall', {
 Macro.add('requirements', {
 	handler: function() {
 		var $output = $(this.output)
-		var p = toPassage(this.args[0])
+		var p = toPassage(this.args[0] || QBN.current)
 		var wrap = this.args[1]
 		if(wrap && !Macro.has(wrap)) {
 			return this.error("No such widget "+JSON.stringify(wrap)+".")
 		}
-		var separate = this.args[2]
+		var separate = this.args[2] || 'comma'
 		var reqs = QBN.requirements(p)
 		for(var i=0; i<reqs.length; ++i) {
 			var req = reqs[i]

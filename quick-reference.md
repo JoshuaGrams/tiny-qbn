@@ -35,8 +35,7 @@ Card Contents
 
 * `<<card>>...cover...<<contents>>...contents...<</card>>`
 * `<<choices varName limit=none>><<when>>tags...<<offer>>contents...<</choices>>` - store a list of choices in `varName`.
-  * Also has sub-tags `<<wrap widget_name>>` and `<<separate widget_name>>`.
-* `<<requirements card wrap separate>>` - show requirements for a card or choice.
+* `<<requirements card=QBN.current wrap=none separate="comma">>` - show requirements for a card or choice.
 
 Selecting Cards
 ---------------
@@ -44,13 +43,17 @@ Selecting Cards
 * `QBN.cards(limit=none)` - select available cards from the deck, up to limit.
 * `QBN.filter(cards, limit=none)` - select from given passage list.
 * `QBN.onlyHighest` - ignore lower priority cards, or just put them last?
+* `<<fillhand $hand limit cards>>` - attempt to fill `$hand` to its `limit` with random selections from `cards`.
 
 
 Showing and Storing Cards
 -------------------------
 
-* `<<fillhand $hand limit cards>>` - attempt to fill `$hand` to its `limit` with random selections from `cards`.
+* `<<includecard card>>` - set `QBN.current` to `card` and then include it. SugarCube doesn't track the names of included passages, so this lets us do that. It nests properly in case you want to include cards inside cards.
 * `<<includeall cards wrap="content" separate=none>>`
+
+Then we have several helper macros which build on the above two:
+
 * `<<cardlist cards wrap="content">>` - comma separated list.
 * `<<cardrow cards wrap="contentbox">>`
 * `<<cardcolumn cards wrap="contentbox">>`
@@ -67,7 +70,4 @@ Wrappers
 * `<<content>>` and `<<contentbox>>`
 * `<<linkto>>` and `<<linkbox>>`
 
-These are called as `<<wrap card>>`, where:
-
-* `card` may be a passage title or a passage-like object (choice, etc.).
-* `_qbn_available` is a temporary flag variable that tells whether the "also" conditions are met (i.e. should the card contents be available?).
+These are called as `<<wrap card>>`, where `card` may be a passage title or a passage-like object (choice, etc.).
