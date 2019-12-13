@@ -23,7 +23,7 @@ Expressions:
 
 Checking variables:
 
-* `QBN.range(var, [threshold, name, threshold, ...])` - set `_name_var` to true for the name of the range (if any) that `$var` (or `_var`) falls into.
+* `<<range var threshold name threshold ...>>` - set `_name_var` to true for the name of the range (if any) that `$var` (or `_var`) falls into.
 
 Manually manipulating the event deck:
 

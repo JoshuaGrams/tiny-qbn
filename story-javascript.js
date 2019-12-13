@@ -288,7 +288,7 @@ Macro.add('range', {
 	handler: function() {
 		var range
 		try {
-			range = QBN.range($args[0], $args[1])
+			range = QBN.range(this.args[0], this.args.slice(1))
 		} catch(e) {
 			return this.error('<<range>>: ' + (e.message || e))
 		}
@@ -453,7 +453,7 @@ function addTo(set, passage) {
 
 function firstWord(string) {
 	var i = string.indexOf(" ")
-	return string.substr(0, i == -1 ? string.length : i)
+	return string.substring(0, i == -1 ? string.length : i)
 }
 
 Macro.add('fillhand', {
@@ -465,7 +465,7 @@ Macro.add('fillhand', {
 				// expressions or whatever. WHY isn't there a way
 				// to use Sugarcube's parser for this??!?
 				hand = []
-				var name = firstWord(this.args.raw)
+				var name = firstWord(this.args.raw).substring(1)
 				if(!setVar(name, hand)) {
 					return this.error('<<fillhand>>: failed to set hand "' + name + '".')
 				}
