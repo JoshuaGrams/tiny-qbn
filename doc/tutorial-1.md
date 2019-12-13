@@ -2,9 +2,9 @@ Getting Started with TinyQBN
 ============================
 
 Start by opening Twine, creating a new story and setting its Story
-Format to Sugarcube. Then we need to add the TinyQBN code.  Go to
+Format to SugarCube. Then we need to add the TinyQBN code.  Go to
 the [TinyQBN GitHub
-repository](https://github.com/JoshuaGrams/tiny-qbn#adding-tinyqbn-to-your-story).
+repository](../README.md#adding-tinyqbn-to-your-story).
 Click on the link for the minified javascript, select "Raw", then
 select all and copy it.  Go back to Twine, open the Story
 Javascript from the menu in the bottom left, and paste it in.
@@ -12,8 +12,8 @@ Then go back to GitHub, select and copy the stylesheet and paste
 it in to Twine's Story Stylesheet.
 
 Finally, go to GitHub again and select and copy the widgets. These
-are Sugarcube code, so make a new passage in your Twine story and
-paste it in. Add a "widget" tag to the passage so Sugarcube knows
+are SugarCube code, so make a new passage in your Twine story and
+paste it in. Add a "widget" tag to the passage so SugarCube knows
 that it's code which needs to be loaded immediately. Give the
 passage a name if you like (I usually call it "TinyQBN Widgets").
 
@@ -36,10 +36,10 @@ tags starting with `req-`. Add a tag `req-driving` to say that you
 can only get here if you're driving.
 
 This requirement will be satisfied if there is a non-empty story
-variable `$driving` *or* a temporary variable `_driving` *or* we
-pass a `driving` value when selecting cards. It doesn't
-differentiate, mostly because tags can't contain dollar signs (or
-spaces or any punctuation other than hyphens and underscores).
+variable `$driving` *or* a temporary variable `_driving`. It
+doesn't differentiate, mostly because tags can't contain dollar
+signs (or spaces or any punctuation other than hyphens and
+underscores).
 
 Also we need a way to drive somewhere else, so let's add a link
 `[[Drive->Car]]`.
@@ -49,13 +49,16 @@ Also we need a way to drive somewhere else, so let's add a link
 In the car, we're going to show you all the places you can drive
 to. So we're going to say
 
-	<<cardrow `QBN.passages({driving: true})` "linkedcard">>
+	<<set _driving to true>>\
+	<<cardrow `QBN.cards()` "linkbox">>\
+	<<unset _driving>>
 
 `QBN.passages` will select all of the cards whose requirements are
-satisfied by the current story state and the `driving` value that
-we passed. The second argument is the name of a widget that will
-be used to wrap each card. If you leave out `"linkedcard"` then it
-will use "card", which shows the *contents* of the cards.
+satisfied by the current story state and the `_driving` variable.
+The second argument is the name of a widget that will be used to
+wrap each card. If you leave out `"linkbox"` it will use
+"contentbox", which shows the contents of the cards directly
+instead of linking to them by name.
 
 If we play the game and get in the car, we should see that we can
 drive back home (even though we're already there, but we'll fix
@@ -75,9 +78,10 @@ docks early in the morning and buy fresh fish from the boats which
 are coming in. Set up another card for the Docks.
 
 Now if you run the game you should be able to drive between all
-the locations. Notice that they're listed in alphabetical order
-instead of the order they were created or whatever. I haven't
-decided whether or how to offer other sorting options.
+the locations. Notice that they show up in a random order each
+time. That's a little irritating, so let's sort them. Change
+`QBN.cards()` to `QBN.cards().sort(QBN.alphabetically)` and try it
+again.
 
 It's a little silly to drive to the place where you already are,
 so let's rule out driving to your current location. We'll start

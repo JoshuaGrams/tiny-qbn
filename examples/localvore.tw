@@ -54,7 +54,9 @@ Localvore
 [[Drive->Car]]
 
 ::Car
-<<set _driving to true>><<cardrow `QBN.cards()` "linkbox">>
+<<set _driving to true>>\
+<<cardrow `QBN.cards().sort(QBN.alphabetically)` "linkbox">>\
+<<unset _driving>>
 <<return "Exit Car">>
 
 ::current products

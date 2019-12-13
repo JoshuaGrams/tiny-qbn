@@ -197,6 +197,13 @@ function shuffle(a) {
 	return a
 }
 
+QBN.alphabetically = function(a, b) {
+	a = toPassage(a).title.toLowerCase()
+	b = toPassage(b).title.toLowerCase()
+	return a<b ? -1 : (a>b ? 1 : 0)
+}
+
+
 // Choose `count` random values from `array`.
 function choose(array, count) {
 	// Can't choose more values than the array has (or less than 0).
@@ -669,7 +676,9 @@ Macro.add('choices', {
 &lt;&lt;set $location to &quot;anderson&quot;&gt;&gt;\
 [[Drive-&gt;Car]]</tw-passagedata><tw-passagedata pid="4" name="Docks" tags="sticky-card req-driving req-location-ne-docks" position="475,100" size="100,100">!Docks
 &lt;&lt;set $location to &quot;docks&quot;&gt;&gt;\
-[[Drive-&gt;Car]]</tw-passagedata><tw-passagedata pid="5" name="Car" tags="" position="600,100" size="100,100">&lt;&lt;set _driving to true&gt;&gt;&lt;&lt;cardrow `QBN.cards()` &quot;linkbox&quot;&gt;&gt;
+[[Drive-&gt;Car]]</tw-passagedata><tw-passagedata pid="5" name="Car" tags="" position="600,100" size="100,100">&lt;&lt;set _driving to true&gt;&gt;\
+&lt;&lt;cardrow `QBN.cards().sort(QBN.alphabetically)` &quot;linkbox&quot;&gt;&gt;\
+&lt;&lt;unset _driving&gt;&gt;
 &lt;&lt;return &quot;Exit Car&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="6" name="TinyQBN widgets" tags="widget" position="725,100" size="100,100">/*
  * Comma-separated lists: call with &quot;linkto&quot; for links instead
  * of contents.
