@@ -1,0 +1,26 @@
+::StoryTitle
+Card Covers Linking to Contents
+
+::StoryData
+{"ifid": "1FB0D1F9-DACC-4A5B-8258-31F30A88CDAD"}
+
+::StoryInit
+<<set $strength to 1>>
+
+::Start
+Strength: $strength ([[increase->Start][$strength to $strength + 1]])
+
+<<includeall `QBN.cards()` "coverbox">>
+
+
+::Be careful [sticky-card also-strength-le-2]
+<<card>><<linkcontents>> (requires <<requirements>>)<<contents>>\
+Discretion is the better part of valor.
+<<return>>
+<</card>>
+
+::Very Strong [sticky-card req-strength-ge-2 also-strength-ge-3]
+<<card>><<linkcontents "Use brute force">> (requires <<requirements>>)<<contents>>\
+Who needs discretion, anyway?
+<<return>>
+<</card>>

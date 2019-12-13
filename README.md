@@ -213,4 +213,5 @@ rebuild the minified version, you'll need
 * Open a command-line window.
 * Go to the folder where this `README.md` file is located (`cd blah/blah/blah`).
 * Run the command `npm install` to download the necessary tools.
-* `npm run build` will create the minified version of the story javascript.
+* `npm run minify-js` will create the minified version of the story javascript.
+* `npm run examples` will build the examples.

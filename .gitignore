@@ -3,3 +3,6 @@ node_modules
 widgets.tw
 basic-ability.tw
 demo.html
+examples/*.html
+examples/common/tiny-qbn.js
+examples/common/tiny-qbn.tw

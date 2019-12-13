@@ -4,12 +4,15 @@
   "description": "Twine 2/Sugarcube support for filtered-card-deck stories.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "(sed -e \"1i /*\" -e \"$a */\" LICENSE && minify story-javascript.js) > story-javascript.min.js",
-	"build-tinyqbn-widgets": "node -e \"console.log('::TinyQBN widgets [widget]')\" | cat - widgets.txt > widgets.tw",
+	"build": "npm run minify-js && npm run build-widgets",
+    "minify-js": "(sed -e \"1i /*\" -e \"$a */\" LICENSE && minify story-javascript.js) > story-javascript.min.js && cp story-javascript.js examples/common/tiny-qbn.js",
+	"build-tinyqbn-widgets": "node -e \"console.log('::TinyQBN widgets [widget]')\" | cat - widgets.txt > widgets.tw && cp widgets.tw examples/common/tiny-qbn.tw",
 	"build-basic-ability": "node -e \"console.log('::BasicAbility code [widget]')\" | cat - basic-ability.txt > basic-ability.tw",
 	"build-widgets": "npm run build-tinyqbn-widgets && npm run build-basic-ability",
 	"build-demo-html": "tweego -o demo.html story-javascript.js widgets.tw basic-ability.tw demo",
-	"build-demo": "npm run build && npm run build-widgets && npm run build-demo-html"
+	"build-demo": "npm run build && npm run build-demo-html",
+	"covers-example": "cd examples && tweego -o covers.html covers.tw common",
+	"examples": "npm run covers-example"
   },
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "ISC",
