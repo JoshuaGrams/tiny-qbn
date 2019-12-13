@@ -81,6 +81,12 @@ function shuffle(a) {
 	return a
 }
 
+QBN.alphabetically = function(a, b) {
+	a = toPassage(a).title.toLowerCase()
+	b = toPassage(b).title.toLowerCase()
+	return a<b ? -1 : (a>b ? 1 : 0)
+}
+
 // Choose `count` random values from `array`.
 function choose(array, count) {
 	// Can't choose more values than the array has (or less than 0).
