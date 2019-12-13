@@ -1,0 +1,133 @@
+::StoryTitle
+Localvore: TinyQBN Tutorial 2
+
+::StoryData
+{
+	"ifid": "14D72AF9-9789-4C26-9795-246CBD490C54",
+	"start": "Home"
+}
+
+::StoryInit
+<<set $month to 1>>
+<<set setup.monthnames to ["",
+	"January", "February", "March", "April",
+	"May", "June", "July", "August",
+	"September", "October", "November", "December"
+]>>
+
+::nextmonth [widget]
+<<widget "nextmonth">><<silently>>
+<<if $month is 12>>
+	<<set $month to 1>>
+<<else>>
+	<<set $month to $month + 1>>
+<</if>>
+<</silently>><</widget>>
+
+::Home [sticky-card req-driving req-location-ne-home]
+!Home (<<= setup.monthnames[$month]>>)
+<<set $location to "home">>\
+
+[[Drive->Car]] | <<link "Next Month" "Home">><<nextmonth>><</link>>
+
+::Fairweather Farm [sticky-card req-driving req-location-ne-fairweather]
+!Fairweather Farm
+<<set $location to "fairweather">>\
+<<script>>
+QBN.range("$month", [4, "egg", 11])
+QBN.range("$month", [4, "cool", 6, "hot", 9, "cool", 11])
+QBN.range("$month", ["potato", 3, 6, "potato"])
+<</script>>\
+<<include "current products">>
+[[Drive->Car]]
+
+::Anderson Farm [sticky-card req-driving req-location-ne-anderson]
+!Anderson Farm
+<<set $location to "anderson">>\
+<<include "current products">>
+[[Drive->Car]]
+
+::Docks [sticky-card req-driving req-location-ne-docks]
+!Docks
+<<set $location to "docks">>\
+<<script>>
+QBN.range("$month", [5, "mackerel", 7, 10, "mackerel"])
+QBN.range("$month", ["shrimp", 4, 12, "shrimp"])
+<</script>>\
+<<include "current products">>
+[[Drive->Car]]
+
+::Car
+<<set _driving to true>><<cardrow `QBN.cards()` "linkbox">>
+<<return "Exit Car">>
+
+::current products
+<<nobr>>
+<<set _product to true>>
+<<set _products to QBN.cards()>>
+<<if _products.length eq 0>>
+There is nothing for sale here.
+<<else>>
+There are <<cardlist _products>> for sale here.
+<</if>>
+<</nobr>>
+
+::Strawberries [sticky-card req-product req-location-eq-fairweather req-month-ge-5 req-month-le-9]
+ripe red strawberries
+
+::Plentiful Eggs [sticky-card req-product req-location-eq-fairweather req-egg_month]
+eggs from happy hens
+
+::Limited Eggs [sticky-card req-product req-location-eq-fairweather req-not-egg_month req-random-67]
+eggs from happy hens
+
+::Broccoli [sticky-card req-product req-location-eq-fairweather req-cool_month]
+heads of broccoli
+
+::Spinach [sticky-card req-product req-location-eq-fairweather req-cool_month]
+bunches of spinach
+
+::Potatoes [sticky-card req-product req-location-eq-fairweather req-potato_month]
+russet potatoes
+
+::Kale [sticky-card req-product req-location-eq-fairweather req-month-ge-4 req-month-le-11]
+bunches of kale
+
+::Pork Chops [sticky-card req-product req-location-eq-anderson req-random-90]
+pork chops
+
+::Ground Beef [sticky-card req-product req-location-eq-anderson req-random-90]
+trays of ground beef
+
+::Beef Roast [sticky-card req-product req-location-eq-anderson req-random-90]
+beef roasts
+
+::Steaks [sticky-card req-product req-location-eq-anderson req-random-90]
+steaks
+
+::Milk [sticky-card req-product req-location-eq-anderson req-random-90]
+jugs of milk
+
+::Mozzarella [sticky-card req-product req-location-eq-anderson req-random-90]
+bags of shredded mozzarella
+
+::Sharp Cheddar [sticky-card req-product req-location-eq-anderson req-random-90]
+blocks of sharp cheddar
+
+::Cod [sticky-card req-product req-location-eq-docks req-month-ge-3 req-month-le-10]
+cod fillets
+
+::Mackerel [sticky-card req-product req-location-eq-docks req-mackerel_month]
+mackerel
+
+::Lobster [sticky-card req-product req-location-eq-docks req-month-ge-5 req-month-le-10]
+lobsters
+
+::Mussels [sticky-card req-product req-location-eq-docks req-month-ge-3]
+mussels
+
+::Shrimp [sticky-card req-product req-location-eq-docks req-shrimp_month]
+shrimp
+
+::Swordfish [sticky-card req-product req-location-eq-docks req-month-ge-6 req-month-le-8]
+swordfish steaks

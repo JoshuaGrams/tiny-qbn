@@ -1,0 +1,32 @@
+::StoryTitle
+Localvore: TinyQBN Tutorial 1
+
+:: StoryData
+{
+	"ifid": "145F3C37-A08E-4BAF-967A-60759074DB43",
+	"start": "Home"
+}
+
+::Home [sticky-card req-driving req-location-ne-home]
+!Home
+<<set $location to "home">>\
+[[Drive->Car]]
+
+::Fairweather Farm [sticky-card req-driving req-location-ne-fairweather]
+!Fairweather Farm
+<<set $location to "fairweather">>\
+[[Drive->Car]]
+
+::Anderson Farm [sticky-card req-driving req-location-ne-anderson]
+!Anderson Farm
+<<set $location to "anderson">>\
+[[Drive->Car]]
+
+::Docks [sticky-card req-driving req-location-ne-docks]
+!Docks
+<<set $location to "docks">>\
+[[Drive->Car]]
+
+::Car
+<<set _driving to true>><<cardrow `QBN.cards()` "linkbox">>
+<<return "Exit Car">>

@@ -1,0 +1,143 @@
+::StoryTitle
+Localvore
+
+::StoryData
+{
+	"ifid": "D550BBED-AEDC-4A06-A11D-DC3304612B2E",
+	"start": "Home"
+}
+
+::StoryInit
+<<set $month to 1>>
+<<set setup.monthnames to ["",
+	"January", "February", "March", "April",
+	"May", "June", "July", "August",
+	"September", "October", "November", "December"
+]>>
+
+::nextmonth [widget]
+<<widget "nextmonth">><<silently>>
+<<if $month is 12>>
+	<<set $month to 1>>
+<<else>>
+	<<set $month to $month + 1>>
+<</if>>
+<</silently>><</widget>>
+
+::Home [sticky-card req-driving req-location-ne-home]
+!Home (<<print setup.monthnames[$month]>>)
+<<set $location to "home">>\
+[[Drive->Car]] | <<link "Next Month" "Home">><<nextmonth>><</link>>
+
+::Fairweather Farm [sticky-card req-driving req-location-ne-fairweather]
+!Fairweather Farm
+<<set $location to "fairweather">>\
+<<range $month 4 "egg" 11>>\
+<<range $month 4 "cool" 6 "hot" 9 "cool" 11>>\
+<<range $month "potato" 3 6 "potato">>\
+<<include "current products">>
+<<include "product story">>
+[[Drive->Car]]
+
+::Anderson Farm [sticky-card req-driving req-location-ne-anderson]
+!Anderson Farm
+<<set $location to "anderson">>\
+<<include "current products">>
+[[Drive->Car]]
+
+::Docks [sticky-card req-driving req-location-ne-docks]
+!Docks
+<<set $location to "docks">>\
+<<range $month 5 "mackerel" 7 10 "mackerel">>\
+<<range $month "shrimp" 4 12 "shrimp">>\
+<<include "current products">>
+[[Drive->Car]]
+
+::Car
+<<set _driving to true>><<cardrow `QBN.cards()` "linkbox">>
+<<return "Exit Car">>
+
+::current products
+<<nobr>>
+<<set _product to true>><<set _products to QBN.cards()>><<unset _product>>
+<<if _products.length eq 0>>
+There is nothing for sale here.
+<<else>>
+There are <<cardlist _products>> for sale here.
+<</if>>
+<</nobr>>
+
+::product story
+<<set _story to true>><<set _storycards to QBN.cards(1)>><<unset _story>>\
+<<if _storycards.length>>
+<<includeall _storycards>>
+<</if>>
+
+::Strawberries [sticky-card req-product req-location-eq-fairweather req-month-ge-5 req-month-le-9]
+ripe red strawberries
+
+::Plentiful Eggs [sticky-card req-product req-location-eq-fairweather req-egg_month]
+eggs from happy hens
+
+::Limited Eggs [sticky-card req-product req-location-eq-fairweather req-not-egg_month req-random-67]
+eggs from happy hens
+
+::Broccoli [sticky-card req-product req-location-eq-fairweather req-cool_month]
+heads of broccoli<<set _broccoli to true>>
+
+::Spinach [sticky-card req-product req-location-eq-fairweather req-cool_month]
+bunches of spinach
+
+::Potatoes [sticky-card req-product req-location-eq-fairweather req-potato_month]
+russet potatoes
+
+::Kale [sticky-card req-product req-location-eq-fairweather req-month-ge-4 req-month-le-11]
+bunches of kale
+
+::Broccoli for the Dog [card req-story req-location-eq-fairweather req-broccoli]
+A woman in her sixties stops short. "Is that //organic// broccoli? Look at that //color//! That's the most beautiful broccoli I've ever seen! I'll have to buy some for my dog; he //loves// broccoli."
+
+::Cream of Broccoli Soup [card req-story req-location-eq-fairweather req-broccoli]
+A large black pickup truck parks outside and a tall, broad-shouldered man in a torn sweatshirt enters the store. "Oh good, they //do// have broccoli today. I got a lovely piece of sharp cheddar over at Anderson's and I'm craving some cream of broccoli soup."
+
+::Beef and Broccoli [card req-story req-location-eq-fairweather req-broccoli]
+A young couple saunters through the store. One turns to the other. "How about we make beef and broccoli tonight? We have those steak tips in the fridge that we need to use up."
+
+::Pork Chops [sticky-card req-product req-location-eq-anderson req-random-90]
+pork chops
+
+::Ground Beef [sticky-card req-product req-location-eq-anderson req-random-90]
+trays of ground beef
+
+::Beef Roast [sticky-card req-product req-location-eq-anderson req-random-90]
+beef roasts
+
+::Steaks [sticky-card req-product req-location-eq-anderson req-random-90]
+steaks
+
+::Milk [sticky-card req-product req-location-eq-anderson req-random-90]
+jugs of milk
+
+::Mozzarella [sticky-card req-product req-location-eq-anderson req-random-90]
+bags of shredded mozzarella
+
+::Sharp Cheddar [sticky-card req-product req-location-eq-anderson req-random-90]
+blocks of sharp cheddar
+
+::Cod [sticky-card req-product req-location-eq-docks req-month-ge-3 req-month-le-10]
+cod fillets
+
+::Mackerel [sticky-card req-product req-location-eq-docks req-mackerel_month]
+mackerel
+
+::Lobster [sticky-card req-product req-location-eq-docks req-month-ge-5 req-month-le-10]
+lobsters
+
+::Mussels [sticky-card req-product req-location-eq-docks req-month-ge-3]
+mussels
+
+::Shrimp [sticky-card req-product req-location-eq-docks req-shrimp_month]
+shrimp
+
+::Swordfish [sticky-card req-product req-location-eq-docks req-month-ge-6 req-month-le-8]
+swordfish steaks
