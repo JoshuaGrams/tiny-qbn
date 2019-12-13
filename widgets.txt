@@ -32,7 +32,7 @@
 <<set _qbn_cover to true>><<includecard $args[0]>><<unset _qbn_cover>>\
 <</widget>>
 
-<<widget content>><<if _qbn_available isnot false>>\
+<<widget content>><<if `QBN.available($args[0])`>>\
 <<unset _qbn_cover>><<includecard $args[0]>><<removecard $args[0] false>>\
 <</if>><</widget>>
 
@@ -49,6 +49,16 @@
 <<widget linkbox>>@@.qbn-card;
 <<linkto $args[0]>>
 @@<</widget>>
+
+
+/* Conditional Links */
+
+<<widget "linkif">>\
+<<if $args[0]>><<= '[\['+($args[2] or $args[1])+'->'+$args[1]+']]'>>\
+<<else>>@@.qbn-nolink;<<= $args[2] or $args[1]>>@@<</if>>\
+<</widget>>
+
+<<widget "linkcontents">><<linkif `QBN.available($args[1] or QBN.current)` `$args[1] or QBN.current` $args[0]>><</widget>>
 
 
 /* Choice helpers */
