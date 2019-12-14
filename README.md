@@ -3,55 +3,64 @@ TinyQBN
 
 A simple toolkit for creating filtered-card-deck stories (aka
 quality-based narratives or resource narratives) with Twine 2 and
-Sugarcube. Use Twine's passage tags to mark cards and their
+SugarCube. Use Twine's passage tags to mark cards and their
 requirements, and a couple of simple functions and macros to
 select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
-
-**Warning:** I'm doing a major refactoring on this branch to
-support some StoryNexus inspired convenience features, so some of
-this is out of date. Specifically the tutorials won't work as I
-had to rename some macros and ended up removing others. Check out
-the [Quick Reference](quick-reference.md) for a quick overview of
-where I *think* I'm going with the new stuff. On the surface, not
-that much has *really* changed, just enough to be annoying and
-break things.
 
 
 Adding TinyQBN to your Story
 ----------------------------
 
 Copy the Story Javascript (the [minified](story-javascript.min.js)
-or the [readable](story-javascript.js) version) and optionally the
-[Story Stylesheet](story-stylesheet.css) and
+or the [readable](story-javascript.js) version), the
 [widgets](widgets.txt) (create a passage with a `widget` tag for
-these) into your game. Click the "Raw" button when viewing these
-for easier copy/pasting.
+these) and optionally the [Story Stylesheet](story-stylesheet.css)
+into your game. Click the "Raw" button when viewing these for
+easier copy/pasting.
 
 
 Tutorials and Examples
 ----------------------
 
-So far I only have a single (*still*-not-quite-finished) example.
-[Localvore](https://joshuagrams.github.io/tiny-qbn/doc/Localvore.html)
-is a setting where you can drive around to different locations and
-see what local seasonal food is available.
+So far I have a three-part tutorial creating a simple
+[setting](https://joshuagrams.github.io/tiny-qbn/doc/Localvore.html)
+where you can drive around to different locations and see what
+local seasonal food is available. This shows how to create basic
+cards and requirements.
 
-I have created a three-part tutorial walking through the creation
-of this example. The (somewhat terrible) video versions are on
-Youtube:
+The text versions are in this repository, along with the resulting
+code (both in the text-based Twee format and HTML versions which
+you can download and import into Twine):
 
-* [TinyQBN Playlist](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F)
-* [Getting Started with TinyQBN](https://youtu.be/arMISohlYQk)
-* [Seasonally Available Items](https://youtu.be/t7mReh08nYI)
-* [Single-Use Cards for Story Passages](https://youtu.be/qBm7PtLYKdE)
+* [Getting Started with TinyQBN](doc/tutorial-1.md) +
+  [example](examples/tutorial-1.tw)
+  ([html](examples/tutorial-1.html).
+* [Seasonally Available Items](doc/tutorial-2.md) +
+  [example](examples/tutorial-2.tw)
+  ([html](examples/tutorial-2.html).
+* [Single-Use Cards for Story Passages](doc/tutorial-3.md) +
+  [example](examples/localvore.tw)
+  ([html](examples/localvore.html).
 
-The text versions are in this repository:
+This version of the library also allows you to:
 
-* [Getting Started with TinyQBN](doc/tutorial-1.md)
-* [Seasonally Available Items](doc/tutorial-2.md)
-* [Single-Use Cards for Story Passages](doc/tutorial-3.md)
+* Create two-part cards with a separate cover and contents within
+  the same Twine passage. 
+* Create a list of card-like *choices* (which can be filtered by
+  the current story state) within a single passage.
+* Show the player the requirements for a card. This is still a
+  little primitive and experimental, but it's there.
 
+These are still mostly undocumented, though there is a
+[quick-reference](doc/quick-reference.md). I made a very brief
+[example](examples/covers.tw) ([HTML](examples/covers.html)) of
+how to use covers/contents and show requirements.
+
+I also wrote some completely undocumented code to create stats
+that improve as you use them, using the "Basic Ability" math from
+StoryNexus. That is split between [basic-ability.txt][] and the
+"choice helpers" at the end of [widgets.txt][].
 
 Declaring Cards
 ---------------
@@ -62,6 +71,9 @@ can add or remove cards at any time using `<<addcard "title"
 sticky=false>>` or `<<removecard "title" always=true>>` (pass
 `false` as the optional second argument to remove only single-use
 cards).
+
+* Tags starting with `req-` are requirements which must all be met
+  for the card to be visible.
 
 * A passage tagged with `req-variableName` requires the variable
   to have a non-empty value (something other than zero, `false`,
@@ -83,11 +95,18 @@ cards).
   which has a 20% random chance of being satisfied (you can use
   any whole number between 1 and 99).
 
-* You can also do simple comparisons with `req-name-op-value` where
-  `op` is one of `eq`, `ne`, `lt`, `gt`, `le` or `ge`. If `name`
-  contains a numeric value, then an underscore in `value` will be
-  converted to a decimal point (since you can't have punctuation
-  in tags). Otherwise `value` will be treated as a string.
+* You can also do simple comparisons with `req-name-op-value`
+  where `op` is one of `eq`, `ne`, `lt`, `gt`, `le` or `ge`
+  (EQual, Not Equal, Less Than, Greater Than, Less than or Equal,
+  Greater than or Equal). If `name` contains a numeric value, then
+  an underscore in `value` will be converted to a decimal point
+  (since you can't have punctuation in tags). Otherwise `value`
+  will be treated as a string.
+
+* If you have split cards (cover and contents), tags starting with
+  `req-` only allow the cover to be visible. Tags starting with
+  `also-` define more requirements which must also be satisfied in
+  order to access the contents of a split card.
 
 
 Selecting Available Cards
@@ -100,18 +119,15 @@ Selecting Available Cards
   tells the function to randomly select that many passages from
   the available list.
 
-* Due to the way Sugarcube's scripting works, you will probably
+* Due to the way SugarCube's scripting works, you will probably
   have to enclose these function calls in backticks or a
   `<<script>>...<</script>>` block.
 
 -----
 
-* `QBN.range("$name", ["low", 30, "medium", 70, "high"])` will
+* `<<range $name "low" 30 "medium" 70 "high">>` will
   create a temporary variable `_low_name`, `_medium_name` or
   `_high_name` depending on the value of `$name`.
-
-* Note the quotes and the sigil on the variable name here. You
-  need both since this is a Javascript function.
 
 * Each range starts at the lower value, so in the example above, a
   value of 30 would be medium rather than low.
@@ -121,7 +137,7 @@ Selecting Available Cards
   the range list with a number, then it will not set a variable
   for numbers off that end of the range.
 
-* You may want to put your `QBN.range` calls in the special
+* You may want to put your `<<range>>` calls in the special
   `PassageHeader` passage so they get computed automatically at
   the beginning of every turn.
 
@@ -142,7 +158,7 @@ Displaying Selected Cards
   cover and contents, only the contents will be shown.
 
 * `<<includeall passages wrap=null separate=null>>` will include a
-  list of passages, like Sugarcube's built-in `<<include>>` macro
+  list of passages, like SugarCube's built-in `<<include>>` macro
   but with multiple passages.
 
 * The optional `wrap` argument should be the name of a widget
@@ -170,12 +186,16 @@ most useful of these are:
 
 The widgets used to implement these are also available:
 
+* `<<cover "name">>` is a wrapper which shows only the cover of
+  split cards (or all of a plain card). `<<content>>` does the
+  same for the content part.
+
 * `<<linkto "name">>` is a wrapper which links to the passage instead of
   including it.
 
-* `<<cardbox "name">>` and `<<linkbox "name">>` are the same as
-  `<<card>>` and `<<linkto>>` except they draw a box around the
-  card or the link.
+* `<<coverbox "name">>`, `<<contentbox "name">>` and `<<linkbox
+  "name">>` are the same as `<<cover>>`, `<<content>>` and
+  `<<linkto>>` except they draw a box around the card or the link.
 
 * `<<comma last?>>` is a separator: it will insert `" and "` for
   the last separator and `", "` otherwise.
@@ -213,5 +233,5 @@ rebuild the minified version, you'll need
 * Open a command-line window.
 * Go to the folder where this `README.md` file is located (`cd blah/blah/blah`).
 * Run the command `npm install` to download the necessary tools.
-* `npm run minify-js` will create the minified version of the story javascript.
+* `npm run build` will create the minified version of the story javascript.
 * `npm run examples` will build the examples.
