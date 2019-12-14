@@ -44,7 +44,7 @@ underscores).
 Also we need a way to drive somewhere else, so let's add a link
 `[[Drive->Car]]`.
 
-<!-- ![Home passage](home-1.png) -->
+![Home passage](home-1.png)
 
 In the car, we're going to show you all the places you can drive
 to. So we're going to say
@@ -96,14 +96,14 @@ Do the same to the other locations. Since we can't put spaces in
 tags, we'll shorten some of the names: "fairweather" and
 "anderson".
 
-<!-- ![Anderson Farm passage](anderson-1.png) -->
+![Anderson Farm passage](anderson-1.png)
 
 We'll also add a link to the car so you can get out without
 driving anywhere:
 
 	<<return "Exit Car">>
 
-<!-- ![Car passage](car-1.png) -->
+![Car passage](car-1.png)
 
 Now if you play it, you should be able to exit the car and return
 to your previous location, or drive to any of the other locations.

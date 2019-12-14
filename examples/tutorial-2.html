@@ -683,21 +683,17 @@ Macro.add('choices', {
 
 [[Drive-&gt;Car]] | &lt;&lt;link &quot;Next Month&quot; &quot;Home&quot;&gt;&gt;&lt;&lt;nextmonth&gt;&gt;&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="Fairweather Farm" tags="sticky-card req-driving req-location-ne-fairweather" position="475,100" size="100,100">!Fairweather Farm
 &lt;&lt;set $location to &quot;fairweather&quot;&gt;&gt;\
-&lt;&lt;script&gt;&gt;
-QBN.range(&quot;$month&quot;, [4, &quot;egg&quot;, 11])
-QBN.range(&quot;$month&quot;, [4, &quot;cool&quot;, 6, &quot;hot&quot;, 9, &quot;cool&quot;, 11])
-QBN.range(&quot;$month&quot;, [&quot;potato&quot;, 3, 6, &quot;potato&quot;])
-&lt;&lt;/script&gt;&gt;\
+&lt;&lt;range $month 4 &quot;egg&quot; 11&gt;&gt;\
+&lt;&lt;range $month 4 &quot;cool&quot; 6 &quot;hot&quot; 9 &quot;cool&quot; 11&gt;&gt;\
+&lt;&lt;range $month &quot;potato&quot; 3 6 &quot;potato&quot;&gt;&gt;\
 &lt;&lt;include &quot;current products&quot;&gt;&gt;
 [[Drive-&gt;Car]]</tw-passagedata><tw-passagedata pid="5" name="Anderson Farm" tags="sticky-card req-driving req-location-ne-anderson" position="600,100" size="100,100">!Anderson Farm
 &lt;&lt;set $location to &quot;anderson&quot;&gt;&gt;\
 &lt;&lt;include &quot;current products&quot;&gt;&gt;
 [[Drive-&gt;Car]]</tw-passagedata><tw-passagedata pid="6" name="Docks" tags="sticky-card req-driving req-location-ne-docks" position="725,100" size="100,100">!Docks
 &lt;&lt;set $location to &quot;docks&quot;&gt;&gt;\
-&lt;&lt;script&gt;&gt;
-QBN.range(&quot;$month&quot;, [5, &quot;mackerel&quot;, 7, 10, &quot;mackerel&quot;])
-QBN.range(&quot;$month&quot;, [&quot;shrimp&quot;, 4, 12, &quot;shrimp&quot;])
-&lt;&lt;/script&gt;&gt;\
+&lt;&lt;range $month 5 &quot;mackerel&quot; 7 10 &quot;mackerel&quot;&gt;&gt;\
+&lt;&lt;range $month &quot;shrimp&quot; 4 12 &quot;shrimp&quot;&gt;&gt;\
 &lt;&lt;include &quot;current products&quot;&gt;&gt;
 [[Drive-&gt;Car]]</tw-passagedata><tw-passagedata pid="7" name="Car" tags="" position="850,100" size="100,100">&lt;&lt;set _driving to true&gt;&gt;\
 &lt;&lt;cardrow `QBN.cards().sort(QBN.alphabetically)` &quot;linkbox&quot;&gt;&gt;\

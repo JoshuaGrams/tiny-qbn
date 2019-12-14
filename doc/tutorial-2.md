@@ -31,7 +31,7 @@ accordingly.
 `<<cardlist>>` is another one of my TinyQBN widgets. It creates a
 comma-separated list of cards.
 
-<!-- ![current products passage](current-2.png) -->
+![current products passage](current-2.png)
 
 Now `<<include "current products">>` in each of the business
 passages.
@@ -103,7 +103,7 @@ define a variable if it's in a named range. This will set
 `_egg_month` if `$month` is 4 through 10, because the next range
 starts at exactly 11.
 
-<!-- ![Fairweather Farm passage](fairweather-2.png) -->
+![Fairweather Farm passage](fairweather-2.png)
 
 Now we'll create two passages. Name the first "Plentiful Eggs", set
 its contents to "eggs from happy hens", and tag it `sticky-card`,
@@ -116,7 +116,7 @@ is a requirement that will be randomly satisfied 67% of the time).
 So in the off season we'll still have eggs about two-thirds of the
 time. Play the story and make sure that works.
 
-<!-- ![Limited Eggs passage](eggs-2.png) -->
+![Limited Eggs passage](eggs-2.png)
 
 Note that `not-egg_month` is two separate ranges: January through
 March and November through December. We could not have done this
