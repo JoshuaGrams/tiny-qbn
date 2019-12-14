@@ -111,4 +111,4 @@ to your previous location, or drive to any of the other locations.
 That's the end of this section: we'll continue in [part
 2](tutorial-2.md).
 
-[The sample so far](https://joshuagrams.github.io/tiny-qbn/doc/tutorial-1.html).
+[The sample so far](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-1.html).

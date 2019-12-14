@@ -130,4 +130,4 @@ OK, that's the end of this section. I'll add some more products
 and then in [part 3](tutorial-3.md) we'll tell some stories about
 other customers reacting to what's available.
 
-[The sample so far](https://joshuagrams.github.io/tiny-qbn/doc/tutorial-2.html).
+[The sample so far](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html).
