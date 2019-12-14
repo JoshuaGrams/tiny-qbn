@@ -35,13 +35,13 @@ you can download and import into Twine):
 
 * [Getting Started with TinyQBN](doc/tutorial-1.md) +
   [example](examples/tutorial-1.tw)
-  ([html](examples/tutorial-1.html)).
+  ([html](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-1.html)).
 * [Seasonally Available Items](doc/tutorial-2.md) +
   [example](examples/tutorial-2.tw)
-  ([html](examples/tutorial-2.html)).
+  ([html](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html)).
 * [Single-Use Cards for Story Passages](doc/tutorial-3.md) +
   [example](examples/localvore.tw)
-  ([html](examples/localvore.html)).
+  ([html](https://joshuagrams.github.io/tiny-qbn/examples/localvore.html)).
 
 This version of the library also allows you to:
 
