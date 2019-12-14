@@ -1,8 +1,6 @@
 TinyQBN Quick-Reference
 =======================
 
-**Warning:** some of this isn't implemented yet, or is implemented but not tested. I wrote it as a design sketch so I could see all the features in one place.
-
 Declaring Cards
 ---------------
 

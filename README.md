@@ -2,9 +2,9 @@ TinyQBN
 =======
 
 A simple toolkit for creating filtered-card-deck stories (aka
-quality-based narratives or resource narratives) with Twine 2 and
-SugarCube. Use Twine's passage tags to mark cards and their
-requirements, and a couple of simple functions and macros to
+storylets or quality-based narratives or resource narratives) with
+Twine 2 and SugarCube. Use Twine's passage tags to mark cards and
+their requirements, and a couple of simple functions and macros to
 select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
 
@@ -35,13 +35,13 @@ you can download and import into Twine):
 
 * [Getting Started with TinyQBN](doc/tutorial-1.md) +
   [example](examples/tutorial-1.tw)
-  ([html](examples/tutorial-1.html).
+  ([html](examples/tutorial-1.html)).
 * [Seasonally Available Items](doc/tutorial-2.md) +
   [example](examples/tutorial-2.tw)
-  ([html](examples/tutorial-2.html).
+  ([html](examples/tutorial-2.html)).
 * [Single-Use Cards for Story Passages](doc/tutorial-3.md) +
   [example](examples/localvore.tw)
-  ([html](examples/localvore.html).
+  ([html](examples/localvore.html)).
 
 This version of the library also allows you to:
 

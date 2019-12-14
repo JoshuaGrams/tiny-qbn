@@ -1,6 +1,8 @@
 Adding Products and a Seasonal Cycle
 ====================================
 
+**Note:** the images are still out-of-date and show old code.
+
 We'll pick up where we left off [last time](tutorial-1.md). We're
 going to add some products and make them available only in certain
 seasons.

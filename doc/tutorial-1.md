@@ -1,6 +1,8 @@
 Getting Started with TinyQBN
 ============================
 
+**Note:** the images are still out-of-date and show old code.
+
 Start by opening Twine, creating a new story and setting its Story
 Format to SugarCube. Then we need to add the TinyQBN code.  Go to
 the [TinyQBN GitHub
