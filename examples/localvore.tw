@@ -70,7 +70,9 @@ There are <<cardlist _products>> for sale here.
 <</nobr>>
 
 ::product story
-<<set _story to true>><<set _storycards to QBN.cards(1)>><<unset _story>>\
+<<set _productstory to true>>\
+<<set _storycards to QBN.cards(1)>>\
+<<unset _productstory>>\
 <<if _storycards.length>>
 <<includeall _storycards>>
 <</if>>
@@ -96,13 +98,13 @@ russet potatoes
 ::Kale [sticky-card req-product req-location-eq-fairweather req-month-ge-4 req-month-le-11]
 bunches of kale
 
-::Broccoli for the Dog [card req-story req-location-eq-fairweather req-broccoli]
+::Broccoli for the Dog [card req-productstory req-broccoli]
 A woman in her sixties stops short. "Is that //organic// broccoli? Look at that //color//! That's the most beautiful broccoli I've ever seen! I'll have to buy some for my dog; he //loves// broccoli."
 
-::Cream of Broccoli Soup [card req-story req-location-eq-fairweather req-broccoli]
+::Cream of Broccoli Soup [card req-productstory req-broccoli]
 A large black pickup truck parks outside and a tall, broad-shouldered man in a torn sweatshirt enters the store. "Oh good, they //do// have broccoli today. I got a lovely piece of sharp cheddar over at Anderson's and I'm craving some cream of broccoli soup."
 
-::Beef and Broccoli [card req-story req-location-eq-fairweather req-broccoli]
+::Beef and Broccoli [card req-productstory req-broccoli]
 A young couple saunters through the store. One turns to the other. "How about we make beef and broccoli tonight? We have those steak tips in the fridge that we need to use up."
 
 ::Pork Chops [sticky-card req-product req-location-eq-anderson req-random-90]

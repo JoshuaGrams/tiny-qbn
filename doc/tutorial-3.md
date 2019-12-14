@@ -19,14 +19,16 @@ flavor text about what other customers are doing.
 As with the current product listing, we'll re-use the code for all
 the businesses. Create a passage called "product story".
 
-	<<set _story to QBN.passages({productstory: true}, 1)>>\
+	<<set _productstory to true>>\
+	<<set _storycards to QBN.cards(1)>>\
+	<<unset _productstory>>\
 
-The second argument to `QBN.passages` tells it to randomly select
-that many cards (if possible) instead of returning all of them.
-Then if we found a story, we display it.
+The argument to `QBN.cards` tells it to randomly select that many
+cards (if possible) instead of returning all of them.  Then if we
+found a story, we display it.
 
-	<<if _story.length>>
-	<<includeall _story>>
+	<<if _storycards.length>>
+	<<includeall _storycards>>
 	<</if>>
 
 Now we'll include this passage in all three businesses, and test
