@@ -1,15 +1,6 @@
 Single-Use Cards for Stories
 ============================
 
-Since [last time](tutorial-2.md), I have added a bunch of products
-to each of the business locations. All of the animal products at
-Anderson's Farm are available year-round, but they each have a 90%
-chance of occurring, so often they'll be "out of stock" of one or
-two of them. I think that was the only interesting technique I
-used.
-
------
-
 So far we have used exclusively sticky cards, to represent
 physical objects and locations. But for pieces of story, you'll
 more typically use single-use cards so you don't show individual
@@ -76,9 +67,8 @@ need multiple ingredients: broccoli-spinach quiche, or kale-potato
 soup. Just remember to set temporary variables in each ingredient
 card so you can tell when they're available.
 
-I'll flesh this out with some more stories, but I think this is
-about as far as I'm going to take this example. Hopefully it's
-enough to get you started even though it's still just a setting
-rather than a story with any kind of plot.
+I think this is about as far as I'm going to take this example.
+Hopefully it's enough to get you started even though it's still
+just a setting rather than a story with any kind of plot.
 
 [The full example](https://joshuagrams.github.io/tiny-qbn/examples/ocalvore.html).

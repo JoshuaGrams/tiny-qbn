@@ -659,7 +659,7 @@ Macro.add('choices', {
 					break
 				case 'offer':
 					if(!partialChoice(choices)) beginChoice(choices, name, [])
-					choices[choices.length-1].text = section.contents
+					choices[choices.length-1].text = section.contents.trim()
 					break
 			}
 		}
@@ -711,7 +711,7 @@ There are &lt;&lt;cardlist _products&gt;&gt; for sale here.
  * of contents.
  */
 
-&lt;&lt;widget cardlist&gt;&gt;\
+&lt;&lt;widget &quot;cardlist&quot;&gt;&gt;\
 &lt;&lt;includeall $args[0] `$args[1] or &quot;content&quot;` &quot;comma&quot;&gt;&gt;\
 &lt;&lt;/widget&gt;&gt;
 
@@ -720,41 +720,41 @@ There are &lt;&lt;cardlist _products&gt;&gt; for sale here.
  * for links, or &quot;coverbox&quot; for covers.
  */
 
-&lt;&lt;widget cardcolumn&gt;&gt;@@.qbn-column;
+&lt;&lt;widget &quot;cardcolumn&quot;&gt;&gt;@@.qbn-column;
 &lt;&lt;includeall $args[0] `$args[1] or &quot;contentbox&quot;`&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget cardrow&gt;&gt;@@.qbn-row;
+&lt;&lt;widget &quot;cardrow&quot;&gt;&gt;@@.qbn-row;
 &lt;&lt;includeall $args[0] `$args[1] or &quot;contentbox&quot;`&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
 
 /* Comma separator (no serial comma). */
 
-&lt;&lt;widget comma&gt;&gt;&lt;&lt;if $args[0]&gt;&gt; and &lt;&lt;else&gt;&gt;, &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;
+&lt;&lt;widget &quot;comma&quot;&gt;&gt;&lt;&lt;if $args[0]&gt;&gt; and &lt;&lt;else&gt;&gt;, &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;
 
 
 /* Wrapper widgets (card contents or links, optionally boxed). */
 
-&lt;&lt;widget cover&gt;&gt;\
+&lt;&lt;widget &quot;cover&quot;&gt;&gt;\
 &lt;&lt;set _qbn_cover to true&gt;&gt;&lt;&lt;includecard $args[0]&gt;&gt;&lt;&lt;unset _qbn_cover&gt;&gt;\
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget content&gt;&gt;&lt;&lt;if `QBN.available($args[0])`&gt;&gt;\
+&lt;&lt;widget &quot;content&quot;&gt;&gt;&lt;&lt;if `QBN.available($args[0])`&gt;&gt;\
 &lt;&lt;unset _qbn_cover&gt;&gt;&lt;&lt;includecard $args[0]&gt;&gt;&lt;&lt;removecard $args[0] false&gt;&gt;\
 &lt;&lt;/if&gt;&gt;&lt;&lt;/widget&gt;&gt;
 
 &lt;&lt;widget &quot;linkto&quot;&gt;&gt;&lt;&lt;print &#39;[\[&#39; + $args[0] + &#39;]]&#39;&gt;&gt;&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget coverbox&gt;&gt;@@.qbn-card;
+&lt;&lt;widget &quot;coverbox&quot;&gt;&gt;@@.qbn-card;
 &lt;&lt;cover $args[0]&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget contentbox&gt;&gt;@@.qbn-card;
+&lt;&lt;widget &quot;contentbox&quot;&gt;&gt;@@.qbn-card;
 &lt;&lt;content $args[0]&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget linkbox&gt;&gt;@@.qbn-card;
+&lt;&lt;widget &quot;linkbox&quot;&gt;&gt;@@.qbn-card;
 &lt;&lt;linkto $args[0]&gt;&gt;
 @@&lt;&lt;/widget&gt;&gt;
 
@@ -771,11 +771,11 @@ There are &lt;&lt;cardlist _products&gt;&gt; for sale here.
 
 /* Choice helpers */
 
-&lt;&lt;widget skillcheck&gt;&gt;\
+&lt;&lt;widget &quot;skillcheck&quot;&gt;&gt;\
 &lt;&lt;set _qbnsuccess to $args[0].check($args[1])&gt;&gt;\
 &lt;&lt;/widget&gt;&gt;
 
-&lt;&lt;widget gotoresult&gt;&gt;\
+&lt;&lt;widget &quot;gotoresult&quot;&gt;&gt;\
 &lt;&lt;if _qbnsuccess&gt;&gt;&lt;&lt;set $args[0] to $args[0] + &#39; &#39; + Success&gt;&gt;&lt;&lt;/if&gt;&gt;\
 &lt;&lt;if State.random() &lt; 0.20 and Story.get(&#39;Rare &#39; + $args[0])&gt;&gt;\
 &lt;&lt;set $args[0] to &#39;Rare &#39; + $args[0]&gt;&gt;\

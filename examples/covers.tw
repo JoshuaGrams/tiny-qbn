@@ -1,5 +1,5 @@
 ::StoryTitle
-Card Covers Linking to Contents
+Cards with Covers
 
 ::StoryData
 {"ifid": "1FB0D1F9-DACC-4A5B-8258-31F30A88CDAD"}
@@ -8,19 +8,38 @@ Card Covers Linking to Contents
 <<set $strength to 1>>
 
 ::Start
-Strength: $strength ([[increase->Start][$strength to $strength + 1]])
+Strength: $strength ([[increase strength->Start][$strength to $strength + 1]])
+
+-----
+
+You round a bend in the trail and come face to...chest with a four-legged monster that has horns like giant spaghetti servers. Or should that be antlers? Whatever they are, it shakes them angrily at you.
 
 <<includeall `QBN.cards()` "coverbox">>
 
+::Back away slowly [sticky-card]
+<<if _qbn_cover>><<linkcontents>><<else>>\
+Moving slowly so as not to incite its hunting instincts, you tiptoe backwards until you can no longer see the beast.
 
-::Be careful [sticky-card also-strength-le-2]
-<<card>><<linkcontents>> (requires <<requirements>>)<<contents>>\
-Discretion is the better part of valor.
 <<return>>
-<</card>>
+<</if>>
+
+::Play dead [sticky-card]
+<<if _qbn_cover>>\
+<<linkcontents "Play dead and hope it doesn't eat you">>\
+<<else>>\
+The better part of valor is discretion, in the which better part I have sav'd my life.
+--Falstaff
+
+You curl into a ball on the ground and lie motionless. The beast snuffles you, but after a terrifying eternity, it wanders away, leaving you miraculously un-gored and un-trampled.
+
+<<return>>
+<</if>>
 
 ::Very Strong [sticky-card req-strength-ge-2 also-strength-ge-3]
-<<card>><<linkcontents "Use brute force">> (requires <<requirements>>)<<contents>>\
-Who needs discretion, anyway?
+<<if _qbn_cover>>\
+<<linkcontents "Use brute force">> (requires <<requirements>>)\
+<<else>>\
+You leap at the beast, screaming wildly, and grab its antlers. Or horns? Whatever. You wrench them to the side, driving it to its knees, and sit on its head. It attempts to get up, but doesn't have the leverage. When it seems properly cowed, you release it, and it saunters off into the brush, trying to pretend that it meant to do that all along.
+
 <<return>>
-<</card>>
+<</if>>

@@ -126,8 +126,14 @@ There's no way to say, "match this requirement **or** that
 requirement". So you either have to do the computation externally,
 as we did here, or duplicate the card and have one for each range.
 
-OK, that's the end of this section. I'll add some more products
-and then in [part 3](tutorial-3.md) we'll tell some stories about
-other customers reacting to what's available.
+OK, that's the end of this section. In [part 3](tutorial-3.md)
+we'll tell some stories about other customers reacting to what's
+available.
 
-[The sample so far](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html).
+[The sample so
+far](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html).
+I added a bunch of products to each of the business locations. All
+of the animal products at Anderson's farm are available
+year-round, but they each have a 90% chance of occurring, so often
+they'll be "out of stock" of one or two of them. I think that was
+the only interesting technique I used.

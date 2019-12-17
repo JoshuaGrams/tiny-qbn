@@ -23,25 +23,32 @@ easier copy/pasting.
 Tutorials and Examples
 ----------------------
 
-So far I have a three-part tutorial creating a simple
+I have a three-part tutorial creating a simple
 [setting](https://joshuagrams.github.io/tiny-qbn/doc/Localvore.html)
 where you can drive around to different locations and see what
 local seasonal food is available. This shows how to create basic
 cards and requirements.
 
+There is also a short tutorial on creating cards with "covers" in
+a single passage instead of using two separate passages.
+
 The text versions are in this repository, along with the resulting
 code (both in the text-based Twee format and HTML versions which
 you can download and import into Twine):
 
-* [Getting Started with TinyQBN](doc/tutorial-1.md) +
-  [example](examples/tutorial-1.tw)
-  ([html](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-1.html)).
-* [Seasonally Available Items](doc/tutorial-2.md) +
-  [example](examples/tutorial-2.tw)
-  ([html](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html)).
-* [Single-Use Cards for Story Passages](doc/tutorial-3.md) +
-  [example](examples/localvore.tw)
-  ([html](https://joshuagrams.github.io/tiny-qbn/examples/localvore.html)).
+* [Getting Started with TinyQBN](doc/tutorial-1.md):
+  [twee](examples/tutorial-1.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-1.html).
+* [Seasonally Available Items](doc/tutorial-2.md) (more complex
+  conditions and a yearly loop structure):
+  [twee](examples/tutorial-2.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html).
+* [Single-Use Cards for Story Passages](doc/tutorial-3.md):
+  [twee](examples/localvore.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/localvore.html).
+* [Cards with Covers](doc/cards-with-covers.md):
+  [twee](examples/covers.tw)
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/covers.html).
 
 This version of the library also allows you to:
 
@@ -49,18 +56,21 @@ This version of the library also allows you to:
   the same Twine passage. 
 * Create a list of card-like *choices* (which can be filtered by
   the current story state) within a single passage.
-* Show the player the requirements for a card. This is still a
-  little primitive and experimental, but it's there.
+* Set card priority to ensure certain cards are chosen or exclude
+  lower-priority cards altogether. I think I designed this wrong,
+  but it might be useful anyway.
+* Show a card's requirements to the player. This is still a little
+  primitive, but it's there.
 
 These are still mostly undocumented, though there is a
-[quick-reference](doc/quick-reference.md). I made a very brief
-[example](examples/covers.tw) ([HTML](examples/covers.html)) of
-how to use covers/contents and show requirements.
+[quick-reference](doc/quick-reference.md). And I made a very brief
+example ([twee](examples/covers.tw), [HTML](examples/covers.html))
+of how to use covers/contents and show requirements.
 
 I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from
-StoryNexus. That is split between [basic-ability.txt][] and the
-"choice helpers" at the end of [widgets.txt][].
+StoryNexus. That code is split between [basic-ability.txt][] and
+the "choice helpers" at the end of [widgets.txt][].
 
 Declaring Cards
 ---------------
