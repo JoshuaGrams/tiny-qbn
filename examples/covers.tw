@@ -14,7 +14,7 @@ Strength: $strength ([[increase strength->Start][$strength to $strength + 1]])
 
 You round a bend in the trail and come face to...chest with a four-legged monster that has horns like giant spaghetti servers. Or should that be antlers? Whatever they are, it shakes them angrily at you.
 
-<<includeall `QBN.cards()` "coverbox">>
+<<includeall `QBN.cards().sort(QBN.alphabetically)` "coverbox">>
 
 ::Back away slowly [sticky-card]
 <<if _qbn_cover>><<linkcontents>><<else>>\

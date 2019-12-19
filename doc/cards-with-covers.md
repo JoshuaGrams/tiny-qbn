@@ -26,7 +26,7 @@ So. How about:
 	servers. Or should that be antlers? Whatever they are, it
 	shakes them angrily at you.
 
-	<<includeall `QBN.cards().sort(QBN.alphabetically())` "coverbox">>
+	<<includeall `QBN.cards().sort(QBN.alphabetically)` "coverbox">>
 
 In a real game we would need to set some variables to exclude the
 cards that don't apply to this scenario. And we would probably
@@ -63,7 +63,7 @@ add another:
 	part I have sav'd my life.
 	--Falstaff
 
-	You curl into a ball on the ground and like motionless. The
+	You curl into a ball on the ground and lie motionless. The
 	beast snuffles you, but after a terrifying eternity, it
 	wanders away, leaving you miraculously un-gored and
 	un-trampled.

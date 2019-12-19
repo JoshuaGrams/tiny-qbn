@@ -5,7 +5,7 @@ Start by opening Twine, creating a new story and setting its Story
 Format to SugarCube. Then we need to add the TinyQBN code.  Go to
 the [TinyQBN GitHub
 repository](../README.md#adding-tinyqbn-to-your-story).
-Click on the link for the minified javascript, select "Raw", then
+Click on the link for the minified javascript, click "Raw", then
 select all and copy it.  Go back to Twine, open the Story
 Javascript from the menu in the bottom left, and paste it in.
 Then go back to GitHub, select and copy the stylesheet and paste
@@ -20,7 +20,11 @@ passage a name if you like (I usually call it "TinyQBN Widgets").
 Now we're ready to start building the basic demo: a little setting
 where you can drive around and see what local seasonal food is
 available. We'll start with some locations that you can drive
-between. The starting passage will be your home.
+between.
+
+The starting passage will be your home. So give it a header:
+`!Home`. Also we need a way to drive somewhere else, so let's add
+a link `[[Drive->Car]]`.
 
 To make it a "card" that the QBN engine can find, you tag it with
 "card" or "sticky-card". "card" is for single-use passages which
@@ -41,9 +45,6 @@ doesn't differentiate, mostly because tags can't contain dollar
 signs (or spaces or any punctuation other than hyphens and
 underscores).
 
-Also we need a way to drive somewhere else, so let's add a link
-`[[Drive->Car]]`.
-
 ![Home passage](home-1.png)
 
 In the car, we're going to show you all the places you can drive
@@ -53,7 +54,7 @@ to. So we're going to say
 	<<cardrow `QBN.cards()` "linkbox">>\
 	<<unset _driving>>
 
-`QBN.passages` will select all of the cards whose requirements are
+`QBN.cards` will select all of the cards whose requirements are
 satisfied by the current story state and the `_driving` variable.
 The second argument is the name of a widget that will be used to
 wrap each card. If you leave out `"linkbox"` it will use

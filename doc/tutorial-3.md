@@ -50,7 +50,7 @@ story.
 Let's add a couple more:
 
 	A large black pickup truck parks outside and a
-	broad-shouldered man in a torn sweatshirt enteres the store.
+	broad-shouldered man in a torn sweatshirt enters the store.
 	"Oh good, they //do// have broccoli today. I got a nice piece
 	of sharp cheddar at Anderson's and I'm craving cream of
 	broccoli soup."
