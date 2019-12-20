@@ -35,6 +35,9 @@ cards and requirements.
 There are also a couple other walkthroughs demonstrating other
 features.
 
+The video versions of these walkthroughs are in [a playlist on
+YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F).
+
 The text versions are in this repository, along with the resulting
 code (both in the text-based Twee format and HTML versions which
 you can download and import into Twine):
