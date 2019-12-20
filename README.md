@@ -23,14 +23,17 @@ easier copy/pasting.
 Tutorials and Examples
 ----------------------
 
-I have a three-part tutorial creating a simple
+There is a [quick-reference](doc/quick-reference.md) which gives a
+brief overview of the current features.
+
+I have a three-part walkhrough creating a simple
 [setting](https://joshuagrams.github.io/tiny-qbn/doc/Localvore.html)
 where you can drive around to different locations and see what
 local seasonal food is available. This shows how to create basic
 cards and requirements.
 
-There is also a short tutorial on creating cards with "covers" in
-a single passage instead of using two separate passages.
+There are also a couple other walkthroughs demonstrating other
+features.
 
 The text versions are in this repository, along with the resulting
 code (both in the text-based Twee format and HTML versions which
@@ -47,8 +50,11 @@ you can download and import into Twine):
   [twee](examples/localvore.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/localvore.html).
 * [Cards with Covers](doc/cards-with-covers.md):
-  [twee](examples/covers.tw)
+  [twee](examples/covers.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/covers.html).
+* [Inline Choices](doc/choices.md):
+  [twee](examples/choices.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/choices.html).
 
 This version of the library also allows you to:
 
@@ -61,11 +67,6 @@ This version of the library also allows you to:
   but it might be useful anyway.
 * Show a card's requirements to the player. This is still a little
   primitive, but it's there.
-
-These are still mostly undocumented, though there is a
-[quick-reference](doc/quick-reference.md). And I made a very brief
-example ([twee](examples/covers.tw), [HTML](examples/covers.html))
-of how to use covers/contents and show requirements.
 
 I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from

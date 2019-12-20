@@ -524,7 +524,7 @@ function beginChoice(choices, title, tags) {
 Macro.add('choices', {
 	tags: ['when', 'offer'],
 	handler: function() {
-		var name = this.args[0]
+		var name = this.args.raw
 		var msg = invalidName(name)
 		if(msg) return this.error(msg)
 

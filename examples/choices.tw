@@ -25,4 +25,4 @@ Strength: $strength<<if $stat_points gt 0>> ([[increase->Start][$strength++; $st
 A heated argument at one of the stalls distracts the guard briefly. You take advantage of his lapse in attention to sneak past.
 
 ::Bash the Guard
-You bash the guard over the head and saunter past as he collapses.
+You bash the guard over the head (that'll teach him to wear his helmet) and saunter past as he collapses.

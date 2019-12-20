@@ -640,7 +640,7 @@ function beginChoice(choices, title, tags) {
 Macro.add('choices', {
 	tags: ['when', 'offer'],
 	handler: function() {
-		var name = this.args[0]
+		var name = this.args.raw
 		var msg = invalidName(name)
 		if(msg) return this.error(msg)
 
@@ -683,7 +683,7 @@ Strength: $strength&lt;&lt;if $stat_points gt 0&gt;&gt; ([[increase-&gt;Start][$
 &lt;&lt;when&gt;&gt;sticky-card req-stealth-gt-0&lt;&lt;offer&gt;&gt;[[Sneak Past]]
 &lt;&lt;when&gt;&gt;sticky-card also-strength-gt-0&lt;&lt;offer&gt;&gt;&lt;&lt;linkif `QBN.available(QBN.current)` &quot;Bash the Guard&quot;&gt;&gt;
 &lt;&lt;/choices&gt;&gt;\
-&lt;&lt;cardrow `QBN.filter(_choices)`&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Sneak Past" tags="" position="350,100" size="100,100">A heated argument at one of the stalls distracts the guard briefly. You take advantage of his lapse in attention to sneak past.</tw-passagedata><tw-passagedata pid="4" name="Bash the Guard" tags="" position="475,100" size="100,100">You bash the guard over the head and saunter past as he collapses.</tw-passagedata><tw-passagedata pid="5" name="TinyQBN widgets" tags="widget" position="600,100" size="100,100">/*
+&lt;&lt;cardrow `QBN.filter(_choices)`&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Sneak Past" tags="" position="350,100" size="100,100">A heated argument at one of the stalls distracts the guard briefly. You take advantage of his lapse in attention to sneak past.</tw-passagedata><tw-passagedata pid="4" name="Bash the Guard" tags="" position="475,100" size="100,100">You bash the guard over the head (that&#39;ll teach him to wear his helmet) and saunter past as he collapses.</tw-passagedata><tw-passagedata pid="5" name="TinyQBN widgets" tags="widget" position="600,100" size="100,100">/*
  * Comma-separated lists: call with &quot;linkto&quot; for links instead
  * of contents.
  */

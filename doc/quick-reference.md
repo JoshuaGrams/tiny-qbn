@@ -32,8 +32,11 @@ Card Contents
 -------------
 
 * `<<card>>...cover...<<contents>>...contents...<</card>>`
-* `<<choices varName>><<when>>tags...<<offer>>contents...<</choices>>` - store a list of choices in `varName`.
+* `<<choices var>><<when>>tags...<<offer>>contents...<</choices>>` - store a list of choices in `var`.
 * `<<requirements card=QBN.current wrap=none separate="comma">>` - show requirements for a card or choice.
+* `<<linkif condition title [linktext]>>` - display title (or
+  linktext if given). If `condition` is truthy, make it a link to
+  the given passage.
 
 Selecting Cards
 ---------------
