@@ -89,3 +89,9 @@ optional. Then of course we need the passage:
 	::Bash the Guard
 	You bash the guard over the head (that'll teach him to wear
 	his helmet) and saunter past as he collapses.
+
+As a further exercise to the reader, take the Localvore example
+and change one of the product listings so that instead of
+including "current products" and having separate passages for each
+product, it's all inside a single `<<choice>>` in the business
+passage.
