@@ -1,0 +1,28 @@
+::StoryTitle
+Inline Choices
+
+::StoryData
+{"ifid": "397F082A-39BA-44C4-9BC8-0C02BF53A1C8"}
+
+::StoryInit
+<<set $stat_points to 1>>
+<<set $stealth to 0>>
+<<set $strength to 0>>
+
+::Start
+Stat Points: $stat_points
+Stealth: $stealth<<if $stat_points gt 0>> ([[increase->Start][$stealth++; $stat_points--]])<</if>>
+Strength: $strength<<if $stat_points gt 0>> ([[increase->Start][$strength++; $stat_points--]])<</if>>
+
+<<choices "_choices">>
+<<when>>sticky-card<<offer>>[[Procrastinate->Start]]
+<<when>>sticky-card req-stealth-gt-0<<offer>>[[Sneak Past]]
+<<when>>sticky-card also-strength-gt-0<<offer>><<linkif `QBN.available(QBN.current)` "Bash the Guard">>
+<</choices>>\
+<<cardrow `QBN.filter(_choices)`>>
+
+::Sneak Past
+A heated argument at one of the stalls distracts the guard briefly. You take advantage of his lapse in attention to sneak past.
+
+::Bash the Guard
+You bash the guard over the head and saunter past as he collapses.

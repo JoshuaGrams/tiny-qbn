@@ -32,7 +32,7 @@ Card Contents
 -------------
 
 * `<<card>>...cover...<<contents>>...contents...<</card>>`
-* `<<choices varName limit=none>><<when>>tags...<<offer>>contents...<</choices>>` - store a list of choices in `varName`.
+* `<<choices varName>><<when>>tags...<<offer>>contents...<</choices>>` - store a list of choices in `varName`.
 * `<<requirements card=QBN.current wrap=none separate="comma">>` - show requirements for a card or choice.
 
 Selecting Cards

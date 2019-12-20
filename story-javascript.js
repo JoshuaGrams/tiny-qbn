@@ -26,21 +26,28 @@ $(document).on(':passagestart', function(evt) {
 	passageType(evt.passage, false)
 })
 
-function toArgument(card) {
-	if(typeof card === 'string') card = JSON.stringify(card)
-	else if(typeof card === 'object') card = '`'+JSON.stringify(card)+'`'
-	else {
-		throw new Error('Cards must be passed as titles or passage-like objects (got ' + (typeof card) + ').')
-	}
-	return card
+function toArgument(title) {
+	if(typeof title === 'object') title = title.title
+	if(typeof title === 'string') return JSON.stringify(title)
+	else throw new Error('Cards must be referred to by title (got ' + (typeof title) + ').')
 }
 
 function toPassage(card) {
-	if(typeof card === 'string') card = Story.get(card)
-	else if(typeof card !== 'object') {
-		throw new Error('Cards must be passed as titles or passage-like objects (got ' + (typeof card) + ').')
+	if(typeof card === 'object') return card
+	if(typeof card !== 'string') {
+		throw new Error('Cards must be referred to by title (got ' + (typeof card) + ').')
+	} else {
+		if(Story.has(card)) return Story.get(card)
+		let path = JSON.parse(card)
+		let t = path[0], v = path[1], i = path[2]
+		if(passage() === t) {
+			let choices = getVar(v)
+			if(choices != null && choices[i] != null) {
+				return choices[i]
+			}
+		}
+		throw new Error('No such passage or choice "'+card+'".')
 	}
-	return card
 }
 
 // Optionally changes passage type: null to remove,
@@ -168,11 +175,7 @@ function select(filter, n, onlyHighest) {
 	if(n) passages = chooseByPriority(passages, n, onlyHighest)
 	else passages = sortByPriority(passages, onlyHighest)
 	for(var i=0; i<passages.length; ++i) {
-		// If it's a real passage, we can't store it in a SugarCube
-		// variable, so use its title instead.
-		if(passages[i] instanceof Passage) {
-			passages[i] = passages[i].title
-		}
+		passages[i] = passages[i].title
 	}
 	return passages
 }
@@ -507,11 +510,13 @@ function partialChoice(cards) {
 }
 
 function beginChoice(choices, title, tags) {
+	// If you don't specify the type, make it a `card`.
 	if(tags.indexOf('card') < 0 && tags.indexOf('sticky-card') < 0) {
 		tags.push('card')
 	}
+	// Create a new choice which doesn't have any text yet.
 	choices.push({
-		title: title + ':' + choices.length,
+		title: JSON.stringify([passage(), title, choices.length]),
 		tags: tags
 	})
 }
@@ -519,7 +524,7 @@ function beginChoice(choices, title, tags) {
 Macro.add('choices', {
 	tags: ['when', 'offer'],
 	handler: function() {
-		var name = this.args[0], n = this.args[1]
+		var name = this.args[0]
 		var msg = invalidName(name)
 		if(msg) return this.error(msg)
 
@@ -548,6 +553,6 @@ Macro.add('choices', {
 			}
 		}
 
-		setVar(name, QBN.filter(choices, n))
+		setVar(name, choices)
 	}
 })
