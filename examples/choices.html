@@ -139,6 +139,7 @@ setVar('$QBN', {type: {}})
 
 // Remove single-use cards when visited.
 $(document).on(':passagestart', function(evt) {
+	QBN.current = evt.passage.title
 	passageType(evt.passage, false)
 })
 
@@ -678,12 +679,12 @@ Macro.add('choices', {
 Stealth: $stealth&lt;&lt;if $stat_points gt 0&gt;&gt; ([[increase-&gt;Start][$stealth++; $stat_points--]])&lt;&lt;/if&gt;&gt;
 Strength: $strength&lt;&lt;if $stat_points gt 0&gt;&gt; ([[increase-&gt;Start][$strength++; $stat_points--]])&lt;&lt;/if&gt;&gt;
 
-&lt;&lt;choices &quot;_choices&quot;&gt;&gt;
+&lt;&lt;choices _ways_past_guard&gt;&gt;
 &lt;&lt;when&gt;&gt;sticky-card&lt;&lt;offer&gt;&gt;[[Procrastinate-&gt;Start]]
 &lt;&lt;when&gt;&gt;sticky-card req-stealth-gt-0&lt;&lt;offer&gt;&gt;[[Sneak Past]]
 &lt;&lt;when&gt;&gt;sticky-card also-strength-gt-0&lt;&lt;offer&gt;&gt;&lt;&lt;linkif `QBN.available(QBN.current)` &quot;Bash the Guard&quot;&gt;&gt;
 &lt;&lt;/choices&gt;&gt;\
-&lt;&lt;cardrow `QBN.filter(_choices)`&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Sneak Past" tags="" position="350,100" size="100,100">A heated argument at one of the stalls distracts the guard briefly. You take advantage of his lapse in attention to sneak past.</tw-passagedata><tw-passagedata pid="4" name="Bash the Guard" tags="" position="475,100" size="100,100">You bash the guard over the head (that&#39;ll teach him to wear his helmet) and saunter past as he collapses.</tw-passagedata><tw-passagedata pid="5" name="TinyQBN widgets" tags="widget" position="600,100" size="100,100">/*
+&lt;&lt;cardrow `QBN.filter(_ways_past_guard)`&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Sneak Past" tags="" position="350,100" size="100,100">A heated argument at one of the stalls distracts the guard briefly. You take advantage of his lapse in attention to sneak past.</tw-passagedata><tw-passagedata pid="4" name="Bash the Guard" tags="" position="475,100" size="100,100">You bash the guard over the head (that&#39;ll teach him to wear his helmet) and saunter past as he collapses.</tw-passagedata><tw-passagedata pid="5" name="TinyQBN widgets" tags="widget" position="600,100" size="100,100">/*
  * Comma-separated lists: call with &quot;linkto&quot; for links instead
  * of contents.
  */

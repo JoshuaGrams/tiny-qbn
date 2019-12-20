@@ -23,6 +23,7 @@ setVar('$QBN', {type: {}})
 
 // Remove single-use cards when visited.
 $(document).on(':passagestart', function(evt) {
+	QBN.current = evt.passage.title
 	passageType(evt.passage, false)
 })
 
