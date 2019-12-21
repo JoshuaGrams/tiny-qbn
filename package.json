@@ -11,12 +11,12 @@
 	"build-widgets": "npm run build-tinyqbn-widgets && npm run build-basic-ability",
 	"build-demo-html": "tweego -o demo.html story-javascript.js widgets.tw basic-ability.tw demo",
 	"build-demo": "npm run build && npm run build-demo-html",
-	"covers-example": "cd examples && tweego -o covers.html covers.tw common",
-	"choices-example": "cd examples && tweego -o choices.html choices.tw common",
-	"localvore1-example": "cd examples && tweego -o tutorial-1.html tutorial-1.tw common",
-	"localvore2-example": "cd examples && tweego -o tutorial-2.html tutorial-2.tw common",
-	"localvore-example": "cd examples && tweego -o localvore.html localvore.tw common",
-	"examples": "npm run covers-example && npm run choices-example && npm run localvore1-example && npm run localvore2-example && npm run localvore-example"
+	"ex-localvore1": "cd examples && tweego -o tutorial-1.html tutorial-1.tw common",
+	"ex-localvore2": "cd examples && tweego -o tutorial-2.html tutorial-2.tw common",
+	"ex-localvore": "cd examples && tweego -o localvore.html localvore.tw common",
+	"ex-covers": "cd examples && tweego -o covers.html covers.tw common",
+	"ex-choices": "cd examples && tweego -o choices.html choices.tw common",
+	"examples": "npm run ex-localvore1 && npm run ex-localvore2 && npm run ex-localvore && npm run ex-covers && npm run ex-choices"
   },
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "ISC",
