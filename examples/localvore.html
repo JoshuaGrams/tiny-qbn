@@ -206,6 +206,13 @@ function shuffle(a) {
 }
 
 QBN.alphabetically = function(a, b) {
+	if(a == null || b == null) {
+		let msg = "QBN.alphabetically seems to be missing an argument."
+		msg += " If you wrote .sort(QBN.alphabetically()) you'll want to"
+		msg += " remove the empty set of parentheses so you're passing the"
+		msg += " function itself, not calling it and passing its return value."
+		throw new Error(msg)
+	}
 	a = toPassage(a).title.toLowerCase()
 	b = toPassage(b).title.toLowerCase()
 	return a<b ? -1 : (a>b ? 1 : 0)
