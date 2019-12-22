@@ -1,0 +1,34 @@
+::StoryTitle
+Card Priority
+
+:: StoryData
+{"ifid": "F3B1E83B-2551-4BE1-A2B4-6C912119B682"}
+
+::StoryInit
+<<set $limit to false>>
+<<set $carrots to false>>
+<<set $milk to true>>
+
+::Start
+<<listbox "$limit" autoselect>>
+	<<option "Show the full list" selected>>
+	<<option "Show three items from the list" 3>>
+<</listbox>>
+<label><<checkbox "$carrots" false true `$carrots? "checked" : ""`>> Don't forget carrots!</label>
+<label><<checkbox "$milk" false true `$milk? "checked" : ""`>> Don't forget milk!</label>
+[[Update List->Start]]
+
+<<choices _shopping_list>>
+	<<when>>urgent req-random-50<<offer>>baby food, then hurry home to feed her
+	<<when>>important req-carrots<<offer>>carrots
+	<<when>>important<<offer>>milk
+	<<offer>>eggs
+	<<offer>>bread
+	<<offer>>cheese
+	<<offer>>potatoes
+	<<offer>>spinach
+<</choices>>
+<<set _milk_priority to $milk? "important" : "normal">>\
+<<cardpriority `_shopping_list[2].title` _milk_priority>>\
+You buy <<includeall `QBN.filter(_shopping_list, $limit)` "cover" "comma">>.
+

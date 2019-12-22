@@ -19,7 +19,7 @@ var setVar = State.setVar || Wikifier.setValue
 
 // State that may change from turn to turn
 // (i.e. needs to be recorded in the history).
-setVar('$QBN', {type: {}})
+setVar('$QBN', {type: {}, priority: {}})
 
 // Remove single-use cards when visited.
 $(document).on(':passagestart', function(evt) {
@@ -104,6 +104,7 @@ QBN.alphabetically = function(a, b) {
 
 // Choose `count` random values from `array`.
 function choose(array, count) {
+	if(count == null || count === false) return shuffle(array)
 	// Can't choose more values than the array has (or less than 0).
 	count = Math.max(0, Math.min(count, array.length))
 	// If choosing more than half the array, *exclude* random values.
@@ -130,45 +131,34 @@ function choose(array, count) {
 	return selected
 }
 
-function passagePriority(p) {
-	var priority = p.tags.find(tag => /^priority-/.test(tag)) || ''
-	return +(priority.substring('priority-'.length)) || 0
-}
+// Optionally changes passage priority: 'urgent/important/normal'.
+function passagePriority(p, newPriority) {
+	var basePriority
+	if(p.tags.indexOf('urgent') >= 0) basePriority = 'urgent'
+	else if(p.tags.indexOf('important') >= 0) basePriority = 'important'
+	else basePriority = 'normal'
 
-function sortByPriority(buckets, onlyHighest) {
-	let priorities = Object.keys(buckets).sort()
-	if(priorities.length === 0) return priorities;
-	if(onlyHighest) return shuffle(buckets[priorities[priorities.length-1]])
-	else {
-		let pieces = []
-		for(let i=priorities.length-1; i>=0; --i) {
-			pieces.push(shuffle(buckets[priorities[i]]))
-		}
-		return pieces.concat.apply([], pieces)
+	var priorities = getVar('$QBN').priority
+	var oldPriority = priorities[p.title]
+	if(oldPriority === undefined) oldPriority = basePriority
+
+	if(newPriority !== undefined && newPriority !== oldPriority) {
+		if(newPriority === basePriority) delete priorities[p.title]
+		else priorities[p.title] = newPriority
 	}
+
+	return oldPriority
 }
 
-function chooseByPriority(buckets, count, onlyHighest) {
-	let priorities = Object.keys(buckets).sort()
-	if(priorities.length === 0) return priorities
-	if(onlyHighest) {
-		return choose(buckets[priorities[priorities.length-1]], count)
-	} else {
-		let pieces = [], i = priorities.length - 1
-		while(count > 0) {
-			let cards = choose(buckets[priorities[i]], count)
-			count -= cards.length
-			pieces.push(cards)
-		}
-		return pieces.concat.apply([], pieces)
+Macro.add('cardpriority', {
+	handler: function() {
+		var p = toPassage(this.args[0])
+		passagePriority(p, this.args[1])
 	}
-}
-
-function descendingPriority(a, b) {
-	return passagePriority(toPassage(b)) - passagePriority(toPassage(a))
-}
+})
 
 function select(filter, n, onlyHighest) {
+	// Filter cards into passages.urgent/important/normal.
 	let passages = {}
 	filter(function(p) {
 		p = toPassage(p)
@@ -179,13 +169,29 @@ function select(filter, n, onlyHighest) {
 		}
 		return false
 	})
-	if(onlyHighest == null) onlyHighest = QBN.onlyHighest
-	if(n) passages = chooseByPriority(passages, n, onlyHighest)
-	else passages = sortByPriority(passages, onlyHighest)
-	for(var i=0; i<passages.length; ++i) {
-		passages[i] = passages[i].title
+	// Select cards from the available set.
+	let chosen
+	if(passages.urgent) {
+		// Urgent cards exclude normal and important ones.
+		chosen = choose(passages.urgent, n)
+	} else {
+		// Important cards are chosen before normal ones.
+		if(passages.important) {
+			chosen = choose(passages.important, n)
+			if(n) n -= chosen.length
+		} else {
+			chosen = []
+		}
+		// Normal cards fill out any remaining spaces.
+		if(passages.normal) {
+			chosen = chosen.concat(choose(passages.normal, n))
+		}
 	}
-	return passages
+	// You can't store Passages in a SugarCube variable (the
+	// history code breaks them) so store passage titles instead.
+	// Titles are smaller anyway.
+	for(var i=0; i<chosen.length; ++i) chosen[i] = chosen[i].title
+	return chosen
 }
 
 QBN.filter = function(passages, n) {

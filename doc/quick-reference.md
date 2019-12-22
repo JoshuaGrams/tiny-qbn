@@ -9,7 +9,8 @@ Tag passages with:
 * `card` or `sticky-card` - use once vs. use many times.
 * `req-expression` - must be matched to see cover.
 * `also-expression` - must also be matched to see contents.
-* `priority-nnn` - integer priority level: lower priority cards will be excluded from any selection containing higher-priority cards.
+* `important` - should be given priority over normal cards.
+* `urgent` - if available, makes all important and normal cards unavailable.
 
 Expressions:
 
@@ -17,7 +18,6 @@ Expressions:
 * `not-expression` - expression has an empty value.
 * `random-xx` - available xx percent of the time (integer percent).
 * `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. 
-* `priority-xx` - priority: signed integer: default is zero.
 
 Checking variables:
 
