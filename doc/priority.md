@@ -29,12 +29,14 @@ cards. So make a StoryInit passage and say:
 Then at the top of Start:
 
 	<<listbox "$limit" autoselect>>
-		<<option "Show the full list" false selected>>
+		<<option "Show the full list" false>>
 		<<option "Show three items from the list" 3>>
 	<</listbox>>
 	[[Update List->Start]]
 
-And change `<<includeall>>` to use `QBN.filter(_shopping_list, $limit)`.
+And change `<<includeall>>` to use:
+
+	`QBN.filter(_shopping_list, $limit)`
 
 If you play the story, you'll see that it shows a list of three
 items or all five, and either way they'll be shown in a random
@@ -97,11 +99,11 @@ based on the `$milk` variable (we need to wait until the choice
 exists):
 
 	<<set _milk_priority to $milk? "important" : "normal">>\
-	<<cardpriority `_shopping_list[2].title` _milk_priority>>\
+	<<cardpriority `_shopping_list[1].title` _milk_priority>>\
 
 JavaScript numbers the elements of an array or sequence (like
-`_shopping_list`) starting at zero. So because milk is the third
-element, its index is 2.
+`_shopping_list`) starting at zero. So because milk is the second
+element, its index is 1.
 
 Now milk will always be available, but when you make it important,
 it will jump to the start of the list. If both carrots and milk
@@ -116,6 +118,12 @@ is hungry, but you're out of food, so you get just that one item
 and leave immediately:
 
 	<<when>>urgent req-random-50<<offer>>baby food, then hurry home to feed her.
+
+Note that if you put this before milk in the list, you'll need to
+update its index when setting `<<cardpriority>>`. This is awkward,
+but choices don't have a title, so I haven't found a better way to
+do it. Maybe I should add a title option? I'll have to think about
+it.
 
 When this item is available (about half the time), it will be the
 only one in the list. Otherwise updating the list will act just as
