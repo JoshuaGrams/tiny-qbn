@@ -11,11 +11,12 @@ Card Priority
 
 ::Start
 <<listbox "$limit" autoselect>>
-	<<option "Show the full list" selected>>
+	<<option "Show the full list" false>>
 	<<option "Show three items from the list" 3>>
 <</listbox>>
 <label><<checkbox "$carrots" false true `$carrots? "checked" : ""`>> Don't forget carrots!</label>
 <label><<checkbox "$milk" false true `$milk? "checked" : ""`>> Don't forget milk!</label>
+<<set _milk_priority to $milk? "important" : "normal">>
 [[Update List->Start]]
 
 <<choices _shopping_list>>
@@ -27,8 +28,6 @@ Card Priority
 	<<offer>>cheese
 	<<offer>>potatoes
 	<<offer>>spinach
-<</choices>>
-<<set _milk_priority to $milk? "important" : "normal">>\
+<</choices>>\
 <<cardpriority `_shopping_list[2].title` _milk_priority>>\
 You buy <<includeall `QBN.filter(_shopping_list, $limit)` "cover" "comma">>.
-

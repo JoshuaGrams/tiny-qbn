@@ -120,3 +120,8 @@ and leave immediately:
 When this item is available (about half the time), it will be the
 only one in the list. Otherwise updating the list will act just as
 it did before.
+
+Also note that urgent cards only exclude non-urgent cards *from
+that particular selection*. If we made another selection of, say,
+the employees who were working the registers at the store that
+day, that would be unaffected.
