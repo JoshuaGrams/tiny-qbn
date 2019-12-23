@@ -4,13 +4,11 @@
   "description": "Twine 2/Sugarcube support for filtered-card-deck stories.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"build": "npm run minify-js && npm run build-widgets && npm run copy-common",
+	"build": "npm run minify-js && npm run build-widgets",
     "minify-js": "(sed -e \"1i /*\" -e \"$a */\" LICENSE && minify story-javascript.js) > story-javascript.min.js",
 	"build-tinyqbn-widgets": "node -e \"console.log('::TinyQBN widgets [widget]')\" | cat - widgets.txt > widgets.tw",
 	"build-basic-ability": "node -e \"console.log('::BasicAbility code [widget]')\" | cat - basic-ability.txt > basic-ability.tw",
 	"build-widgets": "npm run build-tinyqbn-widgets && npm run build-basic-ability",
-	"build-demo-html": "tweego -o demo.html story-javascript.js widgets.tw basic-ability.tw demo",
-	"build-demo": "npm run build && npm run build-demo-html",
 	"copy-common": "cp story-javascript.min.js examples/common/tiny-qbn.js && cp widgets.tw examples/common/tiny-qbn.tw",
 	"ex-localvore1": "cd examples && tweego -o tutorial-1.html tutorial-1.tw common",
 	"ex-localvore2": "cd examples && tweego -o tutorial-2.html tutorial-2.tw common",
@@ -18,7 +16,7 @@
 	"ex-covers": "cd examples && tweego -o covers.html covers.tw common",
 	"ex-choices": "cd examples && tweego -o choices.html choices.tw common",
 	"ex-priority": "cd examples && tweego -o priority.html priority.tw common",
-	"examples": "npm run ex-localvore1 && npm run ex-localvore2 && npm run ex-localvore && npm run ex-covers && npm run ex-choices && npm run ex-priority"
+	"examples": "npm run copy-common && npm run ex-localvore1 && npm run ex-localvore2 && npm run ex-localvore && npm run ex-covers && npm run ex-choices && npm run ex-priority"
   },
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "ISC",
