@@ -89,21 +89,21 @@ In StoryInit, add:
 
 	<<set $milk to true>>
 
-Near the top of Start, copy the checkbox code and replace carrots
-to milk. Then add a new choice after carrots:
+After the carrot checkbox, add one for milk. This is a little more
+complicated because we're going to give it the priority names
+instead of true and false:
 
-	<<when>>important<<offer>>milk
+	<label><<checkbox "$milk" "normal" "important" `$milk==="important"? "checked" : "">> Don't forget milk!</label>
+
+Then add the choice (note that we can pass a title to `<<offer>>`):
+
+	<<when>>important<<offer "Milk Choice">>milk
 
 And then after we define `<<choices>>` we'll update its importance
 based on the `$milk` variable (we need to wait until the choice
 exists):
 
-	<<set _milk_priority to $milk? "important" : "normal">>\
-	<<cardpriority `_shopping_list[1].title` _milk_priority>>\
-
-JavaScript numbers the elements of an array or sequence (like
-`_shopping_list`) starting at zero. So because milk is the second
-element, its index is 1.
+	<<cardpriority `_shopping_list["Milk Choice"].title` $milk>>\
 
 Now milk will always be available, but when you make it important,
 it will jump to the start of the list. If both carrots and milk
@@ -118,12 +118,6 @@ is hungry, but you're out of food, so you get just that one item
 and leave immediately:
 
 	<<when>>urgent req-random-50<<offer>>baby food, then hurry home to feed her.
-
-Note that if you put this before milk in the list, you'll need to
-update its index when setting `<<cardpriority>>`. This is awkward,
-but choices don't have a title, so I haven't found a better way to
-do it. Maybe I should add a title option? I'll have to think about
-it.
 
 When this item is available (about half the time), it will be the
 only one in the list. Otherwise updating the list will act just as

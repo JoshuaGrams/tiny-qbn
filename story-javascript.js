@@ -563,6 +563,9 @@ Macro.add('choices', {
 				case 'offer':
 					if(!partialChoice(choices)) beginChoice(choices, name, [])
 					choices[choices.length-1].text = section.contents.trim()
+					if(section.args[0] !== '') {
+						choices[section.args[0]] = choices[choices.length-1]
+					}
 					break
 			}
 		}

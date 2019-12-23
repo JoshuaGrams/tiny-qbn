@@ -15,19 +15,18 @@ Card Priority
 	<<option "Show three items from the list" 3>>
 <</listbox>>
 <label><<checkbox "$carrots" false true `$carrots? "checked" : ""`>> Don't forget carrots!</label>
-<label><<checkbox "$milk" false true `$milk? "checked" : ""`>> Don't forget milk!</label>
-<<set _milk_priority to $milk? "important" : "normal">>
+<label><<checkbox "$milk" "normal" "important" `$milk==="important"? "checked" : ""`>> Don't forget milk!</label>
 [[Update List->Start]]
 
 <<choices _shopping_list>>
 	<<when>>urgent req-random-50<<offer>>baby food, then hurry home to feed her
 	<<when>>important req-carrots<<offer>>carrots
-	<<when>>important<<offer>>milk
+	<<when>>important<<offer "Milk Choice">>milk
 	<<offer>>eggs
 	<<offer>>bread
 	<<offer>>cheese
 	<<offer>>potatoes
 	<<offer>>spinach
 <</choices>>\
-<<cardpriority `_shopping_list[2].title` _milk_priority>>\
+<<cardpriority `_shopping_list["Milk Choice"].title` $milk>>\
 You buy <<includeall `QBN.filter(_shopping_list, $limit)` "cover" "comma">>.
