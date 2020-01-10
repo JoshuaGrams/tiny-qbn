@@ -34,7 +34,11 @@ function toArgument(title) {
 }
 
 function toPassage(card) {
-	if(typeof card === 'object') return card
+	if(typeof card === 'object') {
+		// Was [[link]], use title.
+		if(card.link && card.text) card = card.link;
+		else return card  // Assume choice or other passage-like object.
+	}
 	if(typeof card !== 'string') {
 		throw new Error('Cards must be referred to by title (got ' + (typeof card) + ').')
 	} else {

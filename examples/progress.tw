@@ -1,0 +1,14 @@
+::StoryTitle
+Managing Story Progression
+
+::StoryData
+{"ifid": "D998951D-BBE2-495E-BEA3-73CC716683E5"}
+
+::Start
+<<addcard [[Not a Card]]>>
+
+<<includeall `QBN.cards()`>>
+
+
+::Not a Card
+This wasn't a card originally.
