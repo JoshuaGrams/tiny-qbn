@@ -38,6 +38,10 @@ $schedule
 $schedule
 <<cardrow `QBN.cards()` "linkbox">>
 
+<<advance "$schedule" -1000>>\
+$schedule
+<<cardrow `QBN.cards()` "linkbox">>
+
 ::Not a Card [req-simple]
 This wasn't a card originally.
 

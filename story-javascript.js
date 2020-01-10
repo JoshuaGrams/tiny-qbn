@@ -636,8 +636,8 @@ Macro.add('advance', {
 
 		let values = setup[name.replace(/^[$_]/, '')]
 		let value = getVar(name)
-		let index = QBN.progress(name, value)
-		index = Math.min(index+n, values.length - 1)
+		let index = QBN.progress(name, value) + n
+		index = Math.max(0, Math.min(index, values.length-1))
 		setVar(name, values[index])
 	}
 })
