@@ -51,6 +51,7 @@ function toPassage(card) {
 	}
 }
 
+// Returns previous type: "card", "sticky-card", or false.
 // Optionally changes passage type: null to remove,
 // false to remove only single-use cards.
 function passageType(p, newType) {
@@ -373,6 +374,10 @@ QBN.requirements = function(p) {
 		if(desc != null) requirements.push(desc)
 	}
 	return requirements
+}
+
+QBN.status = function(p) {
+	return passageType(toPassage(p))
 }
 
 QBN.visible = function(p) {
