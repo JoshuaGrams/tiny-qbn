@@ -216,6 +216,15 @@ var operators = {
 	gt: function(a, b) { return a > b },
 	le: function(a, b) { return a <= b },
 	ge: function(a, b) { return a >= b },
+	before: function(a, b, name) {
+		return QBN.progress(name, a) < QBN.progress(name, b)
+	},
+	during: function(a, b, name) {
+		return QBN.progress(name, a) === QBN.progress(name, b)
+	},
+	after: function(a, b, name) {
+		return QBN.progress(name, a) > QBN.progress(name, b)
+	}
 }
 
 var operatorNames = {
@@ -247,7 +256,7 @@ QBN.functions = {
 		}
 	},
 	compare: {
-		match: /^(.*)-(eq|ne|lt|gt|le|ge)-(.*)/,
+		match: /^(.*)-(eq|ne|lt|gt|le|ge|before|during|after)-(.*)/,
 		action: function(m) {
 			var actual = QBN.value(m[1])
 			var op = operators[m[2]]
@@ -255,7 +264,7 @@ QBN.functions = {
 			if(typeof actual === 'number') {
 				expected = expected.replace('_', '.')
 			}
-			return op(actual, expected)
+			return op(actual, expected, m[1])
 		},
 		description: function(m) {
 			var actual = QBN.description(m[1])
@@ -264,7 +273,7 @@ QBN.functions = {
 			if(typeof actual === 'number') {
 				expected = Number(expected.replace('_', '.'))
 			}
-			if(actual == null) return actual
+			if(actual == null || op == null) return null
 			else return `${actual} ${op} ${expected}`
 		}
 	}
@@ -580,5 +589,55 @@ Macro.add('choices', {
 		}
 
 		setVar(name, choices)
+	}
+})
+
+// ---------------------------------------------------------------------
+// Progress variables.
+
+// Find the index of `value` in `setup.name`.
+QBN.progress = function(name, value) {
+	name = name.replace(/^[$_]/, '')
+	let order = setup[name]
+	if(order == null) {
+		throw("No such progress sequence " + JSON.stringify(name) + ".")
+	}
+	let i = order.indexOf(value)
+	if(i === -1) {
+		throw("No such progress value " + JSON.stringify(value) + " in " + JSON.stringify(name) + ".")
+	}
+	return i
+}
+
+// <<progress "$var" value1 ... >>
+Macro.add('progress', {
+	handler: function() {
+		const name = this.args[0]
+		let msg = invalidName(name)
+		if(msg) return this.err(msg)
+
+		let values = []
+		setup[name.replace(/^[$_]/, '')] = values
+		for(let i=1; i<this.args.length; ++i) {
+			values.push(this.args[i])
+		}
+
+		setVar(name, values[0])
+	}
+})
+
+// <<advance "$var" n=1>>
+Macro.add('advance', {
+	handler: function() {
+		const name = this.args[0]
+		let msg = invalidName(name)
+		if(msg) return this.err(msg)
+		const n = +this.args[1] || 1
+
+		let values = setup[name.replace(/^[$_]/, '')]
+		let value = getVar(name)
+		let index = QBN.progress(name, value)
+		index = Math.min(index+n, values.length - 1)
+		setVar(name, values[index])
 	}
 })

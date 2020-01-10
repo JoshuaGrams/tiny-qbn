@@ -56,6 +56,10 @@ you can download and import into Twine):
 * [Card Priority](doc/priority.md):
   [twee](examples/priority.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/priority.html).
+* Managing Story Progression (no walkthrough, only a quick test that the
+  code works):
+  [twee](examples/progress.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/progress.html).
 
 The new features in this version of the library are:
 

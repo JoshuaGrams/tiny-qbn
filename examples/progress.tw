@@ -2,13 +2,50 @@
 Managing Story Progression
 
 ::StoryData
-{"ifid": "D998951D-BBE2-495E-BEA3-73CC716683E5"}
+{
+	"ifid": "D998951D-BBE2-495E-BEA3-73CC716683E5",
+	"start": "Home"
+}
 
-::Start
+::StoryInit
+<<progress "$schedule" "daydream" "early_midmorning_nap" "dawdle_and_delay"
+	"late_early_morning_nap" "bide_our_time" "eat_lunch"
+	"linger_and_loiter" "early_afternoon_nap"
+	"put_off_for_tomorrow_what_we_could_have_done_today"
+	"early_late_afternoon_nap" "loaf_and_lounge"
+	"dinner" "dillydally" "early_evening_nap"
+	"waste_time" "go_to_bed">>
+
+::Home
 <<addcard [[Not a Card]]>>
-
+<<set _simple to true>>
 <<includeall `QBN.cards()`>>
+<<unset _simple>>
 
+<<set _parallel to true>>
+$schedule
+<<cardrow `QBN.cards()` "linkbox">>
 
-::Not a Card
+<<advance "$schedule">>\
+$schedule
+<<cardrow `QBN.cards()` "linkbox">>
+
+<<advance "$schedule" 4>>\
+$schedule
+<<cardrow `QBN.cards()` "linkbox">>
+
+<<advance "$schedule" 100>>\
+$schedule
+<<cardrow `QBN.cards()` "linkbox">>
+
+::Not a Card [req-simple]
 This wasn't a card originally.
+
+::Lunch Story [card req-parallel req-schedule-during-eat_lunch]
+Story about eating lunch, natch.
+
+::Morning Story [card req-parallel req-schedule-before-eat_lunch]
+Story which could take place during any of the morning states.
+
+::Evening Story [card req-parallel req-schedule-after-dinner]
+Story which could take place during any of the evening states.

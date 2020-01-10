@@ -18,6 +18,7 @@ Expressions:
 * `not-expression` - expression has an empty value.
 * `random-xx` - available xx percent of the time (integer percent).
 * `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. 
+  * Op can also be `before` or `during` or `after` for use with progress variables.
 
 Checking variables:
 
@@ -27,6 +28,13 @@ Manually manipulating the event deck:
 
 * `<<addcard title sticky>>`
 * `<<removecard title even_if_sticky=false>>`
+
+Progress variables:
+
+* Create with `<<progress "$var" value ...>>`, giving as many values as you like.
+* Use `<<advance "$var" n>>` to advance `n` steps (optional, default is 1, negative numbers work too).
+* Check with `req-var-before-value` (or `during` or `after`).
+
 
 Card Contents
 -------------
