@@ -16,6 +16,13 @@ requirements to the player. That's...a *complicated* thing to do
 in a generic library like this, and I may or may not ever figure
 out how to do a good job of it.
 
+And it hasn't been used for a real game/story, so it could have
+hidden design flaws.
+
+I believe that my examples exercise all the features, and
+everything works there, but I don't have a proper test suite for
+the code.
+
 Other than that, I'm regarding this as feature-complete. I'd like
 to add a bunch more documentation and examples, but that's not my
 strong point, so it's slow going. There might also be a few more
