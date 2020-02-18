@@ -8,6 +8,25 @@ their requirements, and a couple of simple functions and macros to
 select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
 
+Status
+------
+
+This is still missing a good way to automatically display storylet
+requirements to the player. That's...a *complicated* thing to do
+in a generic library like this, and I may or may not ever figure
+out how to do a good job of it.
+
+Other than that, I'm regarding this as feature-complete. I'd like
+to add a bunch more documentation and examples, but that's not my
+strong point, so it's slow going. There might also be a few more
+convenience features I could add.
+
+But I think this is about as far as it makes sense to go in Twine
+without writing an entire new story format. And since Twine's
+editor is not designed for this, if you're going that far you
+might as well spend the time to bang together a more suitable
+editor and make a full custom tool. My two cents, YMMV, etc.
+
 
 Adding TinyQBN to your Story
 ----------------------------
@@ -69,8 +88,9 @@ The new features in this version of the library are:
   the current story state) within a single passage.
 * Setting card priority to ensure certain cards are chosen or to
   exclude lower-priority cards altogether.
-* Show a card's requirements to the player. This is still a little
-  primitive, but it's there.
+* Show a card's requirements to the player. This is very
+  primitive, and I'm not entirely sure how to make it better
+  enough to be useful.
 
 I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from
