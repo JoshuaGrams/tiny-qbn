@@ -13,9 +13,10 @@ That's pretty much all you need to know. To start a new passage, put two colons 
 
 -----
 
-It *does* take a bit of setup, but it's not too bad. You can use any text
-editor, but this guide is going to use Visual Studio Code. Here's the
-overview, and then I'll walk through it in detail:
+It *does* take a bit of setup, but it's not too bad. You *can* use any text
+editor, but this guide is going to use Visual Studio Code and set it up to
+build your story for you so you don't have to use the command line yourself.
+Here's the overview, and then I'll walk through it in detail:
 
 * Install [Tweego](https://www.motoslave.net/tweego/).
 * Install [Visual Studio Code](https://code.visualstudio.com/) (VSCode for short).
