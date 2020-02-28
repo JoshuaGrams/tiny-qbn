@@ -73,6 +73,11 @@ you can download and import into Twine):
 * [Single-Use Cards for Story Passages](doc/tutorial-3.md):
   [twee](examples/localvore.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/localvore.html).
+* [Three Ways to Track Progress](doc/progress.md). This doesn't have a
+  good example yet, but there is an "example" testing that the code
+  works:
+  [twee](examples/progress.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/progress.html).
 * [Cards with Covers](doc/cards-with-covers.md):
   [twee](examples/covers.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/covers.html).
@@ -82,11 +87,8 @@ you can download and import into Twine):
 * [Card Priority](doc/priority.md):
   [twee](examples/priority.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/priority.html).
-* Managing Story Progression (no walkthrough, only a quick test that the
-  code works):
-  [twee](examples/progress.tw),
-  [html](https://joshuagrams.github.io/tiny-qbn/examples/progress.html).
-* [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories from text files instead of using Twine's graphical editor.
+* [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories
+  from text files instead of using Twine's graphical editor.
 
 The new features in this version of the library are:
 
