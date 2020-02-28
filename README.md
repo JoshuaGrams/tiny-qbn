@@ -86,6 +86,7 @@ you can download and import into Twine):
   code works):
   [twee](examples/progress.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/progress.html).
+* [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories from text files instead of using Twine's graphical editor.
 
 The new features in this version of the library are:
 
