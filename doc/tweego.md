@@ -22,6 +22,8 @@ you so you don't have to use the command line yourself.
 * Run VSCode and get the Twee syntax-highlighting extension.
 * Unzip my [minimal template](tweego-vscode.zip) to create a new blank project.
 
+Note that this is a very simple setup. If you're up for something more complex, ChapelR has a [project template with all the trimmings](https://github.com/ChapelR/tweego-setup) and Em Lazer-Walker has a [workflow that auto-builds and hosts your story on GitHub](https://dev.to/lazerwalker/a-modern-developer-s-workflow-for-twine-4imp).
+
 
 Install Tweego
 --------------
