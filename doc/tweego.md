@@ -49,6 +49,8 @@ And finally, if you want to store a copy of the story format with your project, 
 
 In VSCode, go to File and then Open Folder to open the  project. The first time you try to build your project, Tweego will complain that your story doesn't have an IFID. It will generate one for you, so copy and paste that into your source file.
 
+Tweego uses the SugarCube 2 story format by default. A lot of people recommend this format, but if you'd like to use the Twine editor's default format, you can open `tasks.json` in the `.vscode` folder and add `-f harlowe-3` to the tweego command.
+
 If you have code that would have gone in the Story JavaScript or Story Stylesheet sections, put it in a `.js` (for JavaScript) or `.css` (for stylesheet rules) file in your source directory.
 
 
