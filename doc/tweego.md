@@ -59,12 +59,12 @@ Doing the Setup by Hand
 
 OK, that was the easy version. If one of those parts doesn't work for you, here are some notes of how to do things more manually.
 
-###Tweego
+### Tweego
 
 
 The basic idea is that you need to put Tweego and its copy of the story formats somewhere, and then add its directory to the `PATH` environment variable so you can just type `tweego` to run it instead of having to type out the whole name of the directory where it is. Or you can unzip Tweego anywhere, but you'll have to write out the whole path to it when you set up your build task in VSCode. On Windows 10, you can Shift+right-click the file and choose "Copy as Path". Or on most operating systems you can open the properties and copy the location, then add the directory separator (`\` on Windows, `/` everywhere else) and tweego to the end.
 
-###VSCode
+### VSCode
 
 To start a new project, Choose File -> Open Folder, and create a new folder for your story. This will open the "Explorer" panel on the left: create a "source" directory to hold your source code. Or you can name it something else, but be sure to use that name in the build command below.
 
@@ -80,7 +80,7 @@ Then you'll only have to tell VSCode to build the story when you start working o
 
 You can now create a file in the source directory. Give it a '.tw' extension so VSCode will know that it's Twee code.
 
-###Twee
+### Twee
 
 You need a passage named `StoryTitle`. It should contain one line that gives the title of your game.
 
