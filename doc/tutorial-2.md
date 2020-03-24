@@ -56,7 +56,7 @@ SugarCube creates for us. That way SugarCube won't have to copy
 them into its history every turn.
 
 	<<set $month to 1>>
-	<<set setup.monthnames to [""
+	<<set setup.monthnames to ["",
 		"January", "February", "March", "April",
 		"May", "June", "July", "August",
 		"September", "October", "November", "December"]>>
