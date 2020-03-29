@@ -8,32 +8,6 @@ their requirements, and a couple of simple functions and macros to
 select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
 
-Status
-------
-
-This is still missing a good way to automatically display storylet
-requirements to the player. That's...a *complicated* thing to do
-in a generic library like this, and I may or may not ever figure
-out how to do a good job of it.
-
-And it hasn't been used for a real game/story, so it could have
-hidden design flaws.
-
-I believe that my examples exercise all the features, and
-everything works there, but I don't have a proper test suite for
-the code.
-
-Other than that, I'm regarding this as feature-complete. I'd like
-to add a bunch more documentation and examples, but that's not my
-strong point, so it's slow going. There might also be a few more
-convenience features I could add.
-
-But I think this is about as far as it makes sense to go in Twine
-without writing an entire new story format. And since Twine's
-editor is not designed for this, if you're going that far you
-might as well spend the time to bang together a more suitable
-editor and make a full custom tool. My two cents, YMMV, etc.
-
 
 Adding TinyQBN to your Story
 ----------------------------
@@ -49,19 +23,13 @@ easier copy/pasting.
 Documentation
 -------------
 
-There is a [quick-reference](doc/quick-reference.md) which gives a
-brief overview of all the current features, and [my more
-descriptive reference to the original features](doc/reference.md)
-is also still available.
+* [Quick reference](doc/quick-reference.md).
+* Older, more verbose [reference](doc/reference.md) (doesn't cover
+  the newer features).
 
-There are a bunch of walkthroughs demonstrating various features.
-
-The video versions of these walkthroughs are in [a playlist on
-YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F).
-
-The text versions are in this repository, along with the resulting
-code (both in the text-based Twee format and HTML versions which
-you can download and import into Twine):
+You probably want to start by skimming some of these walkthroughs
+(video versions [on
+YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F):
 
 * [Getting Started with TinyQBN](doc/tutorial-1.md):
   [twee](examples/tutorial-1.tw),
@@ -90,6 +58,18 @@ you can download and import into Twine):
 * [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories
   from text files instead of using Twine's graphical editor.
 
+There is a [quick-reference](doc/quick-reference.md) which gives a
+brief overview of all the current features, and [my more
+descriptive reference to the original features](doc/reference.md)
+is also still available.
+
+There are a bunch of walkthroughs demonstrating various features.
+
+
+The text versions are in this repository, along with the resulting
+code (both in the text-based Twee format and HTML versions which
+you can download and import into Twine):
+
 The new features in this version of the library are:
 
 * Creating two-part cards with a separate cover and contents
@@ -106,6 +86,33 @@ I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from
 StoryNexus. That code is split between [basic-ability.txt][] and
 the "choice helpers" at the end of [widgets.txt][].
+
+
+Status
+------
+
+This is still missing a good way to automatically display storylet
+requirements to the player. That's...a *complicated* thing to do
+in a generic library like this, and I may or may not ever figure
+out how to do a good job of it.
+
+And it hasn't been used for a real game/story, so it could have
+hidden design flaws.
+
+I believe that my examples exercise all the features, and
+everything works there, but I don't have a proper test suite for
+the code.
+
+Other than that, I'm regarding this as feature-complete. I'd like
+to add a bunch more documentation and examples, but that's not my
+strong point, so it's slow going. There might also be a few more
+convenience features I could add.
+
+But I think this is about as far as it makes sense to go in Twine
+without writing an entire new story format. And since Twine's
+editor is not designed for this, if you're going that far you
+might as well spend the time to bang together a more suitable
+editor and make a full custom tool. My two cents, YMMV, etc.
 
 
 Rebuilding the Minified Javascript

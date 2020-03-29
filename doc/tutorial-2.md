@@ -98,10 +98,12 @@ temporary `_egg_month` variable.
 
 	<<range $month 4 "egg" 11>>\
 
-The range macro will divide a variable's range up into parts and
-define a variable if it's in a named range. This will set
-`_egg_month` if `$month` is 4 through 10, because the next range
-starts at exactly 11.
+Think of the range macro as defining a labeled number-line. You
+give it a variable to check, and then alternating strings and
+numbers. The numbers place ticks on the line, and the strings name
+the spaces between. So this will check `$month` and set
+`_egg_month` if it is 4 through 10 (because 11 is the beginning of
+the next range).
 
 ![Fairweather Farm passage](fairweather-2.png)
 

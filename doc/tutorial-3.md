@@ -1,6 +1,17 @@
 Single-Use Cards for Stories
 ============================
 
+Since the previous tutorial, I added a bunch of products to each
+of the business locations. This was mostly just filling things out
+with extra content. The one interesting technique was that all of
+the animal products at Anderson's farm are available year-round,
+but they each have a 90% chance of occurring, so often they'll be
+"out of stock" of one or two of them.
+
+But you'll want to start from [the updated example](https://joshuagrams.github.io/tiny-qbn/examples/tutorial-2.html) ([Twee code](examples/tutorial-2.tw)) or at least add a "broccoli" product to Fairweather Farm.
+
+-----
+
 So far we have used exclusively sticky cards, to represent
 physical objects and locations. But for pieces of story, you'll
 more typically use single-use cards so you don't show individual
