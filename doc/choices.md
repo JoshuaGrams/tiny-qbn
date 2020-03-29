@@ -26,7 +26,7 @@ To display the choices, we use `QBN.filter(deck, limit=none)`.
 This works like `QBN.cards(limit)` except that it takes a deck of
 cards instead of searching all passages. Here we're showing all
 the matching choices, but we could have said ``<<cardrow
-`QBN.filter(_my_choices)` 3>>`` to tell it to randomly select 3
+`QBN.filter(_my_choices, 3)`>>`` to tell it to randomly select 3
 choices if it more than that are available.
 
 There's no way to link to one of these temporary cards. I could
