@@ -610,11 +610,12 @@ QBN.progress = function(name, value) {
 	if(order == null) {
 		throw("No such progress sequence " + JSON.stringify(name) + ".")
 	}
-	let i = order.indexOf(value)
-	if(i === -1) {
-		throw("No such progress value " + JSON.stringify(value) + " in " + JSON.stringify(name) + ".")
+	for(let i=0; i<order.length; i+=1) {
+		if(order[i] === value || order[i].replace(/[^a-zA-Z0-9_]/g, '') === value) {
+			return i
+		}
 	}
-	return i
+	throw("No such progress value " + JSON.stringify(value) + " in " + JSON.stringify(name) + ".")
 }
 
 // <<progress "$var" value1 ... >>
