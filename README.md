@@ -29,7 +29,7 @@ Documentation
 
 You probably want to start by skimming some of these walkthroughs
 (video versions [on
-YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F):
+YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F)):
 
 * [Getting Started with TinyQBN](doc/tutorial-1.md):
   [twee](examples/tutorial-1.tw),
@@ -84,8 +84,9 @@ The new features in this version of the library are:
 
 I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from
-StoryNexus. That code is split between [basic-ability.txt][] and
-the "choice helpers" at the end of [widgets.txt][].
+StoryNexus. That code is split between
+[basic-ability.txt](./basic-ability.txt) and
+the "choice helpers" at the end of [widgets.txt](./widgets.txt).
 
 
 Status
