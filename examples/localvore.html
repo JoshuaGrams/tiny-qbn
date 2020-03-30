@@ -155,7 +155,11 @@ State.initPRNG();var QBN={};window.QBN=QBN;var getVar=State.getVar||Wikifier.get
 &lt;&lt;cardrow `QBN.cards().sort(QBN.alphabetically)` &quot;linkbox&quot;&gt;&gt;\
 &lt;&lt;unset _driving&gt;&gt;
 &lt;&lt;return &quot;Exit Car&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="current products" tags="" position="975,100" size="100,100">&lt;&lt;nobr&gt;&gt;
-&lt;&lt;set _product to true&gt;&gt;&lt;&lt;set _products to QBN.cards()&gt;&gt;&lt;&lt;unset _product&gt;&gt;
+&lt;&lt;set _product to true&gt;&gt;
+&lt;&lt;set _products to QBN.cards()&gt;&gt;
+/% Don&#39;t forget to clear the variable, or products will show up in
+other card selections on the same &quot;page&quot;. %/
+&lt;&lt;unset _product&gt;&gt;
 &lt;&lt;if _products.length eq 0&gt;&gt;
 There is nothing for sale here.
 &lt;&lt;else&gt;&gt;

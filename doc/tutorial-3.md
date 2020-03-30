@@ -49,16 +49,22 @@ out. Then let's write the contents:
 	ever seen! I'll have to buy some for my dog: he //loves//
 	broccoli.
 
-We'll also give the passage a title for the sake of easy
-identification. Let's test that. Drive to Fairweather in January:
-there should be no broccoli and no story. Go back home, advance to
-April, then go back to Fairweather. There should now be broccoli
-and the story should show up. Since it's a single-use card it
-should only show up once. So if we start to drive away and then
-get back out of the car, there should still be broccoli but no
-story.
+We'll also give the passage a title so you can tell what it is
+from outside: I called it "Broccoli for the dog". Then let's
+test it. Drive to Fairweather in January: there should be no
+broccoli and no story. Go back home, advance to April, then go
+back to Fairweather. There should now be broccoli and the story
+should show up.
 
-Let's add a couple more:
+Since it's a single-use card it should only show up once. So if we
+start to drive away and then get back out of the car, there should
+still be broccoli but no story. If a product shows up instead, it
+probably means that your `current products` code didn't unset the
+`_product` variable. Temporary variables are visible *everywhere*
+in the current "moment" (all included passages and everything,
+until you follow a link to another passage).
+
+Let's add a couple more, making a new passage for each:
 
 	A large black pickup truck parks outside and a
 	broad-shouldered man in a torn sweatshirt enters the store.
@@ -82,4 +88,4 @@ I think this is about as far as I'm going to take this example.
 Hopefully it's enough to get you started even though it's still
 just a setting rather than a story with any kind of plot.
 
-[The full example](https://joshuagrams.github.io/tiny-qbn/examples/ocalvore.html).
+[The full example](https://joshuagrams.github.io/tiny-qbn/examples/localvore.html).

@@ -61,7 +61,11 @@ Localvore
 
 ::current products
 <<nobr>>
-<<set _product to true>><<set _products to QBN.cards()>><<unset _product>>
+<<set _product to true>>
+<<set _products to QBN.cards()>>
+/% Don't forget to clear the variable, or products will show up in
+other card selections on the same "page". %/
+<<unset _product>>
 <<if _products.length eq 0>>
 There is nothing for sale here.
 <<else>>
