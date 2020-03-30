@@ -63,6 +63,7 @@ Localvore: TinyQBN Tutorial 2
 <<nobr>>
 <<set _product to true>>
 <<set _products to QBN.cards()>>
+<<unset _products>> /% so it won't mess up other (hypothetical) selections on the same page %/
 <<if _products.length eq 0>>
 There is nothing for sale here.
 <<else>>

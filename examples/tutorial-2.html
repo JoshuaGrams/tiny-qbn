@@ -157,6 +157,7 @@ State.initPRNG();var QBN={};window.QBN=QBN;var getVar=State.getVar||Wikifier.get
 &lt;&lt;return &quot;Exit Car&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="8" name="current products" tags="" position="975,100" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;set _product to true&gt;&gt;
 &lt;&lt;set _products to QBN.cards()&gt;&gt;
+&lt;&lt;unset _products&gt;&gt; /% so it won&#39;t mess up other (hypothetical) selections on the same page %/
 &lt;&lt;if _products.length eq 0&gt;&gt;
 There is nothing for sale here.
 &lt;&lt;else&gt;&gt;
