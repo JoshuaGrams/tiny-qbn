@@ -17,12 +17,12 @@ Expressions:
 * `name` - `$name` or `_name` has a non-empty value.
 * `not-expression` - expression has an empty value.
 * `random-xx` - available xx percent of the time (integer percent).
-* `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. 
-  * Op can also be `before` or `during` or `after` for use with progress variables.
+* `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. `eq` and `ne` also work with `name-op-string`.
+* Op can also be `before` or `during` or `after`, `startingAt` or `endingAt` for use with progress variables.
 
 Checking variables:
 
-* `<<range var threshold name threshold ...>>` - set `_name_var` to true for the name of the range (if any) that `$var` (or `_var`) falls into.
+* `<<range "$var" n1 name n2 name2 ...>>` - set `_name_var` to true for the name of the range (if any) that `$var` falls into. Think of this as a labeled number-line, where numbers make tick-marks on the line, and strings name the spaces between.
 
 Manually manipulating the event deck:
 
@@ -33,7 +33,8 @@ Progress variables:
 
 * Create with `<<progress "$var" value ...>>`, giving as many values as you like.
 * Use `<<advance "$var" n>>` to advance `n` steps (optional, default is 1, negative numbers work too).
-* Check with `req-var-before-value` (or `during` or `after`).
+* Use `<<advance "$var" "value">` to advance to a given value (only goes forward, never back).
+* Check with `req-var-before-value` (or `during`, `after`, `startingAt`, `endingAt`).
 
 
 Card Contents

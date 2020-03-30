@@ -59,7 +59,7 @@ story beats tied to particular milestones, but you can (and
 definitely should) use a `<<range>>` check in your `PassageHeader`
 for that:
 
-	<<range $goals `.1*$win` "10pct" `.2*$win` "20pct" ...>>
+	<<range "$goals" `.1*$win` "10pct" `.2*$win` "20pct" ...>>
 
 And then tag the passage `req-_goals_50pct` and maybe `important`
 or `urgent`.

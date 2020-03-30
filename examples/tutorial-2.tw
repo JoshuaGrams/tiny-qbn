@@ -33,9 +33,9 @@ Localvore: TinyQBN Tutorial 2
 ::Fairweather Farm [sticky-card req-driving req-location-ne-fairweather]
 !Fairweather Farm
 <<set $location to "fairweather">>\
-<<range $month 4 "egg" 11>>\
-<<range $month 4 "cool" 6 "hot" 9 "cool" 11>>\
-<<range $month "potato" 3 6 "potato">>\
+<<range "$month" 4 "egg" 11>>\
+<<range "$month" 4 "cool" 6 "hot" 9 "cool" 11>>\
+<<range "$month" "potato" 3 6 "potato">>\
 <<include "current products">>
 [[Drive->Car]]
 
@@ -48,8 +48,8 @@ Localvore: TinyQBN Tutorial 2
 ::Docks [sticky-card req-driving req-location-ne-docks]
 !Docks
 <<set $location to "docks">>\
-<<range $month 5 "mackerel" 7 10 "mackerel">>\
-<<range $month "shrimp" 4 12 "shrimp">>\
+<<range "$month" 5 "mackerel" 7 10 "mackerel">>\
+<<range "$month" "shrimp" 4 12 "shrimp">>\
 <<include "current products">>
 [[Drive->Car]]
 

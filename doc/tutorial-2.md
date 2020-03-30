@@ -96,7 +96,7 @@ the summer, and only maybe two-thirds of the time in the winter.
 In the Fairweather Farm passage, we'll use `<<range>>` to define a
 temporary `_egg_month` variable.
 
-	<<range $month 4 "egg" 11>>\
+	<<range "$month" 4 "egg" 11>>\
 
 Think of the range macro as defining a labeled number-line. You
 give it a variable to check, and then alternating strings and

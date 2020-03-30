@@ -224,6 +224,12 @@ var operators = {
 	},
 	after: function(a, b, name) {
 		return QBN.progress(name, a) > QBN.progress(name, b)
+	},
+	endingAt: function(a, b, name) {
+		return QBN.progress(name, a) <= QBN.progress(name, b)
+	},
+	startingAt: function(a, b, name) {
+		return QBN.progress(name, a) >= QBN.progress(name, b)
 	}
 }
 
@@ -256,7 +262,7 @@ QBN.functions = {
 		}
 	},
 	compare: {
-		match: /^(.*)-(eq|ne|lt|gt|le|ge|before|during|after)-(.*)/,
+		match: /^(.*)-(eq|ne|lt|gt|le|ge|before|during|after|startingAt|endingAt)-(.*)/,
 		action: function(m) {
 			var actual = QBN.value(m[1])
 			var op = operators[m[2]]
@@ -324,13 +330,15 @@ QBN.range = function(value, ranges) {
 Macro.add('range', {
 	handler: function() {
 		var range
+		var name = this.args[0], value
 		try {
-			range = QBN.range(this.args[0], this.args.slice(1))
+			if(typeof name === 'string') value = getVar(name)
+			else { value = name;  name = firstWord(this.args.raw) }
+			range = QBN.range(value, this.args.slice(1))
 		} catch(e) {
 			return this.error('<<range>>: ' + (e.message || e))
 		}
 
-		var name = firstWord(this.args.raw)
 		setVar('_' + range + '_' + name.substring(1), true)
 		setVar('_' + name.substring(1) + '_range', range)
 	}
@@ -632,12 +640,16 @@ Macro.add('advance', {
 		const name = this.args[0]
 		let msg = invalidName(name)
 		if(msg) return this.err(msg)
-		const n = +this.args[1] || 1
 
 		let values = setup[name.replace(/^[$_]/, '')]
 		let value = getVar(name)
-		let index = QBN.progress(name, value) + n
-		index = Math.max(0, Math.min(index, values.length-1))
+		let index = QBN.progress(name, value)
+		if(typeof this.args[1] === 'string') {
+			index = Math.max(index, QBN.progress(name, this.args[1]))
+		} else {
+			const n = +this.args[1] || 1
+			index = Math.max(0, Math.min(index + n, values.length-1))
+		}
 		setVar(name, values[index])
 	}
 })

@@ -67,7 +67,7 @@ Selecting Available Cards
 
 -----
 
-* `<<range $name "low" 30 "medium" 70 "high">>` will
+* `<<range "$name" "low" 30 "medium" 70 "high">>` will
   create a temporary variable `_low_name`, `_medium_name` or
   `_high_name` depending on the value of `$name`.
 
