@@ -1,0 +1,106 @@
+:: StoryData
+{"ifid": "17D6035D-33BA-44E1-8B97-768FB6A23B6F"}
+
+::StoryTitle
+Powered by the Apocalypse style mechanics.
+
+::StoryInit
+/% Just put the player stats in plain variables? %/
+<<set $Stat to 1>>
+
+/% Declare a countdown clock and initialize it to the first value (an empty string) %/
+<<progress "$MenaceClock" "" "15:00" "18:00" "21:00" "22:00" "23:00" "00:00">>
+
+::Start
+<<advance "$MenaceClock" "18:00">>  /% Advance it to a particular value. %/\
+<<advance "$MenaceClock">>  /% Advance it by one step (to 21:00). %/\
+Menace: $MenaceClock
+<<roll $Stat>>\
+You rolled _rollstring.
+[[Roll Again->Start]]
+
+----
+!!!If statement
+If you only have three choices, just use an """<<if>>""" statement.
+
+<<if _good>>\
+Success: minimal complications.
+<<elseif _mixed>>\
+Success, but...
+<<else>>\
+The GM makes your life "interesting".
+<</if>>\
+
+----
+!!!Inline Choices
+If you have more than one possible result for each option, you can use """<<choices>>""" which are like cards, but only exist inside a single passage (so you can see them all at once, don't have to create a separate passage for each choice, etc.).
+
+<<choices _results>>
+	<<when>>sticky-card req-good
+		<<offer>>Success: minimal complications.
+	<<when>>sticky-card req-mixed
+		<<offer>>Success, but...
+	<<when>>sticky-card req-bad
+		<<offer>>The GM makes your life "interesting".
+	<<when>>sticky-card req-good req-MenaceClock-startingAt-1800 important
+		<<offer>>
+		Success, but the threat level is already high, so...
+>{{{important}}} guarantees that when this is available, it will be chosen before the default. Leaving this tag out would make it be chosen at the same frequency as other available choices. I wanted to keep things simple, so I only implemented three priority levels: normal, important, and urgent. So you have a little bit of priority control, but you can't *keep* stacking these up.
+<</choices>>\
+<<includeall `QBN.filter(_results, 1)`>>
+
+----
+!!!Storylet Passages
+If you have generic as well as specific responses, you can use separate passages as storylets for the choices, and use a unique event identifier to select the ones that are specific to this event.
+
+<<set _uniqueEventID to true>>\
+<<set _choices to QBN.cards(1)>>\
+/% Remember to unset it so it won't affect any other selections on the same page. %/\
+<<unset _uniqueEventID>>\
+<<includeall _choices>>
+
+
+::Event success [sticky-card req-uniqueEventID req-good]
+Success: minimal complications.
+
+::Event mixed results [sticky-card req-uniqueEventID req-mixed]
+Success, but...
+
+::Event bad result [sticky-card req-uniqueEventID req-bad]
+The GM makes your life "interesting".
+
+::Generic bad result [sticky-card req-bad]
+Generic "something bad happens" result...
+>Note that this storylet doesn't have an {{{important}}} or {{{urgent}}} tag, so sometimes you'll get this and sometimes you'll get the event-specific one.
+
+::Skill Checks [widget]
+/%
+
+Usage: <<roll $stat mixed=7 good=10>>
+	(mixed and good thresholds are optional)
+
+Result: sets one of _bad or _mixed or _good to true.
+
+Note that 2d6 is NOT the same as a d12: for instance you are six times
+more likely to roll a 7 than a 12. Trivia: the more dice you roll and
+add together, the closer the probability is to a Gaussian bell curve.
+
+%/
+<<widget "roll">><<silently>>
+	/% clear any previous values %/
+	<<set _bad to false>>
+	<<set _mixed to false>>
+	<<set _good to false>>
+	/% roll 2d6 and add the stat %/
+	<<set _roll to random(1,6) + random(1,6)>>
+	<<set _rollstring to _roll + '+' + $args[0]>>
+	<<set _roll to _roll + $args[0]>>
+	/% check the result and set variables %/
+	<<if _roll lt ((def $args[1])? $args[1] : 7)>>
+		<<set _bad to true>>
+	<<elseif _roll lt ((def $args[2])? $args[2] : 10)>>
+		<<set _mixed to true>>
+	<<else>>
+		<<set _good to true>>
+	<</if>>
+<</silently>><</widget>>

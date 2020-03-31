@@ -55,20 +55,13 @@ YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_
 * [Card Priority](doc/priority.md):
   [twee](examples/priority.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/priority.html).
+* Dice Rolls: here's a quick example of doing Powered by the
+  Apocalypse style dice rolls (roll 2d6 plus a stat modifier, 10+
+  is success, 7-9 is mixed results, 6- "life is interesting"):
+  [twee](examples/dice-rolls.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/dice-rolls.html).
 * [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories
   from text files instead of using Twine's graphical editor.
-
-There is a [quick-reference](doc/quick-reference.md) which gives a
-brief overview of all the current features, and [my more
-descriptive reference to the original features](doc/reference.md)
-is also still available.
-
-There are a bunch of walkthroughs demonstrating various features.
-
-
-The text versions are in this repository, along with the resulting
-code (both in the text-based Twee format and HTML versions which
-you can download and import into Twine):
 
 The new features in this version of the library are:
 
