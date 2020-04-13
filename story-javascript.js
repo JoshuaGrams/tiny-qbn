@@ -536,10 +536,10 @@ Macro.add('card', {
 	handler: function() {
 		var $output = $(this.output)
 		if(getVar('_qbn_cover')) {
-			$output.wiki(this.payload[0].contents)
+			$output.wiki(this.payload[0].contents.trim())
 		} else {
 			for(var i=1; i<this.payload.length; ++i) {
-				$output.wiki(this.payload[i].contents)
+				$output.wiki(this.payload[i].contents.trim())
 			}
 		}
 	}
