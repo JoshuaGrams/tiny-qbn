@@ -108,32 +108,29 @@ QBN.alphabetically = function(a, b) {
 }
 
 // Choose `count` random values from `array`.
-function choose(array, count) {
-	if(count == null || count === false) return shuffle(array)
+function choose(array, count, ordered) {
+	if(count == null || count === false) {
+		return ordered? array : shuffle(array)
+	}
 	// Can't choose more values than the array has (or less than 0).
 	count = Math.max(0, Math.min(count, array.length))
 	// If choosing more than half the array, *exclude* random values.
 	var n = Math.min(count, array.length - count)
-	var include = (n == count)
+	var include = (n === count) ? true : undefined
 	// Choose `n` random indices.
 	var selected = [], indices = {}, chosen = 0
 	while(chosen < n) {
 		var i = Math.floor(State.random() * array.length)
 		// Don't choose the same one twice.
 		if(indices[i] === undefined) {
-			if(include) selected.push(array[i])
 			indices[i] = true
 			++chosen
 		}
 	}
-	// If excluding values, we build the output afterwards.
-	if(!include) {
-		for(i=0; i<array.length; ++i) {
-			if(indices[i] !== true) selected.push(array[i])
-		}
-		shuffle(selected)
+	for(i=0; i<array.length; ++i) {
+		if(indices[i] === include) selected.push(array[i])
 	}
-	return selected
+	return ordered? selected : shuffle(selected)
 }
 
 // Optionally changes passage priority: 'urgent/important/normal'.
@@ -162,7 +159,7 @@ Macro.add('cardpriority', {
 	}
 })
 
-function select(filter, n, onlyHighest) {
+function select(filter, n, ordered) {
 	// Filter cards into passages.urgent/important/normal.
 	let passages = {}
 	filter(function(p) {
@@ -178,18 +175,18 @@ function select(filter, n, onlyHighest) {
 	let chosen
 	if(passages.urgent) {
 		// Urgent cards exclude normal and important ones.
-		chosen = choose(passages.urgent, n)
+		chosen = choose(passages.urgent, n, ordered)
 	} else {
 		// Important cards are chosen before normal ones.
 		if(passages.important) {
-			chosen = choose(passages.important, n)
+			chosen = choose(passages.important, n, ordered)
 			if(n) n -= chosen.length
 		} else {
 			chosen = []
 		}
 		// Normal cards fill out any remaining spaces.
 		if(passages.normal) {
-			chosen = chosen.concat(choose(passages.normal, n))
+			chosen = chosen.concat(choose(passages.normal, n, ordered))
 		}
 	}
 	// You can't store Passages in a SugarCube variable (the
@@ -199,14 +196,14 @@ function select(filter, n, onlyHighest) {
 	return chosen
 }
 
-QBN.filter = function(passages, n) {
+QBN.filter = function(passages, n, ordered) {
 	let filter = passages.filter.bind(passages)
-	return select(filter, n)
+	return select(filter, n, ordered)
 }
 
-QBN.cards = function(n) {
+QBN.cards = function(n, ordered) {
 	let filter = Story.lookupWith.bind(Story)
-	return select(filter, n)
+	return select(filter, n, ordered)
 }
 
 var operators = {
