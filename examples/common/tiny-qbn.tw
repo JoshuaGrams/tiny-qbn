@@ -1,0 +1,77 @@
+::TinyQBN widgets [widget]
+/*
+ * Comma-separated lists: call with "linkto" for links instead
+ * of contents.
+ */
+
+<<widget "cardlist">>\
+<<includeall $args[0] `$args[1] or "content"` "comma">>\
+<</widget>>
+
+/*
+ * Rows and columns of card contents in boxes: call with "linkbox"
+ * for links, or "coverbox" for covers.
+ */
+
+<<widget "cardcolumn">>@@.qbn-column;
+<<includeall $args[0] `$args[1] or "contentbox"`>>
+@@<</widget>>
+
+<<widget "cardrow">>@@.qbn-row;
+<<includeall $args[0] `$args[1] or "contentbox"`>>
+@@<</widget>>
+
+
+/* Comma separator (no serial comma). */
+
+<<widget "comma">><<if $args[0]>> and <<else>>, <</if>><</widget>>
+
+
+/* Wrapper widgets (card contents or links, optionally boxed). */
+
+<<widget "cover">>\
+<<set _qbn_cover to true>><<includecard $args[0]>><<unset _qbn_cover>>\
+<</widget>>
+
+<<widget "content">><<if `QBN.available($args[0])`>>\
+<<unset _qbn_cover>><<includecard $args[0]>><<removecard $args[0] false>>\
+<</if>><</widget>>
+
+<<widget "linkto">><<print '[\[' + $args[0] + ']]'>><</widget>>
+
+<<widget "coverbox">>@@.qbn-card;
+<<cover $args[0]>>
+@@<</widget>>
+
+<<widget "contentbox">>@@.qbn-card;
+<<content $args[0]>>
+@@<</widget>>
+
+<<widget "linkbox">>@@.qbn-card;
+<<linkto $args[0]>>
+@@<</widget>>
+
+
+/* Conditional Links */
+
+<<widget "linkif">>\
+<<if $args[0]>><<= '[\['+($args[2] or $args[1])+'->'+$args[1]+']]'>>\
+<<else>>@@.qbn-nolink;<<= $args[2] or $args[1]>>@@<</if>>\
+<</widget>>
+
+<<widget "linkcontents">><<linkif `QBN.available($args[1] or QBN.current)` `$args[1] or QBN.current` $args[0]>><</widget>>
+
+
+/* Choice helpers */
+
+<<widget "skillcheck">>\
+<<set _qbnsuccess to $args[0].check($args[1])>>\
+<</widget>>
+
+<<widget "gotoresult">>\
+<<if _qbnsuccess>><<set $args[0] to $args[0] + ' ' + Success>><</if>>\
+<<if State.random() < 0.20 and Story.get('Rare ' + $args[0])>>\
+<<set $args[0] to 'Rare ' + $args[0]>>\
+<</if>>\
+<<unset _qbnsuccess>><<removecard _qbncurrent false>><<goto $args[0]>>\
+<</widget>>
