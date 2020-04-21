@@ -9,7 +9,7 @@
 	"build-tinyqbn-widgets": "node -e \"console.log('::TinyQBN widgets [widget]')\" | cat - widgets.txt > widgets.tw",
 	"build-basic-ability": "node -e \"console.log('::BasicAbility code [widget]')\" | cat - basic-ability.txt > basic-ability.tw",
 	"build-widgets": "npm run build-tinyqbn-widgets && npm run build-basic-ability",
-	"copy-common": "cp story-javascript.min.js examples/common/tiny-qbn.js && cp widgets.tw examples/common/tiny-qbn.tw",
+	"copy-common": "cp story-javascript.min.js examples/common/tiny-qbn.js && cp widgets.tw examples/common/tiny-qbn.tw && cp story-javascript.min.js examples/common/tiny-qbn.txt",
 	"ex-localvore1": "cd examples && tweego -o tutorial-1.html tutorial-1.tw common",
 	"ex-localvore2": "cd examples && tweego -o tutorial-2.html tutorial-2.tw common",
 	"ex-localvore": "cd examples && tweego -o localvore.html localvore.tw common",
