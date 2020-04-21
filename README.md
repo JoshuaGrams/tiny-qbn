@@ -12,8 +12,12 @@ when those are the appropriate tool.
 Adding TinyQBN to your Story
 ----------------------------
 
-Copy the Story Javascript (the [minified](story-javascript.min.js)
-or the [readable](story-javascript.js) version), the
+Now you can simply [generate a blank TinyQBN
+project](https://joshuagrams.github.io/tiny-qbn/examples/blank-project.html), save it and import it into Twine.
+
+Or you can add the library to a story manually: copy the Story
+Javascript (the [minified](story-javascript.min.js) or the
+[readable](story-javascript.js) version), the
 [widgets](widgets.txt) (create a passage with a `widget` tag for
 these) and optionally the [Story Stylesheet](story-stylesheet.css)
 into your game. Click the "Raw" button when viewing these for

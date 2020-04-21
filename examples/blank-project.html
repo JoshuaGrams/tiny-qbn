@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Blank TinyQBN Project</title>
+<script src="js/uuidv4.min.js"></script>
+<script src="js/parse-twee.js"></script>
+<script src="js/generate-twine.js"></script>
+<script src="js/load.js"></script>
+</head>
+<body>
+<form id="titleForm" method="get">
+	<label>Title: <input type="text" name="title" id="titleField"></label>
+	<input type="submit" value="Generate">
+</form>
+<script id="story" type="text/plain;charset=utf-8">
+::Start
+
+</script>
+<script>
+	let titleForm = document.getElementById('titleForm')
+	titleForm.action = document.location
+	document.getElementById('titleField').focus()
+	function storyFormat(format) {
+		if(!document.location.search) return
+		load({
+			scripts: ["common/tiny-qbn.js"],
+			widgets: ["common/tiny-qbn.tw"],
+			styles: ["common/style.css"]
+		}, function(extras) {
+			let title = document.location.search.replace(/^[^=]*=/, '')
+			title = title.replace(/[+]/g, '%20')
+			title = decodeURIComponent(title)
+			let storyElement = document.getElementById('story')
+			let storyText = "::StoryTitle\n"+title+"\n\n"
+			storyText += storyElement.textContent
+			let story = parseTwee(storyText, extras)
+			generateStory(story, format)
+		})
+	}
+</script>
+<script src="sugarcube-2.30.0/format.js"></script>
+</body>
+</html>
