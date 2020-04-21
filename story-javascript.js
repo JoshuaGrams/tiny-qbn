@@ -458,7 +458,7 @@ Macro.add('includeall', {
 				if(Macro.has(separate)) {
 					$output.wiki('<<'+separate+' '+(i===cards.length-2)+'>>')
 				} else {
-					$output.append(document.createTextNode(separate))
+					$output.wiki(separate)
 				}
 			}
 		}
