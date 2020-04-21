@@ -17,7 +17,7 @@ load = (function(){
 					if(files[keys[k]] == null) files[keys[k]] = []
 					files[keys[k]][i] = req.responseText
 				} else {
-					throw new Error(req.status)
+					throw new Error(req.status + req.responseURL)
 				}
 				++i; if(i === files[keys[k]].length) { ++k; i=0 }
 				if(k < keys.length) {
