@@ -27,7 +27,7 @@ Checking variables:
 Manually manipulating the event deck:
 
 * `<<addcard title sticky>>`
-* `<<removecard title even_if_sticky=false>>`
+* `<<removecard title even_if_sticky=true>>`
 
 Progress variables:
 
@@ -52,7 +52,6 @@ Selecting Cards
 
 * `QBN.cards(limit=none)` - select available cards from the deck, up to limit.
 * `QBN.filter(cards, limit=none)` - select from given passage list.
-* `QBN.onlyHighest` - ignore lower priority cards, or just put them last?
 * `<<fillhand $hand limit cards>>` - attempt to fill `$hand` to its `limit` with random selections from `cards`.
 * `QBN.visible(card)` - should this card be visible (are its `req-` requirements met)?
 * `QBN.available(card)` - should this card's contents be available? Both its `req-` *and* its `also-` requirements must be met.
