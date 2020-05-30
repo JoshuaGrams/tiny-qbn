@@ -101,15 +101,16 @@ One other common pattern is to use a numeric variable to track
 story progress. You generally use integer values, so you have step
 1, 2, 3 and so on. Maybe step 1 is choosing your party members,
 step 2 is planning and preparing, and on step 3 you enter the
-dungeon. It's nice and modular and it's easy to add new storylets
-to each phase whenever you want.
+dungeon.
 
+It's easy to add new storylets to each phase whenever you want.
 And it's simple to set up: initialize the variable to one (or
 zero, if you prefer that), and add one to it every time you want
 to advance. Then your storylets can require a particular value.
-But you have to manually keep track of what the numbers mean. And
-if you want to add or remove a step, you have to re-number all the
-storylets which come after.
+
+**But** you have to manually keep track of what the numbers mean.
+And if you want to add or remove a step, you have to re-number all
+the storylets which come after.
 
 So I built a helper macro that tracks progress as a sequence of
 named states. In your StoryInit passage, do:
