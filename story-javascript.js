@@ -207,12 +207,21 @@ QBN.cards = function(n, ordered) {
 }
 
 var operators = {
-	eq: function(a, b) { return a == b },
-	ne: function(a, b) { return a != b },
-	lt: function(a, b) { return a < b },
-	gt: function(a, b) { return a > b },
-	le: function(a, b) { return a <= b },
-	ge: function(a, b) { return a >= b },
+	eq:  function(a, b) { return a == b },
+	neq: function(a, b) { return a != b },
+	ne: function(a, b) { return a != b },  // This one doesn't match SugarCube
+	lt:  function(a, b) { return a < b },
+	gt:  function(a, b) { return a > b },
+	lte: function(a, b) { return a <= b },
+	le: function(a, b) { return a <= b },  // This one doesn't match SugarCube
+	gte: function(a, b) { return a >= b },
+	ge: function(a, b) { return a >= b },  // This one doesn't match SugarCube
+	eqvar:  function(a, b, aName, bName) { return a == QBN.value(bName) },
+	neqvar: function(a, b, aName, bName) { return a == QBN.value(bName) },
+	ltvar:  function(a, b, aName, bName) { return a == QBN.value(bName) },
+	gtvar:  function(a, b, aName, bName) { return a == QBN.value(bName) },
+	ltevar: function(a, b, aName, bName) { return a == QBN.value(bName) },
+	gtevar: function(a, b, aName, bName) { return a == QBN.value(bName) },
 	before: function(a, b, name) {
 		return QBN.progress(name, a) < QBN.progress(name, b)
 	},
@@ -247,6 +256,23 @@ QBN.functions = {
 			return desc == null ? desc : 'not ' + desc
 		}
 	},
+	passage: {
+		match: /^passage-(.+)/,
+		action: function(m) {
+			return passage() === m[1] || passage() === m[1].replace(/_/g, ' ')
+		},
+		description: function(m) { return null }
+	},
+	tagged: {
+		match: /^tagged-(.+)/,
+		action: function(m) { return tags().includes(m[1]) },
+		description: function(m) { return null }
+	},
+	visited: {
+		match: /^visited-([^-]+)/,
+		action: function(m) { return visited(m[1]) > 0 },
+		description: function(m) { return null }
+	},
 	random: {
 		match: /^random-([0-9]+)/,
 		action: function(m) {
@@ -259,7 +285,7 @@ QBN.functions = {
 		}
 	},
 	compare: {
-		match: /^(.*)-(eq|ne|lt|gt|le|ge|before|during|after|startingAt|endingAt)-(.*)/,
+		match: /^(.*)-(eq|ne|lt|gt|le|ge|neq|lte|gte|eqvar|neqvar|ltvar|gtvar|ltevar|gtevar|before|during|after|startingAt|endingAt)-(.*)/,
 		action: function(m) {
 			var actual = QBN.value(m[1])
 			var op = operators[m[2]]
@@ -267,7 +293,7 @@ QBN.functions = {
 			if(typeof actual === 'number') {
 				expected = expected.replace('_', '.')
 			}
-			return op(actual, expected, m[1])
+			return op(actual, expected, m[1], m[3])
 		},
 		description: function(m) {
 			var actual = QBN.description(m[1])

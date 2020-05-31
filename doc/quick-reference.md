@@ -17,8 +17,12 @@ Expressions:
 * `name` - `$name` or `_name` has a non-empty value.
 * `not-expression` - expression has an empty value.
 * `random-xx` - available xx percent of the time (integer percent).
-* `name-op-number` - op is `eq`|`ne`|`lt`|`gt`|`le`|`ge`; use `_` for decimal point. `eq` and `ne` also work with `name-op-string`.
+* `name-op-number` - op is `eq`|`neq`|`lt`|`gt`|`lte`|`gte`; use `_` for decimal point. `eq` and `neq` also work with `name-op-string`.
 * Op can also be `before` or `during` or `after`, `startingAt` or `endingAt` for use with progress variables.
+* `name-op-name` - `eqvar`|`neqvar`|`ltvar`|`gtvar`|`ltevar`|`gtevar` - compare two variables instead of a variable and a constant value.
+* `passage-title` - Are we at the passage with the given title?
+* `visited-title` - Have we visited the passage with the given title?
+* `tagged-blah_blah` - Does the current passage have a tag `blah_blah`?
 
 Checking variables:
 
