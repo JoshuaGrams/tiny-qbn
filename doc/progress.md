@@ -96,7 +96,9 @@ that they are connected.
 Here's an empty skeleton for an [avian
 party](https://joshuagrams.github.io/tiny-qbn/examples/Floating%20Branches.html)
 where you can jump between conversations with different birds, but
-each conversation is its own simple branching arc.
+each conversation is its own simple branching arc. There's nothing
+interesting to play here, but you can save and import it into
+Twine to see the structure.
 
 
 Sequences of Named States
