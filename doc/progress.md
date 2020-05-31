@@ -94,10 +94,9 @@ find those and draw arrows between the passages so you can see
 that they are connected.
 
 Here's an empty skeleton for an [avian
-party](https://joshuagrams.github.io/tiny-qbn/examples/Floating
-Branches.html) where you can jump between conversations with
-different birds, but each conversation is its own simple branching
-arc.
+party](https://joshuagrams.github.io/tiny-qbn/examples/Floating%20Branches.html)
+where you can jump between conversations with different birds, but
+each conversation is its own simple branching arc.
 
 
 Sequences of Named States
