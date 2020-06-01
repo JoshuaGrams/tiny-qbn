@@ -13,10 +13,19 @@ parseTwee = (function(){
 		return false
 	}
 
+	function parseTitle(line) {
+		const m = /^([^\[{]*)(\[[^\]]*\])?({.*})?/.exec(line)
+		const meta = { name: m[1].trim() }
+		if(m[2] != null) {
+			meta.tags = m[2].substring(1, m[2].length-1).trim()
+		}
+		return meta
+	}
+
 	function parsePassage(string) {
 		let pieces = string.split(/\n([^]+)/, 2)
 		return [
-			{name: pieces[0].trim()},
+			parseTitle(pieces[0]),
 			pieces[1].trim()
 		]
 	}
