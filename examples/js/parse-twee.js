@@ -14,10 +14,14 @@ parseTwee = (function(){
 	}
 
 	function parseTitle(line) {
-		const m = /^([^\[{]*)(\[[^\]]*\])?({.*})?/.exec(line)
+		const m = /^([^\[{]*)(\[[^\]]*\])?\s*({.*})?/.exec(line)
 		const meta = { name: m[1].trim() }
 		if(m[2] != null) {
 			meta.tags = m[2].substring(1, m[2].length-1).trim()
+		}
+		if(m[3] != null) {
+			const other = JSON.parse(m[3])
+			for(const k in other) meta[k] = other[k]
 		}
 		return meta
 	}

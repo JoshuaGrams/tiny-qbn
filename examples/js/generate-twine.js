@@ -64,7 +64,7 @@ storyToHTML = (function(){
 			// they are missing.
 			format: format.name,
 			"format-version": format.version,
-			zoom: 1,
+			zoom: story.zoom || 1,
 			startnode: story.startnode || 1
 		}
 		let dataNodes = story.passages.map(passageToNode)
