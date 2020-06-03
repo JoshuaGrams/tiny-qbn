@@ -17,8 +17,9 @@
 	"ex-choices": "cd examples && tweego -o choices.html choices.tw common",
 	"ex-priority": "cd examples && tweego -o priority.html priority.tw common",
 	"ex-progress": "cd examples && tweego -o progress.html progress.tw common",
+	"ex-sprawl": "cd examples && tweego -o sprawl.html sprawl.tw sprawl.css common",
 	"ex-dice-rolls": "cd examples && tweego -o dice-rolls.html dice-rolls.tw common",
-	"examples": "npm run copy-common && npm run ex-localvore1 && npm run ex-localvore2 && npm run ex-localvore && npm run ex-covers && npm run ex-choices && npm run ex-priority && npm run ex-progress && npm run ex-dice-rolls"
+	"examples": "npm run copy-common && npm run ex-localvore1 && npm run ex-localvore2 && npm run ex-localvore && npm run ex-covers && npm run ex-choices && npm run ex-priority && npm run ex-progress && npm run ex-sprawl && npm run ex-dice-rolls"
   },
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "ISC",

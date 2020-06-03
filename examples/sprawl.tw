@@ -1,0 +1,254 @@
+:: StoryData
+{"ifid": "710BB586-3637-423F-9623-76D8DC706FCF"}
+
+::StoryTitle
+NarraScope 2020 Sprawl Demo
+
+::StoryInit
+<<widget "coveritem">><li><<cover $args[0]>></li><</widget>>
+
+<<progress "$mission" 
+	"assemble_team" "legwork"
+	"first_guard" "second_guard" "third_guard"
+	"hack_paydata" "getaway" "get_paid">>
+<<advance "$mission" "first_guard">>
+
+<<set $Meticulous to 0.6>>
+<<set $Improvised to 0.4>>
+
+<<set $Clean to 1>>
+<<set $Messy to 1.3>>
+
+<<set $InfiltratorCool to 1>>
+<<set $HackerSynth to 2>>
+<<set $PlayerMeat to 1>>
+
+::PassageHeader
+<div id="clean" class="statBar">\
+	<div class="right" style="float:right"></div>\
+	<div class="statBg">&nbsp;</div>\
+	<div class="left">&nbsp;Clean _clean%</div>\
+</div>\
+<div id="meticulous" class="statBar">\
+	<div class="right" style="float:right"></div>\
+	<div class="statBg">&nbsp;</div>\
+	<div class="left"></div>\
+</div>\
+<<include "PassageDone">>\
+
+
+::PassageDone
+<<silently>>
+/% Clean as a percentage for display. %/
+<<set _clean to Math.round(100 * $Clean / ($Clean + $Messy))>>
+
+/% Meticulous as a percentage for display. %/
+<<set _meticulous to $Meticulous / ($Meticulous + $Improvised)>>
+<<set _meticulous to Math.round(100 * _meticulous)>>
+
+/% Stat bonuses for meticulous- or improv-sensitive rolls: -1 to +1. %/
+<<set _plotter to (_meticulous - 50) / 50>>
+<<set _pantser to (50 - _meticulous) / 50>>
+
+<<run $("#clean .statBg").css("width", _clean+'%')>>\
+<<run $("#clean .left").html("&nbsp;Clean "+State.temporary.clean+"%")>>\
+<<run $("#clean .right").html("&nbsp;Messy "+(100-State.temporary.clean)+"%&nbsp;")>>\
+
+<<run $("#meticulous .statBg").css("width", _meticulous+'%')>>\
+<<run $("#meticulous .left").html("&nbsp;Meticulous "+State.temporary.meticulous+"%")>>\
+<<run $("#meticulous .right").html("&nbsp;Improvised "+(100-State.temporary.meticulous)+"%&nbsp;")>>\
+
+<</silently>>\
+
+::Start
+<<set _event to true>>\
+<<set _storylets to QBN.cards(1)>>\
+<<unset _event>>\
+<<if _storylets.length>><<goto _storylets[0]>>
+<<else>><<goto "End">>
+<</if>>
+
+::Stat Widgets [widget] {"position":"350,25"}
+/%
+
+Usage: <<roll $stat mixed=6.5 good=9.5>>
+	(mixed and good thresholds are optional)
+
+Result: sets one of _bad or _mixed or _good to true.
+
+%/
+<<widget "roll">><<silently>>
+	/% clear any previous values %/
+	<<set _bad to false>>
+	<<set _mixed to false>>
+	<<set _good to false>>
+	/% roll 2 numbers in [0,6) and add the stat %/
+	<<set _roll to randomFloat(6) + randomFloat(6)>>
+	<<set _rollstring to _roll + '+' + $args[0]>>
+	<<set _roll to _roll + $args[0]>>
+	/% check the result and set variables %/
+	<<if _roll lt ((def $args[1])? $args[1] : 6.5)>>
+		<<set _bad to true>><<set ++$Messy>>
+	<<elseif _roll lt ((def $args[2])? $args[2] : 9.5)>>
+		<<set _mixed to true>>
+	<<else>>
+		<<set _good to true>><<set ++$Clean>>
+	<</if>>
+<</silently>><</widget>>
+
+
+::End
+The End.
+
+Or an error?
+
+Anyway, I couldn't find any storylets to show you.
+
+
+::Guard 1 [card req-event req-mission-during-first_guard guard_encounter]
+<<advance "$mission">>
+A guard is splitting his attention between fiddling with his [electronic device] and looking up at the hallway he's supposed to be guarding. This is, you assume, the first of three guards you've been warned about. You'll need to neutralize him as a threat if you want to get further into the building.
+
+<<set _options to QBN.cards(null, true)>>\
+<<includeall _options>>
+
+
+::Guard 2 [card req-event req-mission-during-second_guard guard_encounter]
+Another guard. The second. This one's much more attentive. He's alternating glancing in the direction you're hiding, and in the direction you want to go.
+
+<<set _options to QBN.cards(null, true)>>\
+<<includeall _options>>
+<<advance "$mission" "hack_paydata">> /% no third guard for now %/
+
+
+
+::Infiltrator Guard option [sticky-card req-tagged-guard_encounter]
+* [COMMS] [[Radio the Infiltrator->Infiltrator Guard roll]] to drop down onto him. \
+@@.note;(Roll Infiltrator's +1 Cool plus Meticulous bonus)@@
+
+::Hacker Guard option [sticky-card req-tagged-guard_encounter]
+* [COMMS] [[Ask the Hacker->Hacker Guard roll]] to break into his device so you can use that info to flirt with him. \
+@@.note;(Roll Hacker's +2 Synth plus Meticulous bonus)@@
+
+::Punch Guard option [sticky-card req-tagged-guard_encounter]
+* [[Punch him in the face->Punch Guard roll]]. \
+@@.note;(Roll Player's +1 meat plus Improvisation bonus)@@
+
+
+
+::Infiltrator Guard roll
+<<set _bonus to $InfiltratorCool + _plotter>>\
+<<roll _bonus -10 -9>> /% dummy thresholds to force a success. %/\
+<<set ++$Meticulous>>@@.note;++Meticulous b/c this is a meticulous choice.@@
+\
+<<choices _results>>
+	<<when>>sticky-card req-good<<offer>>
+		@@.note;++Clean b/c you rolled a successful result.@@
+		"Got it." Your Infiltrator clicks her radio off. A few moments later, you hear the smallest shuffle of a ceiling tile being pushed aside, and then the sound of a body hitting the floor. Your radio crackles back on. "Knockout gas," she says simply. "Let's move on. I'm going back up into the vents. Feel more comfortable there."
+<</choices>>\
+<<includeall `QBN.filter(_results, 1)`>>
+\
+<<link "Continue">><<include "Start">><</link>>
+
+
+::Punch Guard roll
+<<set _bonus to $PlayerMeat + _pantser>>\
+<<roll _bonus 20 21>> /% dummy thresholds to force a failure. %/\
+<<set ++$Improvised>>@@.note;++Improvised b/c this is an improvisational choice.@@\
+\
+<<choices _results>>
+	<<when>>sticky-card req-bad<<offer>>
+	<<set ++$Messy>>@@.note;++Messy b/c the dice didn't fall your way.@@
+	Your comlink buzzes as you slip around the corner from where the guard lies prone. The sound of footsteps draws closer.
+
+	"What the fuck did you do that for," the Infiltrator hisses. "You've never been able to throw a decent punch. We should have brought Kim."
+
+	"We should NOT have brought Kim," the Hacker snaps back. "You two would be making eyes at each other all night and not FOCUSING."
+<</choices>>
+<<includeall `QBN.filter(_results, 1)`>>
+\
+<<link "Continue">><<include "Start">><</link>>
+
+
+
+
+::Steal [card req-event req-mission-during-hack_paydata]
+His eyes glow with the [familiar blue] that signals his neuralink's kicked in. "Okay," he murmurs, his hands moving over an invisible keyboard. "I'm in. This thing will kick me fast and hard if I fuck up too much, though. There's a lot of stuff here, and it's guarded pretty well." He rattles off a list of what he can see.
+
+What do you tell him to steal?
+<<set _paydata to true>>\
+<<set _options to QBN.cards(null, true)>>\
+<<unset _paydata>>\
+<ul>
+<<includeall _options "coveritem">>
+<li><<link "Get out">><<advance "$mission">><<include "Start">><</link>></li>
+</ul>
+
+::attempt hacking
+/% Assumes you have set a temporary variable `_bonus`. %/\
+<<roll _bonus>>\
+/% Get an appropriate result. %/\
+<<set _hack_attempt to true>>\
+<<set _results to QBN.cards(1)>>\
+<<unset _hack_attempt>>\
+/% And show it to the player. %/\
+<<includeall _results>>
+[[Continue->Steal]]
+
+::company payroll [card req-paydata]
+<<card>>
+The [[company payroll]]: @@.note;Low risk, low reward.@@
+<<contents>>
+/% Figure the bonus (Improv buff but no debuff) and roll the dice. %/
+<<set _risk to 1>>
+<<set _bonus to $HackerSynth + Math.max(0, _pantser) - _risk>>\
+<<include "attempt hacking">>
+<</card>>
+
+::sales projections [card req-paydata]
+<<card>>
+The [[sales projections]] for the next quarter: @@.note;medium risk, medium reward.@@
+<<contents>>
+<<set _risk to 2>>\
+<<set _bonus to $HackerSynth + Math.max(0, _pantser) - _risk>>\
+<<include "attempt hacking">>
+<</card>>
+
+::documents [card req-paydata]
+<<card>>
+The [[documents]] you were hired to get: @@.note;medium risk, mission completion reward.@@
+<<contents>>
+<<set _risk to 2>>\
+<<set _bonus to $HackerSynth + Math.max(0, _plotter) - _risk>>\
+<<include "attempt hacking">>
+<</card>>
+
+::files [card req-paydata]
+<<card>>
+The [[files]] in "/temp/dev/operation": @@.note;high risk, high reward.@@
+<<contents>>
+<<set _risk to 3>>\
+<<set _bonus to $HackerSynth + Math.max(0, _pantser) - _risk>>\
+<<include "attempt hacking">>
+<</card>>
+
+
+::generic hack sucess [sticky-card req-hack_attempt req-good]
+Your hacker gets the <<print passage()>>.
+
+::generic hack mixed [sticky-card req-hack_attempt req-mixed]
+Your hacker gets the <<print passage()>>, but...
+
+::generic hack fail [sticky-card req-hack_attempt req-bad]
+Your hacker fails to get the <<print passage()>>.
+
+::successfully steal documents [card important req-hack_attempt req-passage-documents req-not-bad]
+@@.note;"important" card takes precedence over normal ones.@@
+Mission successful...if you can get out of here in one piece.
+<<if _mixed>>Impose other consequences<</if>>
+
+
+
+::Getaway [card req-event req-mission-during-getaway]
+Your hacker jacks out, you have to get out of the building and safely away.
+

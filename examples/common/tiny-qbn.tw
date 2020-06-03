@@ -1,4 +1,4 @@
-::TinyQBN widgets [widget] {"position":"25,25"}
+::TinyQBN widgets [widget]
 /*
  * Comma-separated lists: call with "linkto" for links instead
  * of contents.
