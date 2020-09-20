@@ -32,8 +32,16 @@ Documentation
 * Older, more verbose [reference](doc/reference.md) (doesn't cover
   the newer features).
 
-You probably want to start by skimming some of these walkthroughs
-(video versions [on
+You may want to start with [Dan Cox](https://videlais.com/)'s new
+_Working with TinyQBN_ articles: they give a clear overview of the
+concepts and get you started by translating some examples from the Twine
+Cookbook into QBN form:
+
+* [Terms and Concepts](https://videlais.com/2020/09/05/working-with-tinyqbn-part-1-terms-and-concepts/)
+* [Writing QBN Stories](https://videlais.com/2020/09/19/working-with-tinyqbn-part-2-writing-qbn-stories-using-twine-2-example/)
+* ...and he has two more planned.
+
+Or you can dive into my walkthroughs (video versions [on
 YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_F)):
 
 * [Getting Started with TinyQBN](doc/tutorial-1.md):
