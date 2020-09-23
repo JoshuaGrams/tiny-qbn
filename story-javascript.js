@@ -11,8 +11,20 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 State.initPRNG()
 
 // Functions and fixed data.
-var QBN = {}
+var QBN = {meta: {}}
 window.QBN = QBN
+Story.lookupWith(function(p) {
+	let re = /\/\*\s*QBN\s([^*]*)\s\*\//g
+	let tags = p.tags.slice()
+	let match
+	while((match = re.exec(p.text)) != null) {
+		tags.push.apply(tags, match[1].trim().split(/\s+/))
+	}
+	QBN.meta[p.title] = tags
+	return false
+})
+
+QBN.tags = function(p) { return QBN.meta[p.title] || p.tags }
 
 var getVar = State.getVar || Wikifier.getValue
 var setVar = State.setVar || Wikifier.setValue
@@ -60,8 +72,9 @@ function toPassage(card) {
 // false to remove only single-use cards.
 function passageType(p, newType) {
 	var baseType
-	if(p.tags.indexOf('sticky-card') >= 0) baseType = 'sticky-card'
-	else if(p.tags.indexOf('card') >= 0) baseType = 'card'
+	var tags = QBN.tags(p)
+	if(tags.indexOf('sticky-card') >= 0) baseType = 'sticky-card'
+	else if(tags.indexOf('card') >= 0) baseType = 'card'
 	else baseType = false
 
 	var types = getVar('$QBN').type
@@ -136,8 +149,9 @@ function choose(array, count, ordered) {
 // Optionally changes passage priority: 'urgent/important/normal'.
 function passagePriority(p, newPriority) {
 	var basePriority
-	if(p.tags.indexOf('urgent') >= 0) basePriority = 'urgent'
-	else if(p.tags.indexOf('important') >= 0) basePriority = 'important'
+	var tags = QBN.tags(p)
+	if(tags.indexOf('urgent') >= 0) basePriority = 'urgent'
+	else if(tags.indexOf('important') >= 0) basePriority = 'important'
 	else basePriority = 'normal'
 
 	var priorities = getVar('$QBN').priority
@@ -394,7 +408,9 @@ QBN.description = function(req) {
 	return desc
 }
 
-QBN.reqsMatch = function(tags, re) {
+QBN.tagsMatch = function(p, re) {
+	p = toPassage(p)
+	let tags = QBN.tags(p)
 	for(var i=0; i<tags.length; ++i) {
 		var tag = tags[i]
 		var prefix = re.exec(tag)
@@ -405,18 +421,12 @@ QBN.reqsMatch = function(tags, re) {
 	return true
 }
 
-QBN.tagsMatch = function(p, re) {
-	p = toPassage(p)
-	const meta = /\/\*\s*QBN\s([^*]*)\s\*\//.exec(p.text)
-	const metaTags = meta ? meta[1].trim().split(/\s+/) : []
-	return QBN.reqsMatch(p.tags, re) && QBN.reqsMatch(metaTags, re)
-}
-
 QBN.requirements = function(p) {
 	var re = /^(req|also)-/
 	var requirements = [];
-	for(var i=0; i<p.tags.length; ++i) {
-		var tag = p.tags[i]
+	var tags = QBN.tags(p)
+	for(var i=0; i<tags.length; ++i) {
+		var tag = tags[i]
 		var prefix = re.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue

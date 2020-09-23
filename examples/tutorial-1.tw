@@ -12,8 +12,9 @@ Localvore: TinyQBN Tutorial 1
 <<set $location to "home">>\
 [[Drive->Car]]
 
-::Fairweather Farm [sticky-card req-driving req-location-ne-fairweather]
+::Fairweather Farm
 !Fairweather Farm
+/*QBN sticky-card req-driving req-location-ne-fairweather */\
 <<set $location to "fairweather">>\
 [[Drive->Car]]
 

@@ -12,6 +12,14 @@ Tag passages with:
 * `important` - should be given priority over normal cards.
 * `urgent` - if available, makes all important and normal cards unavailable.
 
+**You can also put TinyQBN "tags" in comments in the passage
+itself:**
+
+	/* QBN card req-beetles-gt-3 req-snakes-eq-1 */
+
+You must use the `/*` ... `*/` style comments, and `QBN` must be
+the first thing in the comment.
+
 Expressions:
 
 * `name` - `$name` or `_name` has a non-empty value.

@@ -1,21 +1,30 @@
 Getting Started with TinyQBN
 ============================
 
-Start by opening Twine, creating a new story and setting its Story
-Format to SugarCube. Then we need to add the TinyQBN code.  Go to
-the [TinyQBN GitHub
-repository](../README.md#adding-tinyqbn-to-your-story).
-Click on the link for the minified javascript, click "Raw", then
-select all and copy it.  Go back to Twine, open the Story
-Javascript from the menu in the bottom left, and paste it in.
-Then go back to GitHub, select and copy the stylesheet and paste
-it in to Twine's Story Stylesheet.
+Start by opening Twine. The quick way is to go to my [TinyQBN
+blank-project
+generator](https://joshuagrams.github.io/tiny-qbn/examples/blank-project.html),
+save the resulting page, and import that HTML file into Twine.
+
+---
+
+But you can also do it manually: create a new story in Twine and
+set its Story Format to SugarCube. Then we need to add the TinyQBN
+code.  Go to the [TinyQBN GitHub
+repository](../README.md#adding-tinyqbn-to-your-story).  Click on
+the link for the minified javascript, click "Raw", then select all
+and copy it.  Go back to Twine, open the Story Javascript from the
+menu in the bottom left, and paste it in.  Then go back to GitHub,
+select and copy the stylesheet and paste it in to Twine's Story
+Stylesheet.
 
 Finally, go to GitHub again and select and copy the widgets. These
 are SugarCube code, so make a new passage in your Twine story and
 paste it in. Add a "widget" tag to the passage so SugarCube knows
 that it's code which needs to be loaded immediately. Give the
 passage a name if you like (I usually call it "TinyQBN Widgets").
+
+---
 
 Now we're ready to start building the basic demo: a little setting
 where you can drive around and see what local seasonal food is
@@ -65,14 +74,27 @@ If we play the game and get in the car, we should see that we can
 drive back home (even though we're already there, but we'll fix
 that later). Let's add some other locations.  Some small farmers
 like to give their farms cutesy names, so how about Fairweather
-Farm? Give it a header and link to the car. Name the passage and
-add the tags: `sticky-card` and `req-driving`. This is probably a
-farm that sells organic vegetables and eggs from happy hens.
+Farm? This is probably a farm that sells organic vegetables and
+eggs from happy hens. Name the passage, give it a header and link
+to the car.
 
-Then another farm, maybe with the surname of the owners? Anderson
-Farm. Let's say that this is a more conventional third-generation
-animal farm that produces beef and pork and some dairy products.
-Set up the card just like the other two.
+Now...Twine isn't built to let you edit tags easily. If you make a
+typo, you have to delete the tag and try again. You have to click
+the new tag button each time: there isn't an easy way to type in a
+bunch of tags. So I've set up a bypass mechanism that lets you put
+the TinyQBN markers in a specially-marked comment in the body of
+the passage.
+
+	/* QBN sticky-card req-driving */
+
+This can go anywhere in the passage: it doesn't have to be at the
+very top. Nor does it have to be on a single line: anything
+between the `/* QBN` and the `*/` will work.
+
+Then another farm, maybe with the surname of the
+owners? Anderson Farm.  Let's say that this is a more conventional
+third-generation animal farm that produces beef and pork and some
+dairy products.  Set up the card the same way.
 
 And...maybe this town is on the ocean, so you can drive to the
 docks early in the morning and buy fresh fish from the boats which

@@ -9,6 +9,18 @@ select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
 
 
+New!
+----
+
+For easier editing, you can now put the TinyQBN "tags" in comments
+in the passage itself:
+
+	/*QBN card req-lizard-eq-Sam req-transformations-gt-2 */
+
+I ran through the examples quickly and they all still *seem* to
+work, but by all means let me know if I broke anything horribly.
+
+
 Adding TinyQBN to your Story
 ----------------------------
 
@@ -75,18 +87,6 @@ YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_
   [html](https://joshuagrams.github.io/tiny-qbn/examples/dice-rolls.html).
 * [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories
   from text files instead of using Twine's graphical editor.
-
-The new features in this version of the library are:
-
-* Creating two-part cards with a separate cover and contents
-  within the same Twine passage. 
-* Creating a list of card-like *choices* (which can be filtered by
-  the current story state) within a single passage.
-* Setting card priority to ensure certain cards are chosen or to
-  exclude lower-priority cards altogether.
-* Show a card's requirements to the player. This is very
-  primitive, and I'm not entirely sure how to make it better
-  enough to be useful.
 
 I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from
