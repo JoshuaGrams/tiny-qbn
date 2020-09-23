@@ -394,16 +394,22 @@ QBN.description = function(req) {
 	return desc
 }
 
-QBN.tagsMatch = function(p, re) {
-	p = toPassage(p)
-	for(var i=0; i<p.tags.length; ++i) {
-		var tag = p.tags[i]
+QBN.reqsMatch = function(tags, re) {
+	for(var i=0; i<tags.length; ++i) {
+		var tag = tags[i]
 		var prefix = re.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue
 		if(!QBN.requirementMet(tag)) return false
 	}
 	return true
+}
+
+QBN.tagsMatch = function(p, re) {
+	p = toPassage(p)
+	const meta = /\/\*\s*QBN\s([^*]*)\s\*\//.exec(p.text)
+	const metaTags = meta ? meta[1].trim().split(/\s+/) : []
+	return QBN.reqsMatch(p.tags, re) && QBN.reqsMatch(metaTags, re)
 }
 
 QBN.requirements = function(p) {
