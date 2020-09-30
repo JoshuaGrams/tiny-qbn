@@ -17,6 +17,14 @@ in the passage itself:
 
 	/*QBN card req-lizard-eq-Sam req-transformations-gt-2 */
 
+If you use `req:` instead of `req-`, the rest of the line will be
+treated as a TwineScript expression:
+
+	/*QBN
+	  card  req: $lizard eq "Sam"
+	  req $transformations gt 2
+	 */
+
 I ran through the examples quickly and they all still *seem* to
 work, but by all means let me know if I broke anything horribly.
 

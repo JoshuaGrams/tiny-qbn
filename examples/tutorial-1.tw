@@ -7,8 +7,12 @@ Localvore: TinyQBN Tutorial 1
 	"start": "Home"
 }
 
-::Home [sticky-card req-driving req-location-ne-home]
+::Home
 !Home
+/*QBN
+	sticky-card  req: _driving
+	req: $location ne "home"
+*/\
 <<set $location to "home">>\
 [[Drive->Car]]
 

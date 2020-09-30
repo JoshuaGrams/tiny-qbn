@@ -13,12 +13,44 @@ State.initPRNG()
 // Functions and fixed data.
 var QBN = {meta: {}}
 window.QBN = QBN
+
+QBN.parseTagsInto = function(text, tags) {
+	let patterns = [
+		"[a-zA-Z0-9-_]+(?:\\s+|$)",  // tag
+		"[a-zA-Z0-9_]+:[^\\n]*(?:\\n|$)\\s*", // tag with TwineScript expression
+		"[^\\n]+(?:\\n|$)\\s*"           // continue expression or error
+	]
+	let tokenPattern = new RegExp('(' + patterns.join(')|(') + ')', 'g')
+	let expr = false
+	let m
+	while((m = tokenPattern.exec(text)) != null) {
+		if(m[1] !== undefined) {
+			if(!expr) tags.push(m[1].trim())
+			else {
+				tags[tags.length-1] += m[1]
+				if(!/\\\n/.test(m[1])) expr = false
+			}
+		} else if(m[2] !== undefined) {
+			let t = m[2].replace(':', '- ')  // note the space
+			let s = t.replace("\\\n", '')
+			if(s.length !== t.length) expr = true
+			tags.push(s)
+		} else if(m[3] !== undefined) {
+			if(expr) tags[tags.length-1] += m[3]
+			else throw new Error("Invalid metadata: " + JSON.stringify(m[3]))
+			if(/(^|[^\\])\n/.test(m[3])) expr = false
+		}
+	}
+	return tags
+}
+
 Story.lookupWith(function(p) {
-	let re = /\/\*\s*QBN\s([^*]*)\s\*\//g
+	let commentPattern = /\/\*\s*QBN\s([^*]*)\s\*\//g
 	let tags = p.tags.slice()
 	let match
-	while((match = re.exec(p.text)) != null) {
-		tags.push.apply(tags, match[1].trim().split(/\s+/))
+	while((match = commentPattern.exec(p.text)) != null) {
+		let comment = match[1].trim()
+		QBN.parseTagsInto(comment, tags)
 	}
 	QBN.meta[p.title] = tags
 	return false
@@ -260,6 +292,17 @@ var operatorNames = {
 }
 
 QBN.functions = {
+	twinescript: {
+		match: /^\s.*/,
+		action: function(m) {
+			try {
+				return Scripting.evalTwineScript(m[0])
+			} catch(e) {
+				e.message += ' in: ' + m[0]
+				throw(e)
+			}
+		}
+	},
 	not: {
 		match: /^not-(.+)/,
 		action: function(m) {
@@ -619,10 +662,9 @@ Macro.add('choices', {
 					break
 				case 'when':
 					if(partialChoice(choices)) {
-						return this.error('This choice already has a "when" clause (section '+i+', '+section.name+').')
+						return this.error('This choice already has a "when" clause (section '+i+', '+section.contents.substring(0,30)+').')
 					}
-					var tags = section.contents.trim()
-					tags = (tags === '') ? [] : tags.split(/\s+/)
+					var tags = QBN.parseTagsInto(section.contents.trim(), [])
 					beginChoice(choices, name, tags)
 					break
 				case 'offer':

@@ -16,7 +16,7 @@ Strength: $strength<<if $stat_points gt 0>> ([[increase->Start][$strength++; $st
 
 <<choices _ways_past_guard>>
 <<when>>sticky-card<<offer>>[[Procrastinate->Start]]
-<<when>>sticky-card req-stealth-gt-0<<offer>>[[Sneak Past]]
+<<when>>sticky-card req: $stealth gt 0<<offer>>[[Sneak Past]]
 <<when>>sticky-card also-strength-gt-0<<offer>><<linkif `QBN.available(QBN.current)` "Bash the Guard">>
 <</choices>>\
 <<cardrow `QBN.filter(_ways_past_guard)`>>
