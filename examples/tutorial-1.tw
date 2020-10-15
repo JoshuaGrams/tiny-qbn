@@ -11,9 +11,9 @@ Localvore: TinyQBN Tutorial 1
 !Home
 /*QBN
 	sticky-card  req: _driving
-	req: $location ne "home"
+	req: $location neq QBN.current
 */\
-<<set $location to "home">>\
+<<set $location to QBN.current>>\
 [[Drive->Car]]
 
 ::Fairweather Farm

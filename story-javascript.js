@@ -453,14 +453,19 @@ QBN.description = function(req) {
 
 QBN.tagsMatch = function(p, re) {
 	p = toPassage(p)
+	let old = QBN.current;  QBN.current = p.title
 	let tags = QBN.tags(p)
 	for(var i=0; i<tags.length; ++i) {
 		var tag = tags[i]
 		var prefix = re.exec(tag)
 		if(prefix) tag = tag.substring(prefix[0].length)
 		else continue
-		if(!QBN.requirementMet(tag)) return false
+		if(!QBN.requirementMet(tag)) {
+			QBN.current = old
+			return false
+		}
 	}
+	QBN.current = old
 	return true
 }
 
