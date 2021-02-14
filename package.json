@@ -24,6 +24,6 @@
   "author": "Josh Grams <josh@qualdan.com>",
   "license": "ISC",
   "devDependencies": {
-    "babel-minify": "^0.5.0"
+    "babel-minify": "^0.5.1"
   }
 }
