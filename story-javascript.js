@@ -44,8 +44,8 @@ QBN.parseTagsInto = function(text, tags) {
 	return tags
 }
 
+const commentPattern = /\/\*\s*QBN\s([^*]*)\s\*\//g
 Story.lookupWith(function(p) {
-	let commentPattern = /\/\*\s*QBN\s([^*]*)\s\*\//g
 	let tags = p.tags.slice()
 	let match
 	while((match = commentPattern.exec(p.text)) != null) {
