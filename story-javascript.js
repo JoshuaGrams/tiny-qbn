@@ -98,6 +98,7 @@ function toPassage(card) {
 		throw new Error('No such passage or choice "'+card+'".')
 	}
 }
+QBN.toPassage = toPassage
 
 // Returns previous type: "card", "sticky-card", or false.
 // Optionally changes passage type: null to remove,
