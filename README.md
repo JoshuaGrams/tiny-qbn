@@ -8,6 +8,24 @@ their requirements, and a couple of simple functions and macros to
 select and display cards. Continue to use Twine links as usual
 when those are the appropriate tool.
 
+Related Work
+------------
+
+As of version 3.2.1, Harlowe has storylets, using the
+[`(storylet:)`](https://twine2.neocities.org/#macro_storylet) command to
+define requirements for a passage and `(open-storylets:)` to get a list
+of the open (available) storylets for display.
+
+If you're comfortable with some JavaScript, David Masad's
+[StoryletManager](https://github.com/dmasad/StoryletManager) adds
+parameterized storylets to SugarCube, where the "same" storylet can
+appear in different places (or even multiple times in the same place)
+with different objects or characters filling certain roles.
+
+Dan Cox's [SimpleQBN](https://github.com/videlais/simple-qbn) is a
+JavaScript library for storylets that isn't tied to a particular story
+format or to Twine at all.
+
 
 New!
 ----
@@ -95,6 +113,13 @@ YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_
   [html](https://joshuagrams.github.io/tiny-qbn/examples/dice-rolls.html).
 * [Setting up Tweego and VSCode](doc/tweego.md) to build Twine stories
   from text files instead of using Twine's graphical editor.
+* Weather the Storm is a small (around 2500 words?) complete story I
+  wrote that fakes a parser-ish world model, using cycling links to
+  enter verb/noun commands and storylets (with a how-many-conditions
+  salience filter) to respond to them. The
+  [source](https://github.com/JoshuaGrams/weather-the-storm) has its own
+  GitHub repository, and you can [play
+  it](https://joshgrams.itch.io/weather-the-storm) on itch.io.
 
 I also wrote some completely undocumented code to create stats
 that improve as you use them, using the "Basic Ability" math from
