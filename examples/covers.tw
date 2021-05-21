@@ -35,7 +35,12 @@ You curl into a ball on the ground and lie motionless. The beast snuffles you, b
 <<return>>
 <</if>>
 
-::Very Strong [sticky-card req-strength-ge-2 also-strength-ge-3]
+::Very Strong
+/*QBN
+	sticky-card
+	req: $strength gte 2
+	also: $strength gte 3
+*/\
 <<if _qbn_cover>>\
 <<linkcontents "Use brute force">> (requires <<requirements>>)\
 <<else>>\

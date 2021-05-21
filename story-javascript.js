@@ -302,7 +302,8 @@ QBN.functions = {
 				e.message += ' in: ' + m[0]
 				throw(e)
 			}
-		}
+		},
+		description: function(m) { return '"""' + m[0] + '"""' }
 	},
 	not: {
 		match: /^not-(.+)/,
