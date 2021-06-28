@@ -16,8 +16,8 @@ window.QBN = QBN
 
 QBN.parseTagsInto = function(text, tags) {
 	let patterns = [
-		"[a-zA-Z0-9-_]+(?:\\s+|$)",  // tag
-		"[a-zA-Z0-9_]+:[^\\n]*(?:\\n|$)\\s*", // tag with TwineScript expression
+		"[a-zA-Z0-9-_\\.]+(?:\\s+|$)",  // tag
+		"[a-zA-Z0-9_\\.]+:[^\\n]*(?:\\n|$)\\s*", // tag with TwineScript expression
 		"[^\\n]+(?:\\n|$)\\s*"           // continue expression or error
 	]
 	let tokenPattern = new RegExp('(' + patterns.join(')|(') + ')', 'g')
@@ -426,9 +426,25 @@ Macro.add('range', {
 	}
 })
 
+QBN.getProperty = function(propertyName, object) {
+    var parts = propertyName.split("."),
+        length = parts.length,
+        i,
+        property = object || this;
+    for (i = 0; i < length; i++) {
+        if (parts[i] in property) {
+            property = property[parts[i]];
+        } else {
+            i = length
+            property = undefined
+        }
+    }
+    return property;
+}
+
 QBN.value = function(name) {
-	var v = State.variables, t = State.temporary
-	return t[name] != null ? t[name] : v[name]
+	var v = QBN.getProperty(name, State.variables), t = QBN.getProperty(name, State.temporary)
+	return t != null ? t : v
 }
 
 QBN.requirementMet = function(req) {
