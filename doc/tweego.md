@@ -37,7 +37,7 @@ Install VSCode
 
 [Download Visual Studio Code](https://code.visualstudio.com/Download). This is a text editor designed for various kinds of code. Install and run it.
 
-Open up the Extensions panel. There's a bar on the left: the bottom icon (four squares with one slightly removed) toggles the extensions panel open and closed. As far as I can tell that's the only way to close it. Type "twee" into the search box and install the Twee2 Syntax extension. Then close the panel.
+Open up the Extensions panel. There's a bar on the left: the bottom icon (four squares with one slightly removed) toggles the extensions panel open and closed. As far as I can tell that's the only way to close it. Type "twee" into the search box and install the "Twee 3 Language Tools" extension. Then close the panel.
 
 
 Unzip Blank Project Template
