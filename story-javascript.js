@@ -329,7 +329,7 @@ QBN.functions = {
 	},
 	visited: {
 		match: /^visited-([^-]+)/,
-		action: function(m) { return visited(m[1]) > 0 },
+		action: function(m) { return visited(m[1].replace(/_/g, ' ')) > 0 },
 		description: function(m) { return null }
 	},
 	random: {
