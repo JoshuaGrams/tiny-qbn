@@ -1,0 +1,44 @@
+:: StoryTitle
+Objects (dot notation)
+
+
+:: StoryData
+{
+	"ifid": "2F0032CE-E4AF-4CDE-89BC-0BC33A71ECE7"
+}
+
+::StoryInit
+<<set $character_points to 3>>
+<<set $pc = {'strength': 1, 'stealth': 1}>>
+
+::Start
+Unused character points: $character_points
+Strength: $pc.strength ([[Increase strength->Start][$pc.strength++; ; $character_points--]])
+Stealth: $pc.stealth ([[Increase stealth->Start][$pc.stealth++; $character_points--]])
+
+-----
+
+You round a bend in the trail and come face to...chest with a four-legged monster that has horns like giant spaghetti servers. Or should that be antlers? Whatever they are, it shakes them angrily at you.
+
+<<cardrow `QBN.cards().sort(QBN.alphabetically)` "linkbox">>\
+
+::Back away slowly [sticky-card]
+Moving slowly so as not to incite its hunting instincts, you tiptoe backwards until you can no longer see the beast.
+
+<<return>>
+
+::Play dead and hope it doesn't eat you [sticky-card]
+The better part of valor is discretion, in the which better part I have sav'd my life.
+--Falstaff
+
+You curl into a ball on the ground and lie motionless. The beast snuffles you, but after a terrifying eternity, it wanders away, leaving you miraculously un-gored and un-trampled.
+
+<<return>>
+
+::Use brute force [sticky-card req-pc.strength-gte-2]
+
+You leap at the beast, screaming wildly, and grab its antlers. Or horns? Whatever. You wrench them to the side, driving it to its knees, and sit on its head. It attempts to get up, but doesn't have the leverage. When it seems properly cowed, you release it, and it saunters off into the brush, trying to pretend that it meant to do that all along.
+
+::Sneak past the beast [sticky-card req-pc.stealth-gte-2]
+
+You back away from the beast until it is out of sight. Looking to your left, you see a barely noticeable gap in the scrub. You crouch down and inch your way through the bushes back towards the beast. It fails to notice as you creep past it. Once you round a further bend, you emerge from the bush and congratulate yourself on your stealthy escape.

@@ -100,6 +100,12 @@ YouTube](https://www.youtube.com/playlist?list=PLy3M_6DKN9joOGhUD1chHumc9aS6EZZ_
 * [Cards with Covers](doc/cards-with-covers.md):
   [twee](examples/covers.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/covers.html).
+* [Cards using objects in requirements](doc/dot-notation.md):
+  [twee](examples/dot-notation.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/dot-notation.html)
+* [Cards with Covers and objects in requirements](doc/cards-with-covers-dot-notation.md):
+  [twee](examples/covers-dot-notation.tw),
+  [html](https://joshuagrams.github.io/tiny-qbn/examples/covers-dot-notation.html).
 * [Inline Choices](doc/choices.md):
   [twee](examples/choices.tw),
   [html](https://joshuagrams.github.io/tiny-qbn/examples/choices.html).

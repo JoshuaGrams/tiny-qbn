@@ -1,0 +1,50 @@
+::StoryTitle
+Cards with Covers and Objects (dot notation)
+
+::StoryData
+{"ifid": "A62F5683-9EF5-4ECE-A911-7EEDCFD6B046"}
+
+::StoryInit
+<<set $pc = {'strength': 1, 'stealth': 1}>>
+
+::Start
+Strength: $pc.strength ([[increase strength->Start][$pc.strength to $pc.strength + 1]])
+
+-----
+
+You round a bend in the trail and come face to...chest with a four-legged monster that has horns like giant spaghetti servers. Or should that be antlers? Whatever they are, it shakes them angrily at you.
+
+<<includeall `QBN.cards().sort(QBN.alphabetically)` "coverbox">>
+
+::Back away slowly [sticky-card]
+<<if _qbn_cover>><<linkcontents>><<else>>\
+Moving slowly so as not to incite its hunting instincts, you tiptoe backwards until you can no longer see the beast.
+
+<<return>>
+<</if>>
+
+::Play dead [sticky-card]
+<<if _qbn_cover>>\
+<<linkcontents "Play dead and hope it doesn't eat you">>\
+<<else>>\
+The better part of valor is discretion, in the which better part I have sav'd my life.
+--Falstaff
+
+You curl into a ball on the ground and lie motionless. The beast snuffles you, but after a terrifying eternity, it wanders away, leaving you miraculously un-gored and un-trampled.
+
+<<return>>
+<</if>>
+
+::Very Strong
+/*QBN
+	sticky-card
+	req: $pc.strength gte 2
+	also: $pc.strength gte 3
+*/\
+<<if _qbn_cover>>\
+<<linkcontents "Use brute force">> (requires <<requirements>>)\
+<<else>>\
+You leap at the beast, screaming wildly, and grab its antlers. Or horns? Whatever. You wrench them to the side, driving it to its knees, and sit on its head. It attempts to get up, but doesn't have the leverage. When it seems properly cowed, you release it, and it saunters off into the brush, trying to pretend that it meant to do that all along.
+
+<<return>>
+<</if>>
